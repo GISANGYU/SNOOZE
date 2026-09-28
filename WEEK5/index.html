@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIMEN 구현 영상</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#f9f9fa; --ink:#14171d; --sub:#505b6e; --mute:#8b93a1; --line:#dfe3e8;
+  --blue:#2495ff; --blue-d:#1a7fe0; --panel:#eef4fd; --cover:#111214;
+  --ok:#2495ff; --fail:#e5484d; --part:#f08c00;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#2a2c30;font-family:Pretendard,"Pretendard Variable",-apple-system,"Malgun Gothic",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;word-break:keep-all}
+#deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.slide{position:absolute;width:1920px;height:1080px;background:var(--bg);transform-origin:center;display:none;overflow:hidden}
+.slide.on{display:block}
+.pad{position:absolute;inset:0;padding:110px 150px 90px}
+.pno{position:absolute;right:48px;bottom:32px;font-size:15px;color:var(--mute)}
+.sec{font-size:26px;font-weight:600;color:var(--blue);letter-spacing:-.2px}
+.sec b{margin-right:10px}
+h2{font-size:38px;font-weight:600;letter-spacing:-.8px;margin-top:40px}
+.lead{font-size:23px;color:var(--sub);margin-top:22px;letter-spacing:-.3px}
+
+/* cover */
+.cover{background:var(--cover);color:#e9ebee}
+.cover .top{position:absolute;top:52px;left:52px;right:78px;display:flex;justify-content:space-between;font-size:20px;color:#cfd3d9}
+.cover .tt{position:absolute;left:52px;top:440px}
+.cover .tt p{font-size:26px;color:#d6d9de;font-weight:500}
+.cover .tt h1{font-size:56px;color:var(--blue);font-weight:700;letter-spacing:-1.5px;margin-top:18px}
+.cover .tt .sub2{font-size:22px;color:#9aa1ab;margin-top:22px}
+.cover .foot{position:absolute;left:52px;right:78px;bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;font-size:20px;color:#cfd3d9}
+.cover .foot .l span{margin-right:52px}
+.cover .crew{display:flex;gap:32px;align-items:flex-end;line-height:1.65}
+
+/* index */
+.idx{margin-top:90px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line)}
+.idx div{padding:34px 40px 34px 0;border-right:1px solid var(--line);margin-right:40px}
+.idx div:last-child{border-right:0}
+.idx .n{font-size:22px;color:var(--blue);font-weight:600}
+.idx h3{font-size:30px;font-weight:600;margin:10px 0 22px;letter-spacing:-.5px}
+.idx li{list-style:none;font-size:20px;color:var(--sub);line-height:1.9}
+.mine{display:inline-block;margin-top:70px;font-size:19px;color:var(--sub);background:var(--panel);padding:14px 22px;border-radius:6px}
+.mine b{color:var(--blue);font-weight:600}
+
+/* generic */
+.panel{background:var(--panel);border-radius:8px}
+.cols4{display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
+.k{font-size:21px;color:var(--blue);font-weight:600}
+.k i{font-style:normal;margin-right:8px}
+.t{font-size:26px;font-weight:600;margin:10px 0 16px;letter-spacing:-.4px}
+.d{font-size:19px;color:var(--sub);line-height:1.75}
+.probs>div>.d{min-height:calc(19px*1.75*2)}
+.note{border-left:4px solid var(--blue);background:var(--panel);padding:20px 26px;margin-top:26px}
+.note .k{font-size:19px}
+.note .d{margin-top:8px}
+
+/* flow */
+.flow{margin-top:70px;padding:36px 48px}
+.flow .row{display:flex;align-items:center;gap:22px}
+.flow .lab{width:210px;font-size:22px;color:var(--blue);font-weight:600;flex:none}
+.flow .step{flex:1;text-align:center}
+.flow .step b{display:block;font-size:22px;font-weight:600}
+.flow .step span{display:block;font-size:17px;color:var(--sub);margin-top:6px}
+.flow .ar{color:var(--ink);font-size:24px;flex:none}
+.flow .row+.row{margin-top:30px;padding-top:30px;border-top:1px solid #d6e2f3}
+
+/* timeline */
+.tl{margin-top:90px;position:relative}
+.tl .bar{position:absolute;left:0;right:0;top:15px;height:2px;background:var(--line)}
+.tl .items{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;position:relative}
+.tl .dot{width:32px;height:32px;border-radius:50%;background:var(--bg);border:3px solid var(--blue);margin-bottom:26px}
+.tl .fail .dot{border-color:var(--fail)} .tl .part .dot{border-color:var(--part)}
+.tl .date{font-size:20px;color:var(--mute)}
+.tl h4{font-size:26px;font-weight:600;margin:8px 0 14px;letter-spacing:-.4px}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:700;letter-spacing:1px;padding:6px 14px;border-radius:30px;color:#fff;background:var(--ok)}
+.badge.fail{background:var(--fail)} .badge.part{background:var(--part)}
+
+/* video slide */
+.vwrap{position:absolute;left:150px;top:330px;width:1040px;height:585px;border-radius:8px;overflow:hidden;background:#0d0f12}
+.vwrap video{width:100%;height:100%;object-fit:cover;display:block}
+.vph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#7d8694;gap:14px;font-size:19px;text-align:center;line-height:1.6}
+.vph .play{width:84px;height:84px;border-radius:50%;border:2px solid #4a5260;display:flex;align-items:center;justify-content:center}
+.vph .play:after{content:"";border-left:24px solid #7d8694;border-top:15px solid transparent;border-bottom:15px solid transparent;margin-left:6px}
+.vph code{font-family:inherit;color:#aab2be;font-size:17px}
+.vcap{position:absolute;left:150px;top:938px;width:1040px;display:flex;justify-content:space-between;font-size:18px;color:var(--sub)}
+a.ref{color:inherit;text-decoration:none}
+.yt{color:var(--blue);text-decoration:none}.yt:hover{text-decoration:underline}
+.side{position:absolute;left:1250px;right:150px;top:330px}
+.side .meta{display:flex;gap:14px;align-items:center;margin-bottom:30px}
+.side .meta span:not(.badge){font-size:18px;color:var(--mute)}
+.blk{padding:20px 0;border-top:1px solid var(--line)}
+.blk:first-of-type{border-top:0;padding-top:0}
+.blk .k{font-size:18px}
+.blk .d{margin-top:8px;font-size:19px;color:var(--ink);line-height:1.7}
+.blk .d em{font-style:normal;color:var(--blue);font-weight:600}
+.blk.bad .k{color:var(--fail)}
+.blk.bad .d em{color:var(--fail)}
+
+/* table */
+table{width:100%;border-collapse:collapse;margin-top:60px;font-size:19px}
+th{font-size:18px;color:var(--blue);font-weight:600;text-align:left;padding:0 18px 16px;border-bottom:2px solid var(--ink)}
+td{padding:22px 18px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6;color:var(--sub)}
+td:first-child{color:var(--ink);font-weight:600}
+td .badge{font-size:13px;padding:4px 10px}
+
+.eod{background:var(--cover)}
+.eod h1{position:absolute;left:52px;top:500px;font-size:56px;color:var(--blue);font-weight:700}
+
+/* nav */
+#nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;color:#c9ced6;font-size:14px;z-index:5;background:rgba(0,0,0,.45);padding:6px 12px;border-radius:20px}
+#nav button{background:none;border:0;color:#fff;font-size:18px;cursor:pointer;padding:2px 8px}
+
+@media print{
+  @page{size:1920px 1080px;margin:0}
+  html,body{background:#fff}
+  #deck{position:static;display:block}
+  .slide{display:block!important;position:relative;transform:none!important;page-break-after:always;break-after:page}
+  #nav{display:none}
+}
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- 01 COVER -->
+<section class="slide cover">
+  <div class="top"><span>CAPSTONE DESIGN · WEEK 05</span><span>Degital Media Design</span></div>
+  <div class="tt">
+    <p>디자인 구현 동영상 · 개발 전략</p>
+    <h1>핵심 디자인 &amp; 인터랙션 구현</h1>
+    <div class="sub2">LIMEN · 호라이즌 스튜디오 4면(벽 3 + 바닥 1) 현장 테스트 기록</div>
+  </div>
+  <div class="foot">
+    <div class="l"><span>Date_ 2026.09.29</span><span>Prof_심한수 교수님</span><span>Team_ SNOOZE</span></div>
+    <div class="crew">
+      <div>[기획]<br>A_22561083_이채연(팀장)</div>
+      <div>[프로그래밍]<br>D_22561061_유기상</div>
+      <div>[디자인]<br>B_22261052_배정훈<br>C_22261063_심혜민<br>C_22461106_조가연<br>C_22461014_김노은<br>C_22261029_김현기</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 INDEX -->
+<section class="slide"><div class="pad">
+  <div class="sec">Index</div>
+  <div class="idx">
+    <div><div class="n">01</div><h3>개발 전략</h3><ul><li>필요 기술요소 정의</li><li>스토리보드 매칭 · 외부 사례</li><li>시험구현 일정</li></ul></div>
+    <div><div class="n">02</div><h3>디자인 · 기술 구현 영상</h3><ul><li>키넥트 파티클 테스트 (09.08)</li><li>키넥트 카메라 녹화 (09.17)</li><li>바닥 인터랙션 테스트 (09.22)</li><li>맵핑 · 워핑 싱크 (09.23)</li></ul></div>
+    <div><div class="n">03</div><h3>문제 정의 &amp; 대안</h3><ul><li>구현의 어려운 점과 해결 방안</li><li>대체 기술 · 스토리보드 수정</li><li>작동 영상 링크</li></ul></div>
+  </div>
+  <div class="mine"><b>담당</b>&nbsp;&nbsp;D_22561061_유기상 · 디자인 구현 동영상 / 개발 전략</div>
+  <div class="pno">02</div>
+</div></section>
+
+<!-- 03 필요 기술요소 정의 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>01.</b>개발 전략</div>
+  <h2>필요 기술요소 정의</h2>
+  <p class="lead">벽 3면은 반응하지 않는 프리렌더 영상, 바닥 1면만 실시간 인터랙션으로 나누어 기술 부담을 바닥에 집중합니다.</p>
+  <div class="panel flow">
+    <div class="row">
+      <div class="lab">바닥 · 실시간</div>
+      <div class="step"><b>Kinect v2</b><span>정면 천장 대각선 설치</span></div><div class="ar">→</div>
+      <div class="step"><b>위치 추출</b><span>발목 관절 · 바닥 평면 좌표</span></div><div class="ar">→</div>
+      <div class="step"><b>좌표 정합</b><span>네 점 보정 (호모그래피)</span></div><div class="ar">→</div>
+      <div class="step"><b>Unity 반응</b><span>빛 · 파티클 · 흔적</span></div><div class="ar">→</div>
+      <div class="step"><b>바닥 투사</b><span>1920 × 1200</span></div>
+    </div>
+    <div class="row">
+      <div class="lab">벽 3면 · 영상</div>
+      <div class="step"><b>3D 콘텐츠</b><span>Blender / C4D</span></div><div class="ar">→</div>
+      <div class="step"><b>프리렌더</b><span>3분 루프 영상</span></div><div class="ar">→</div>
+      <div class="step"><b>MadMapper</b><span>워핑 · 엣지 블렌딩</span></div><div class="ar">→</div>
+      <div class="step"><b>벽 3면 투사</b><span>스튜디오 시설 프로젝터</span></div><div class="ar" style="visibility:hidden">→</div>
+      <div class="step"></div>
+    </div>
+  </div>
+  <div class="cols4" style="margin-top:90px">
+    <div><div class="k"><i>01</i>위치 감지</div><div class="d">관객 한 명 한 명의 바닥 위치만 감지.<br>스켈레톤 디테일 대신 안정성 우선</div></div>
+    <div><div class="k"><i>02</i>좌표 정합</div><div class="d">센서 좌표 → 투사면 좌표 변환.<br>네 점만 다시 찍으면 재보정 가능</div></div>
+    <div><div class="k"><i>03</i>타인의 흔적</div><div class="d">이전 관객의 움직임이 일정 시간<br>바닥에 남는 누적 레이어 (신규 개발)</div></div>
+    <div><div class="k"><i>04</i>4면 맵핑</div><div class="d">벽 3면 + 바닥 워핑·블렌딩,<br>벽 영상과 바닥 반응의 싱크</div></div>
+  </div>
+  <div class="pno">03</div>
+</div></section>
+
+<!-- 04 외부 사례 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>01.</b>개발 전략</div>
+  <h2>스토리보드 매칭 · 외부 구현 사례</h2>
+  <p class="lead">각 기술요소마다 구조가 같은 외부 작품을 찾아 구현 방식을 확인했습니다.</p>
+  <table>
+    <tr><th style="width:18%">기술요소</th><th style="width:26%">레퍼런스</th><th style="width:34%">참고한 점</th><th>LIMEN 적용</th></tr>
+    <tr><td>위치 감지</td><td><a class="ref" href="https://www.youtube.com/watch?v=5wA3lKcDrlM" target="_blank">Scott Snibbe, Boundary Functions (1998)</a></td><td>탑뷰 카메라로 위치만 잡아 사람 사이 경계를 바닥에 투사</td><td>위치만으로 ‘관계’를 드러내는 바닥 반응</td></tr>
+    <tr><td>벽 + 바닥 공간</td><td><a class="ref" href="https://ars.electronica.art/futurelab/en/projects-deep-space-8k/" target="_blank">Ars Electronica, Deep Space 8K</a></td><td>벽·바닥 동시 투사, 레이저 센서로 바닥 위 다수 인원 추적</td><td>벽은 영상, 바닥만 반응하는 역할 분리</td></tr>
+    <tr><td>관객이 만드는 상태</td><td><a class="ref" href="https://www.youtube.com/watch?v=Wccw7YMUHPU" target="_blank">teamLab, Flutter of Butterflies, Ephemeral Life</a></td><td>관객의 행동이 작품 상태로 누적되는 구조</td><td>BUTTERFLY 장면 · 타인의 흔적</td></tr>
+    <tr><td>바닥 반응 톤</td><td><a class="ref" href="https://www.youtube.com/watch?v=mtzOAEjqTnY" target="_blank">Adrien M &amp; Claire B, XYZT</a></td><td>선·격자 중심의 절제된 바닥 반응</td><td>반응 강도·잔상 길이 기준</td></tr>
+    <tr><td>학생 규모 구현</td><td><a class="ref" href="https://vimeo.com/268601725" target="_blank">Kinect + TouchDesigner 바닥 프로토타입 (Sheridan)</a></td><td>천장 키넥트 1대로 구현한 바닥 반응</td><td>장비·규모 가늠</td></tr>
+  </table>
+  <div class="pno">04</div>
+</div></section>
+
+<!-- 05 시험구현 일정 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>01.</b>개발 전략</div>
+  <h2>시험구현(Prototype) 진행 과정</h2>
+  <p class="lead">센서 단독 테스트에서 실제 스튜디오 투사까지 네 차례 시험구현을 진행했습니다.</p>
+  <div class="tl"><div class="bar"></div><div class="items">
+    <div class="ok"><div class="dot"></div><div class="date">09.08 · 연구실</div><h4>키넥트 파티클 테스트</h4><div class="d">뎁스 인식 → 파티클 반응<br>기본 파이프라인 검증</div><div style="margin-top:18px"><span class="badge">SUCCESS</span></div></div>
+    <div class="fail"><div class="dot"></div><div class="date">09.17 · 호라이즌 스튜디오</div><h4>키넥트 카메라 녹화</h4><div class="d">현장 PC 연결 시<br>센서 인식 오류 발생</div><div style="margin-top:18px"><span class="badge fail">FAIL → 해결</span></div></div>
+    <div class="part"><div class="dot"></div><div class="date">09.22 · 호라이즌 스튜디오</div><h4>바닥 인터랙션 테스트</h4><div class="d">반응은 작동했으나<br>투사 좌표가 어긋남</div><div style="margin-top:18px"><span class="badge part">PARTIAL</span></div></div>
+    <div class="ok"><div class="dot"></div><div class="date">09.23 · 호라이즌 스튜디오</div><h4>맵핑 · 워핑 싱크</h4><div class="d">4면 워핑 싱크 완료<br>블렌딩은 보완 필요</div><div style="margin-top:18px"><span class="badge">SUCCESS</span></div></div>
+  </div></div>
+  <div class="panel" style="margin-top:90px;padding:28px 40px;display:flex;gap:60px;align-items:center">
+    <div class="k" style="flex:none">현재 상태</div>
+    <div class="d" style="color:var(--ink)">키넥트 인식 문제와 4면 워핑은 해결했고, 다음 현장 테스트에서는 <b style="color:var(--blue)">바닥 좌표와 블렌딩</b>을 맞춰 볼 예정입니다.</div>
+  </div>
+  <div class="pno">05</div>
+</div></section>
+
+<!-- 06 VIDEO: 파티클 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>02.</b>기술 구현 영상</div>
+  <h2>TEST 01 &nbsp;키넥트 카메라 파티클 테스트</h2>
+  <p class="lead">키넥트 뎁스로 사람을 인식하고, 서 있는 자리 주변에 파티클이 반응하는 기본 구조를 검증했습니다.</p>
+</div>
+  <div class="vwrap" data-src="videos/0908_키넥트_파티클테스트.mp4"></div>
+  <div class="vcap"><span>09.08 · Kinect v2 + Unity</span><a class="yt" href="https://youtu.be/7WAxqvMQ2pk" target="_blank">▶ youtu.be/7WAxqvMQ2pk</a></div>
+  <div class="side">
+    <div class="meta"><span class="badge">SUCCESS</span><span>2026.09.08</span></div>
+    <div class="blk"><div class="k">목표</div><div class="d">센서 → 좌표 → 파티클 반응으로 이어지는 파이프라인 확인</div></div>
+    <div class="blk"><div class="k">결과</div><div class="d">사람 실루엣 인식과 발 주변 파티클 반응이 <em>실시간으로 동작</em></div></div>
+    <div class="blk"><div class="k">배운 점</div><div class="d">정면 스켈레톤 입력만으로는 바닥 반응 범위를 다루기 어려움 → <em>바닥 위치 중심</em>으로 전환</div></div>
+  </div>
+  <div class="pno">06</div>
+</section>
+
+<!-- 07 VIDEO: 키넥트 인식 오류 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>02.</b>기술 구현 영상</div>
+  <h2>TEST 02 &nbsp;호라이즌 스튜디오 키넥트 카메라 녹화</h2>
+  <p class="lead">현장 PC에 키넥트를 연결했으나 센서가 인식되지 않아, 원인을 찾아 해결했습니다.</p>
+</div>
+  <div class="vwrap" data-src="videos/0917_호라이즌_키넥트녹화.mp4"></div>
+  <div class="vcap"><span>09.17 · 호라이즌 스튜디오</span><a class="yt" href="https://youtu.be/WcdAzrk4sbI" target="_blank">▶ youtu.be/WcdAzrk4sbI</a></div>
+  <div class="side">
+    <div class="meta"><span class="badge fail">FAIL</span><span>2026.09.17</span></div>
+    <div class="blk bad"><div class="k">문제</div><div class="d">키넥트 카메라 <em>인식 오류</em>, 장치가 연결됐다 끊어지기를 반복</div></div>
+    <div class="blk bad"><div class="k">원인</div><div class="d">Windows 11과 키넥트 v2 <em>드라이버 충돌</em> (키넥트 내장 마이크 장치)</div></div>
+    <div class="blk"><div class="k">해결</div><div class="d">사운드 설정에서 <em>마이크 향상 기능 해제</em> 및 키넥트 <em>마이크 장치 제거</em> → 인식 정상화</div></div>
+    <div class="blk"><div class="k">대비</div><div class="d">전시 PC 세팅 체크리스트에 추가, 현장 도착 즉시 센서 인식부터 확인</div></div>
+  </div>
+  <div class="pno">07</div>
+</section>
+
+<!-- 08 VIDEO: 바닥 인터랙션 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>02.</b>기술 구현 영상</div>
+  <h2>TEST 03 &nbsp;호라이즌 스튜디오 바닥 인터랙션</h2>
+  <p class="lead">실제 바닥에 투사해 사용자 위치에 반응하는 인터랙션을 구현했으나, 반응 위치가 사용자와 어긋났습니다.</p>
+</div>
+  <div class="vwrap" data-src="videos/0922_호라이즌_바닥인터랙션.mp4"></div>
+  <div class="vcap"><span>09.22 · 호라이즌 스튜디오 바닥면</span><a class="yt" href="https://youtu.be/cvnIfnjZv4A" target="_blank">▶ youtu.be/cvnIfnjZv4A</a></div>
+  <div class="side">
+    <div class="meta"><span class="badge part">PARTIAL</span><span>2026.09.22</span></div>
+    <div class="blk"><div class="k">성공</div><div class="d">키넥트 위치 감지 → 바닥 반응 → 투사까지 <em>전체 흐름 작동</em></div></div>
+    <div class="blk bad"><div class="k">실패</div><div class="d">반응이 사용자 위치가 아닌 <em>왼쪽 상단</em>에 표시됨 (좌표 불일치)</div></div>
+    <div class="blk bad"><div class="k">원인</div><div class="d">센서 좌표와 실제 투사면 크기·위치가 맞지 않음 (보정 전 추정값 사용)</div></div>
+    <div class="blk"><div class="k">해결</div><div class="d">투사면 실측 → 좌표 <em>−X, −Y 방향</em> 보정 → <em>네 점 보정</em> 재실행</div></div>
+  </div>
+  <div class="pno">08</div>
+</section>
+
+<!-- 09 VIDEO: 맵핑 워핑 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>02.</b>디자인 구현 영상</div>
+  <h2>TEST 04 &nbsp;4면 맵핑 &amp; 워핑 싱크</h2>
+  <p class="lead">벽 3면과 바닥에 영상을 워핑해 면과 면이 이어지도록 싱크를 맞췄습니다.</p>
+</div>
+  <div class="vwrap" data-src="videos/0923_맵핑워핑_싱크.mp4"></div>
+  <div class="vcap"><span>09.23 · 호라이즌 스튜디오 · MadMapper</span><a class="yt" href="https://youtu.be/r1bvMmHeE7c" target="_blank">▶ youtu.be/r1bvMmHeE7c</a></div>
+  <div class="side">
+    <div class="meta"><span class="badge">SUCCESS</span><span>2026.09.23</span></div>
+    <div class="blk"><div class="k">목표</div><div class="d">벽 3면 + 바닥 4면에 콘텐츠를 워핑하고 면 사이 싱크 맞추기</div></div>
+    <div class="blk"><div class="k">결과</div><div class="d">면과 면의 경계가 이어지도록 <em>워핑 싱크 완료</em></div></div>
+    <div class="blk bad"><div class="k">보완</div><div class="d">겹치는 구간의 <em>블렌딩이 부자연스러워</em> 경계에서 밝기 차이가 보임</div></div>
+    <div class="blk"><div class="k">다음</div><div class="d">엣지 블렌딩 폭·감마 커브 조정, 경계 구간에 어두운 콘텐츠 배치</div></div>
+  </div>
+  <div class="pno">09</div>
+</section>
+
+<!-- 10 어려운 점 & 해결 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>문제 정의 &amp; 대안</div>
+  <h2>구현의 어려운 점과 해결 방안</h2>
+  <p class="lead">현장 테스트에서 드러난 문제를 정리하고, 다음 스튜디오 사용 전까지의 해결 순서를 정했습니다.</p>
+  <div class="cols4 probs" style="margin-top:70px">
+    <div><div class="k"><i>01.</i>센서 인식</div><div class="t">드라이버 충돌</div><div class="d">Windows 11 환경에서 키넥트 v2 인식이 끊김</div>
+      <div class="note"><div class="k">해결</div><div class="d">마이크 향상 해제 · 마이크 장치 제거<br>전시 PC 세팅 절차로 문서화</div></div></div>
+    <div><div class="k"><i>02.</i>좌표 정합</div><div class="t">반응 위치 어긋남</div><div class="d">사용자 위치와 바닥 반응이 왼쪽 상단으로 밀림</div>
+      <div class="note"><div class="k">해결</div><div class="d">투사면 가로·세로 실측 입력<br>네 점 보정으로 호모그래피 재계산</div></div></div>
+    <div><div class="k"><i>03.</i>4면 블렌딩</div><div class="t">경계 밝기 차이</div><div class="d">워핑은 맞았으나 겹침 구간이 자연스럽지 않음</div>
+      <div class="note"><div class="k">해결</div><div class="d">MadMapper 엣지 블렌딩 폭·감마 조정<br>면 경계에 어두운 톤 배치</div></div></div>
+    <div><div class="k"><i>04.</i>현장 시간</div><div class="t">스튜디오 사용 시간</div><div class="d">기본 운영 시간이 평일 09~17시라 현장 테스트 시간이 부족했음</div>
+      <div class="note"><div class="k">해결</div><div class="d">야간 사용 허가를 받음<br>사전 보고 후 지속적으로 테스트 가능</div></div></div>
+  </div>
+  <div class="pno">10</div>
+</div></section>
+
+<!-- 11 대체 기술 & 스토리보드 수정 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>문제 정의 &amp; 대안</div>
+  <h2>대체 기술(대안) 및 스토리보드 수정</h2>
+  <p class="lead">현재 방식이 현장에서 안정적이지 않을 경우를 대비해 단계별 대안을 준비합니다.</p>
+  <table>
+    <tr><th style="width:22%">상황</th><th style="width:26%">1차 방안 (현재)</th><th style="width:30%">대안</th><th>스토리보드 영향</th></tr>
+    <tr><td>센서가 불안정할 때</td><td>Kinect v2 · 정면 천장 대각선 설치 · 발목 관절 위치</td><td>뎁스 블롭 방식으로 전환, 또는 시설 카메라 활용</td><td>변경 없음 (위치만 사용)</td></tr>
+    <tr><td>좌표가 계속 어긋날 때</td><td>바닥 전체 연속 좌표 반응</td><td>바닥을 구역으로 나눠 <b style="color:var(--blue)">구역 진입·이탈 반응</b>으로 단순화</td><td>반응이 발밑 → 구역 단위로 커짐</td></tr>
+    <tr><td>센서 범위가 좁을 때</td><td>바닥 전체 인터랙티브</td><td>센서 인식 영역(약 4.2 × 3.5m)만 체험 구역으로 표시</td><td>바닥 체험 구역 표시 연출 추가</td></tr>
+    <tr><td>시설 PC에서 실시간 실행이 어려울 때</td><td>한 PC에서 4면 통합 출력</td><td>벽 3면은 영상 재생, 바닥만 별도 노트북으로 실시간 출력</td><td>변경 없음 (벽은 원래 비반응)</td></tr>
+    <tr><td>다중 관객이 겹칠 때</td><td>사람별 개별 반응 · 흔적</td><td>인원 상한 두고 순차 입장, 겹치면 공통 반응</td><td>관객 경험 동선에 입장 안내 추가</td></tr>
+  </table>
+  <div class="pno">11</div>
+</div></section>
+
+<!-- 12 영상 링크 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>문제 정의 &amp; 대안</div>
+  <h2>작동 영상 링크</h2>
+  <p class="lead">실제 전시 공간에서 진행한 디자인·기술 구현 영상의 성공과 실패 사례를 모두 첨부합니다.</p>
+  <table>
+    <tr><th style="width:10%">구분</th><th style="width:12%">날짜</th><th style="width:28%">영상</th><th style="width:12%">결과</th><th>YouTube</th></tr>
+    <tr><td>기술</td><td>09.08</td><td>키넥트 카메라 파티클 테스트</td><td><span class="badge">SUCCESS</span></td><td><a class="yt" href="https://youtu.be/7WAxqvMQ2pk" target="_blank">https://youtu.be/7WAxqvMQ2pk</a></td></tr>
+    <tr><td>기술</td><td>09.17</td><td>호라이즌 스튜디오 키넥트 카메라 녹화</td><td><span class="badge fail">FAIL</span></td><td><a class="yt" href="https://youtu.be/WcdAzrk4sbI" target="_blank">https://youtu.be/WcdAzrk4sbI</a></td></tr>
+    <tr><td>기술</td><td>09.22</td><td>호라이즌 스튜디오 바닥 인터랙션 테스트</td><td><span class="badge part">PARTIAL</span></td><td><a class="yt" href="https://youtu.be/cvnIfnjZv4A" target="_blank">https://youtu.be/cvnIfnjZv4A</a></td></tr>
+    <tr><td>디자인</td><td>09.23</td><td>4면 맵핑 &amp; 워핑 싱크 작업</td><td><span class="badge">SUCCESS</span></td><td><a class="yt" href="https://youtu.be/r1bvMmHeE7c" target="_blank">https://youtu.be/r1bvMmHeE7c</a></td></tr>
+  </table>
+  <div class="pno">12</div>
+</div></section>
+
+<!-- 13 EOD -->
+<section class="slide eod"><h1>E.O.D</h1></section>
+
+</div>
+<div id="nav"><button id="prev">‹</button><span id="cnt"></span><button id="next">›</button></div>
+
+<script>
+const S=[...document.querySelectorAll('.slide')];let i=0;
+try{i=Math.min(+(location.hash.slice(1)||1)-1,S.length-1)||0}catch(e){}
+// 영상 칸: videos/ 폴더에 같은 이름의 파일을 넣으면 자동으로 재생된다
+document.querySelectorAll('.vwrap').forEach(w=>{
+  const src=w.dataset.src, name=src.split('/').pop();
+  w.innerHTML='<div class="vph"><div class="play"></div><div>영상 삽입 자리</div><code>'+name+'</code></div>';
+  const v=document.createElement('video');v.src=src;v.muted=true;v.loop=true;v.playsInline=true;v.controls=true;
+  v.addEventListener('loadeddata',()=>{w.innerHTML='';w.appendChild(v);if(w.closest('.slide').classList.contains('on'))v.play().catch(()=>{})});
+});
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);S.forEach(e=>e.style.transform='scale('+s+')')}
+function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((e,k)=>{e.classList.toggle('on',k===i);e.querySelectorAll('video').forEach(v=>k===i?v.play().catch(()=>{}):v.pause())});
+  document.getElementById('cnt').textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1))}
+addEventListener('resize',fit);
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))go(i+1);if(['ArrowLeft','PageUp'].includes(e.key))go(i-1)});
+document.getElementById('prev').onclick=()=>go(i-1);document.getElementById('next').onclick=()=>go(i+1);
+fit();go(i);
+</script>
+</body>
+</html>
