@@ -351,7 +351,7 @@ document.querySelectorAll('.vwrap[data-src]').forEach(w=>{
   v.addEventListener('loadeddata',()=>{w.innerHTML='';w.appendChild(v);if(w.closest('.slide').classList.contains('on'))v.play().catch(()=>{})});
 });
 // 유튜브 링크: 올린 뒤 아래 두 칸에 영상 ID 만 넣으면 모든 슬라이드에 채워진다
-const YT={v1:'FFkeFMGcUwM',v2:'D-2FvAqLQNU',v3:'Bs4EiypOhe0'};
+const YT={v1:'STNkf8scYjI',v2:'D-2FvAqLQNU',v3:'Bs4EiypOhe0'};
 document.querySelectorAll('a.yt[data-yt]').forEach(a=>{
   const id=YT[a.dataset.yt];
   if(!id){a.textContent='YouTube 링크 추가 예정';a.classList.add('none');return}
