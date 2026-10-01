@@ -154,7 +154,7 @@ a.yt.none{color:var(--mute);pointer-events:none}
   <div class="sec">Index</div>
   <div class="idx">
     <div><div class="n">01</div><h3>진행 내용</h3><ul><li>지난 주 대비 달라진 점</li><li>4면을 하나로 잇는 구조</li><li>이번 주 진행 과정</li></ul></div>
-    <div><div class="n">02</div><h3>구현 영상</h3><ul><li>구현 후 첫 현장 테스트 (09.30)</li><li>싱크 테스트 · 발밑 표식 (09.30)</li><li>다음 씬 프리비즈 (Higgsfield)</li></ul></div>
+    <div><div class="n">02</div><h3>구현 영상</h3><ul><li>구현 후 첫 현장 테스트 (09.30)</li><li>싱크 테스트 · 발밑 표식 (09.30)</li><li>몰입형 요소 · 호랑이 착시</li><li>다음 씬 프리비즈 (Higgsfield)</li></ul></div>
     <div><div class="n">03</div><h3>문제 &amp; 다음 계획</h3><ul><li>현장에서 드러난 문제와 해결 방안</li><li>남은 과제 · 다음 단계</li><li>작동 영상 링크</li></ul></div>
   </div>
   <div class="mine"><b>담당</b>&nbsp;&nbsp;D_22561061_유기상 · 인터랙션 구현 / 현장 맵핑 테스트</div>
@@ -264,6 +264,24 @@ a.yt.none{color:var(--mute);pointer-events:none}
   <div class="pno">07</div>
 </section>
 
+<!-- 08 VIDEO TIGER -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>02.</b>구현 영상</div>
+  <h2>TEST 07 &nbsp;몰입형 요소 · 베젤을 뚫고 나오는 호랑이</h2>
+  <p class="lead">화면 위아래에 베젤(테두리)을 두고, 그 안에서 달려온 호랑이가 베젤을 넘어 튀어나오는 착시를 실제 공간에서 시험했습니다.</p>
+</div>
+  <div class="vwrap" data-src="videos/0930_몰입형요소_호랑이착시.mp4" data-poster="images/poster_v4.jpg"></div>
+  <div class="vcap"><span>09.30 · 호라이즌 스튜디오 · 착시(아나모픽) 연출</span><a class="yt" data-yt="v4" target="_blank"></a></div>
+  <div class="side">
+    <div class="meta"><span class="badge">SUCCESS</span><span>2026.09.30</span></div>
+    <div class="blk"><div class="k">원리</div><div class="d">위아래 베젤로 <em>‘여기까지가 화면’이라는 틀</em>을 먼저 보여주고, 호랑이의 머리·앞발이 그 틀 밖으로 넘어오게 해 <em>공간으로 튀어나오는 것처럼</em> 보이게 함</div></div>
+    <div class="blk"><div class="k">흐름</div><div class="d">복도 끝에서 작게 등장 → 정면으로 달려옴 → 베젤을 넘어 <em>앞발이 옆벽까지 뻗음</em> → 사라지고 빈 복도로 돌아감</div></div>
+    <div class="blk"><div class="k">결과</div><div class="d">관객이 몸을 피하는 반응이 나올 만큼 <em>튀어나오는 착시가 성립</em></div></div>
+    <div class="blk bad"><div class="k">한계</div><div class="d">착시는 <em>정해진 시점</em>에서 가장 강함. 관객이 옆으로 비켜 서면 원근이 어긋나 평면처럼 보일 수 있음</div></div>
+  </div>
+  <div class="pno">08</div>
+</section>
+
 <!-- 08 VIDEO 2 -->
 <section class="slide"><div class="pad">
   <div class="sec"><b>02.</b>구현 영상</div>
@@ -279,7 +297,7 @@ a.yt.none{color:var(--mute);pointer-events:none}
     <div class="blk"><div class="k">구현 계획</div><div class="d">지금의 흐름에 <em>‘한 점으로 끌어당기는 힘’</em>을 더해 같은 파티클로 전환을 만듦</div></div>
     <div class="blk bad"><div class="k">주의</div><div class="d">이 영상은 <em>실제 구현이 아닌 예상도</em>. 실시간으로 같은 밀도가 나오는지는 검증 필요</div></div>
   </div>
-  <div class="pno">08</div>
+  <div class="pno">09</div>
 </section>
 
 <!-- 09 문제 & 해결 -->
@@ -297,7 +315,7 @@ a.yt.none{color:var(--mute);pointer-events:none}
     <div><div class="k"><i>04.</i>센서 폭 (예상)</div><div class="t">가로 7.2m 미달</div><div class="d">키넥트 1대로는 바닥 양 끝에 선 사람을 잡지 못할 수 있음</div>
       <div class="note"><div class="k">해결</div><div class="d">양 끝에서 표식이 뜨는지 테스트 빌드로 확인<br>부족하면 센서 2대 검토</div></div></div>
   </div>
-  <div class="pno">09</div>
+  <div class="pno">10</div>
 </div></section>
 
 <!-- 10 남은 과제 -->
@@ -313,25 +331,26 @@ a.yt.none{color:var(--mute);pointer-events:none}
     <tr><td>타인의 흔적</td><td>미구현</td><td>이전 관객의 움직임이 남는 기능이 기획에 있음</td><td>지나간 자리가 오래 남는 누적 레이어 추가</td></tr>
     <tr><td>전시 운영</td><td>센서가 없을 때 가짜 사람이 자동으로 움직임</td><td>전시 중 켜져 있으면 빈 방에서도 반응이 나옴</td><td>전시용 PC에서 끄고 시작하도록 체크리스트에 추가</td></tr>
   </table>
-  <div class="pno">10</div>
+  <div class="pno">11</div>
 </div></section>
 
 <!-- 11 영상 링크 -->
 <section class="slide"><div class="pad">
   <div class="sec"><b>03.</b>문제 &amp; 다음 계획</div>
   <h2>작동 영상 링크</h2>
-  <p class="lead">현장 테스트 영상 두 편과 다음 씬 프리비즈를 함께 첨부합니다.</p>
+  <p class="lead">현장 테스트 영상 세 편과 다음 씬 프리비즈를 함께 첨부합니다.</p>
   <table>
     <tr><th style="width:10%">구분</th><th style="width:10%">날짜</th><th style="width:30%">영상</th><th style="width:12%">결과</th><th>YouTube</th></tr>
     <tr><td>기술</td><td>09.30</td><td>구현 후 첫 현장 테스트</td><td><span class="badge">SUCCESS</span></td><td><a class="yt" data-yt="v1" data-full="1" target="_blank"></a></td></tr>
     <tr><td>기술</td><td>09.30</td><td>싱크 테스트 · 발밑 표식</td><td><span class="badge part">PARTIAL</span></td><td><a class="yt" data-yt="v2" data-full="1" target="_blank"></a></td></tr>
+    <tr><td>디자인</td><td>09.30</td><td>몰입형 요소 · 호랑이 착시</td><td><span class="badge">SUCCESS</span></td><td><a class="yt" data-yt="v4" data-full="1" target="_blank"></a></td></tr>
     <tr><td>디자인</td><td>09.30</td><td>다음 씬 프리비즈 (Higgsfield 생성)</td><td><span class="badge prev">PREVIZ</span></td><td><a class="yt" data-yt="v3" data-full="1" target="_blank"></a></td></tr>
   </table>
   <div class="panel" style="margin-top:70px;padding:30px 40px">
     <div class="k">지난 주 영상 (5주차)</div>
     <div class="d" style="margin-top:10px;color:var(--ink)">키넥트 파티클 테스트 · 키넥트 인식 오류 · 바닥 인터랙션 · 4면 워핑 싱크 — <a class="yt" href="https://gisangyu.github.io/SNOOZE/WEEK5/" target="_blank">gisangyu.github.io/SNOOZE/WEEK5</a></div>
   </div>
-  <div class="pno">11</div>
+  <div class="pno">12</div>
 </div></section>
 
 <!-- 12 EOD -->
@@ -351,7 +370,7 @@ document.querySelectorAll('.vwrap[data-src]').forEach(w=>{
   v.addEventListener('loadeddata',()=>{w.innerHTML='';w.appendChild(v);if(w.closest('.slide').classList.contains('on'))v.play().catch(()=>{})});
 });
 // 유튜브 링크: 올린 뒤 아래 두 칸에 영상 ID 만 넣으면 모든 슬라이드에 채워진다
-const YT={v1:'STNkf8scYjI',v2:'D-2FvAqLQNU',v3:'Bs4EiypOhe0'};
+const YT={v1:'STNkf8scYjI',v2:'D-2FvAqLQNU',v3:'Bs4EiypOhe0',v4:'KR0eAcOA6Q4'};
 document.querySelectorAll('a.yt[data-yt]').forEach(a=>{
   const id=YT[a.dataset.yt];
   if(!id){a.textContent='YouTube 링크 추가 예정';a.classList.add('none');return}
