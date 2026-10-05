@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIMEN 전시공간 · 시스템 구성도</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<!-- 지난 주(6주차 4면 인터랙션) 덱과 같은 레이아웃 -->
+<link rel="stylesheet" href="_base.css">
+<style>
+/* ---- 이번 덱 추가 ---- */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.img{border-radius:8px;overflow:hidden;background:#0d0f12;position:relative}
+.img img{width:100%;height:100%;object-fit:cover;display:block}
+.cap{font-size:17px;color:var(--mute);margin-top:12px}
+.cap b{color:var(--ink);font-weight:600;margin-right:8px}
+.chip{display:inline-block;font-size:15px;font-weight:600;padding:4px 12px;border-radius:30px;background:var(--panel);color:var(--blue)}
+.chip.g{background:#e9f7ef;color:#1a9f55}.chip.o{background:#fff3e0;color:#d97706}.chip.x{background:#f1f2f4;color:var(--mute)}.chip.r{background:#fdecec;color:var(--fail)}
+
+/* IA 트리 */
+.tree{display:grid;grid-template-columns:1fr 1fr;gap:70px;margin-top:56px}
+.tree h4{font-size:24px;font-weight:600;padding:16px 22px;background:var(--ink);color:#fff;border-radius:6px;display:flex;justify-content:space-between;align-items:center}
+.tree h4 span{font-size:16px;font-weight:500;color:#aeb6c2}
+.tree .lv{display:grid;gap:12px;margin-top:18px}
+.tree .node{display:grid;grid-template-columns:210px 1fr;gap:20px;align-items:start;padding:14px 0;border-bottom:1px solid var(--line)}
+.tree .node b{font-size:20px;font-weight:600;color:var(--blue)}
+.tree .node b small{display:block;font-size:14px;color:var(--mute);font-weight:500;margin-top:2px;letter-spacing:.4px}
+.tree .node div{font-size:17.5px;color:var(--sub);line-height:1.6}
+
+/* UI flow */
+.uf{margin-top:60px;display:grid;grid-template-columns:repeat(6,1fr);gap:0;position:relative}
+.uf>div{padding:0 22px;border-left:1px solid var(--line)}
+.uf>div:first-child{border-left:0;padding-left:0}
+.uf .n{font-size:18px;color:var(--blue);font-weight:700}
+.uf h4{font-size:26px;font-weight:600;margin:6px 0 16px;letter-spacing:-.4px}
+.uf .row{font-size:16.5px;line-height:1.6;color:var(--sub);padding:12px 0;border-top:1px dashed var(--line)}
+.uf .row i{display:block;font-style:normal;font-size:13px;color:var(--mute);letter-spacing:.6px;margin-bottom:3px}
+.uf .row em{font-style:normal;color:var(--ink);font-weight:600}
+.ufbar{display:grid;grid-template-columns:repeat(6,1fr);margin-top:36px;height:10px;border-radius:5px;overflow:hidden}
+
+/* 키워드 */
+.kw{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:60px}
+.kw>div{background:var(--cover);color:#e9ebee;border-radius:10px;padding:34px 30px;min-height:330px;display:flex;flex-direction:column}
+.kw .en{font-size:16px;letter-spacing:2px;color:#7fb8ff;font-weight:600}
+.kw h3{font-size:46px;font-weight:700;margin:14px 0 18px;letter-spacing:-1px}
+.kw p{font-size:18px;line-height:1.7;color:#b9c0ca}
+.kw .ex{margin-top:auto;font-size:15px;color:#7d8694;border-top:1px solid #2a2e35;padding-top:14px}
+.motto{margin-top:46px;padding:30px 40px;border-left:5px solid var(--blue);background:var(--panel)}
+.motto q{font-size:30px;font-weight:600;letter-spacing:-.6px;quotes:none}
+.motto p{font-size:18px;color:var(--sub);margin-top:10px}
+
+/* 무드보드 */
+.mood{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:14px;margin-top:46px}
+.mood .img{height:100%}
+.mood .img span{position:absolute;left:10px;bottom:10px;font-size:14px;font-weight:600;color:#fff;background:rgba(0,0,0,.6);padding:4px 10px;border-radius:4px}
+.mood .w2{grid-column:span 2}.mood .h2{grid-row:span 2}
+
+/* 엘리먼트 */
+.sw{display:flex;gap:14px;margin-top:16px}
+.sw div{flex:1;height:120px;border-radius:8px;position:relative;border:1px solid rgba(0,0,0,.06)}
+.sw div span{position:absolute;left:12px;bottom:10px;font-size:14px;font-weight:600}
+.sw div small{position:absolute;left:12px;top:10px;font-size:13px;opacity:.8}
+.typo{display:flex;gap:40px;align-items:flex-end;margin-top:14px}
+.typo .a{font-size:92px;font-weight:300;letter-spacing:-2px;line-height:1}
+.typo .b{font-size:20px;color:var(--sub);line-height:1.6}
+.motif{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+.motif div{text-align:center;font-size:16px;color:var(--sub)}
+.motif .img{height:150px;margin-bottom:10px}
+
+/* 표 촘촘하게 */
+table.tight{margin-top:40px;font-size:17px}
+table.tight td{padding:14px 16px}
+table.tight th{padding:0 16px 12px}
+
+/* 다이어그램 */
+.diagram{position:absolute;left:150px;right:150px;top:300px;bottom:110px}
+.diagram svg{width:100%;height:100%;overflow:visible}
+.box{fill:#fff;stroke:#c9d3e0;stroke-width:1.5}
+.box.k{fill:var(--panel);stroke:var(--blue)}
+.box.d{fill:var(--cover);stroke:var(--cover)}
+.lbl{font-family:Pretendard,sans-serif;font-size:21px;font-weight:600;fill:var(--ink)}
+.lbl.w{fill:#fff}
+.sm{font-family:Pretendard,sans-serif;font-size:15.5px;fill:var(--sub)}
+.sm.w{fill:#aeb6c2}
+.tag2{font-family:Pretendard,sans-serif;font-size:14px;font-weight:700;fill:var(--blue);letter-spacing:1px}
+.wire{stroke:var(--ink);stroke-width:2;fill:none}
+.wire.b{stroke:var(--blue)}
+.wire.a{stroke:#8b5cf6}
+.wire.dash{stroke-dasharray:6 6}
+.wl{font-family:Pretendard,sans-serif;font-size:14px;fill:var(--sub)}
+.warn{font-family:Pretendard,sans-serif;font-size:14px;font-weight:600;fill:var(--part)}
+
+/* 평면도 */
+.plan .wall{fill:none;stroke:var(--ink);stroke-width:3}
+.plan .scr{fill:#eef4fd;stroke:none}
+.plan .sens{fill:rgba(36,149,255,.08);stroke:var(--blue);stroke-width:1.5;stroke-dasharray:6 5}
+.plan .grid line{stroke:#e4e8ee;stroke-width:1}
+.plan .dev{font-family:Pretendard,sans-serif;font-size:14px;font-weight:700;fill:#fff;text-anchor:middle;dominant-baseline:central}
+.plan .ray{stroke:var(--blue);stroke-width:1.2;opacity:.55;stroke-dasharray:4 4}
+.plan .dimt{font-family:Pretendard,sans-serif;font-size:15px;fill:var(--sub);text-anchor:middle}
+.plan .dim{stroke:var(--mute);stroke-width:1}
+.legend{position:absolute;left:1210px;right:150px;top:300px}
+.legend .it{display:grid;grid-template-columns:46px 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--line);align-items:start}
+.legend .it:first-child{border-top:0;padding-top:0}
+.legend .ic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px}
+.legend .t1{font-size:19px;font-weight:600}
+.legend .t2{font-size:16px;color:var(--sub);line-height:1.55;margin-top:4px}
+.est{font-size:15px;color:var(--part);font-weight:600}
+
+/* 실측 도면 (19~21p) */
+.dt{font-family:"IBM Plex Mono",Pretendard,monospace;font-size:13.5px;font-weight:600;fill:#14171d}
+.dv{font-family:Pretendard,sans-serif;font-size:12.5px;font-weight:700;fill:#fff;text-anchor:middle;dominant-baseline:central}
+.h3{paint-order:stroke;stroke:#f9f9fa;stroke-width:4px;stroke-linejoin:round}
+table.coord{font-size:16.5px}
+table.coord td{padding:12px 10px;color:var(--ink);font-weight:600;line-height:1.35}
+table.coord th{padding:0 10px 10px;font-size:15px}
+table.coord td small{display:block;font-size:13px;color:var(--mute);font-weight:500;margin-top:2px}
+table.coord i.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:0}
+@media print{[data-noprint]{display:none}}
+.isoc .k,.isoc .legend .t1{color:#1d2b53}.isoc table.coord th{color:#1d2b53;border-bottom-color:#1d2b53}.isoc .blk .d em{color:#00a6a6}.isoc .est{color:#e8590c}
+
+/* 19~21p · GPT 이미지 슬라이드 */
+.gimg{position:absolute;border-radius:10px;overflow:hidden;background:#f8f9fa;box-shadow:0 0 0 1px #e3e7ec}
+.gimg img{width:100%;height:100%;object-fit:contain;display:block}
+.gside{position:absolute;right:150px}
+.gpt{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:18px 0;border-top:1px solid var(--line)}
+.gpt:first-child{border-top:0;padding-top:0}
+.gpt i{font-style:normal;width:36px;height:36px;border-radius:50%;background:#1d2b53;color:#fff;display:grid;place-items:center;font-size:14px;font-weight:700}
+.gpt b{display:block;font-size:20px;font-weight:600;color:#1d2b53}
+.gpt span{display:block;font-size:16px;color:var(--sub);line-height:1.55;margin-top:5px}
+.gpos{margin-top:22px;padding:20px 22px;border-radius:10px;background:#e6f6f6}
+.gpos span{display:block;font-size:14px;color:#00807f;font-weight:600}
+.gpos b{display:block;font-size:24px;color:#1d2b53;margin-top:6px}
+.gpos small{display:block;font-size:13px;color:var(--sub);margin-top:6px}
+.gcap{position:absolute;left:150px;bottom:44px;font-size:16px;color:var(--mute)}
+.groles{display:grid;gap:10px}
+.groles>div{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:14px;padding:12px 16px;border-radius:10px;background:#f1f3f5}
+.groles i{font-style:normal;font-weight:700;color:#fff;background:#1d2b53;border-radius:8px;text-align:center;padding:6px 0;font-size:16px}
+.groles>div:first-child i{background:#00a6a6}
+.groles b{font-size:19px;color:#1d2b53}
+.groles small{font-size:13px;color:var(--mute)}
+.gkey{margin-top:24px;font-size:20px;font-weight:600;color:#1d2b53;line-height:1.5}
+.gkey em{font-style:normal;color:#00a6a6}
+.gorder{margin-top:22px;padding:18px;border:1px dashed #b7c0cc;border-radius:10px;text-align:center}
+.gorder span{display:block;font-size:13px;color:var(--mute);margin-bottom:12px}
+.gorder .row{display:flex;justify-content:center;gap:34px}
+.gorder .row.one{margin-top:22px}
+.gorder .row b{width:46px;height:30px;border-radius:6px;background:#1d2b53;color:#fff;display:grid;place-items:center;font-size:14px}
+.gorder .row.one b{background:#00a6a6}
+.gorder small{display:block;margin-top:12px;font-size:13px;color:var(--sub)}
+.gref img{width:100%;height:200px;object-fit:cover;border-radius:10px;display:block}
+.gref small{display:block;font-size:13px;color:var(--mute);margin:8px 0 18px}
+.gside .gref+.gpt{border-top:0;padding-top:0}
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- 01 COVER -->
+<section class="slide cover">
+  <div class="top"><span>CAPSTONE DESIGN · WEEK 06</span><span>Degital Media Design</span></div>
+  <div class="tt">
+    <p>콘텐츠 상세설계 · 디자인 &amp; 개발 전략</p>
+    <h1>전시공간 &amp; 시스템 구성도</h1>
+    <div class="sub2">LIMEN · 호라이즌 스튜디오 4면(벽 3 + 바닥 1) 몰입형 인터랙션</div>
+  </div>
+  <div class="foot">
+    <div class="l"><span>Date_ 2026.10.06</span><span>Prof_심한수 교수님</span><span>Team_ SNOOZE</span></div>
+    <div class="crew">
+      <div>[기획]<br>A_22561083_이채연(팀장)</div>
+      <div>[프로그래밍]<br>D_22561061_유기상</div>
+      <div>[디자인]<br>B_22261052_배정훈<br>C_22261063_심혜민<br>C_22461106_조가연<br>C_22461014_김노은<br>C_22261029_김현기</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 INDEX -->
+<section class="slide"><div class="pad">
+  <div class="sec">Index</div>
+  <div class="idx">
+    <div><div class="n">03</div><h3>콘텐츠 상세설계</h3><ul><li>정보구조 IA · 메뉴 레이블링</li><li>핵심 화면 설계 (웹 와이어프레임)</li><li>체험 UI Flow</li><li>기술요소 설계</li></ul></div>
+    <div><div class="n">04-ⓐ</div><h3>디자인 전략</h3><ul><li>디자인 키워드 · 콘셉트</li><li>레퍼런스 · 무드보드</li><li>디자인 엘리먼트</li><li>디자인 스케치 (Unity)</li><li>전시공간 설계</li></ul></div>
+    <div><div class="n">04-ⓑ</div><h3>개발 전략</h3><ul><li>기술요소 × 스토리보드 매칭</li><li>시험구현 · 어려운 점과 해결</li><li>대체 기술</li><li>구현 영상 링크</li><li>시스템 구성도 · 키넥트 설치 위치</li><li>4면 투사 구성 · 천장 철골 설치</li></ul></div>
+  </div>
+  <div class="mine"><b>담당</b>&nbsp;&nbsp;D_22561061_유기상 · 인터랙션 개발 / 시스템 구성 / 웹 제작</div>
+  <div class="pno">02</div>
+</div></section>
+
+<!-- 03 IA -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>콘텐츠 상세설계</div>
+  <h2>정보구조 IA · 전시 체험과 웹 2종</h2>
+  <p class="lead">전시장 안의 체험 구조와, 전시장 밖으로 관객을 데려오는 웹을 한 구조로 묶었습니다. 전시장이 과 전시장과 떨어져 있어 웹은 홍보용 · 현장용 2개로 나눕니다.</p>
+  <div class="tree">
+    <div>
+      <h4>LIMEN 전시 체험 <span>호라이즌 스튜디오 · 3분 루프</span></h4>
+      <div class="lv">
+        <div class="node"><b>공간<small>SPACE</small></b><div>벽 3면 = 나에게 영향을 주는 세계 (흐름)<br>바닥 1면 = 내가 선택하는 자리 (인터랙션)</div></div>
+        <div class="node"><b>장면 7개<small>SCENES</small></b><div>개미 · 터널 · 반딧불이 · 나비 · 크리스탈 동굴·거미 · 기억 회랑 · 사람</div></div>
+        <div class="node"><b>관객 6단계<small>EXPERIENCE</small></b><div>진입 → 관찰 → 선택 → 발견 → 관계 → 자각</div></div>
+        <div class="node"><b>흔적<small>TRACE</small></b><div>이전 관객의 동선이 바닥에 남아 다음 관객의 선택 환경이 됨</div></div>
+      </div>
+    </div>
+    <div>
+      <h4>웹 2종 <span>메뉴 레이블 (안)</span></h4>
+      <div class="lv">
+        <div class="node"><b>홍보 웹<small>PROMOTION</small></b><div><b style="color:var(--ink);font-size:17.5px">Vision · Studio · Scenes · Process · Visit · SNOOZE</b><br>시연 영상 · 스튜디오 도면/3D · 장면 미리보기 · 제작 과정 · 오시는 길(과 전시장 → 정보관 8층)</div></div>
+        <div class="node"><b>쇼잉 웹<small>IN-SPACE</small></b><div><b style="color:var(--ink);font-size:17.5px">Now · Traces · Leave a Mark · Guide</b><br>지금 장면 · 오늘 관객 흔적 히트맵 · 한 줄 남기기 · 관람 안내</div></div>
+        <div class="node"><b>레이블 원칙<small>LABELING</small></b><div>기능명이 아니라 관객 행동으로 짓기 (예: 히트맵 → Traces, 방명록 → Leave a Mark)</div></div>
+        <div class="node"><b>연결<small>LINK</small></b><div>홍보 웹에서 남긴 답이 쇼잉 웹에 떠 있게 → 와서 자기 답을 찾게 함</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="pno">03</div>
+</div></section>
+
+<!-- 04 화면 설계 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>콘텐츠 상세설계</div>
+  <h2>핵심 화면 설계 · 홍보 웹 (실제 구현 시안)</h2>
+  <p class="lead">메인 이외의 대표 화면은 "실측 스튜디오를 보여주는 섹션"입니다. 와이어 스케치를 바로 웹으로 구현해 배포했습니다.</p>
+  <div class="grid3" style="margin-top:48px">
+    <div><div class="img" style="height:310px"><img src="img/web_vision.jpg" alt=""></div><div class="cap"><b>① VISION</b>실제 시연 영상 위로 문장이 블러와 함께 교체</div></div>
+    <div><div class="img" style="height:310px"><img src="img/web_bp.jpg" alt=""></div><div class="cap"><b>② STUDIO 도면</b>격자 → 곡면 벽 → 장비 순서로 SVG 작도</div></div>
+    <div><div class="img" style="height:310px"><img src="img/web_model.jpg" alt=""></div><div class="cap"><b>③ STUDIO 3D</b>도면이 3D 모델로 바뀌고 장비 호버 시 설명</div></div>
+  </div>
+  <div class="cols4" style="margin-top:56px">
+    <div><div class="k"><i>01</i>레퍼런스</div><div class="d">한화 스페이스허브 Launch 의 영상 + 텍스트 → 블루프린트 흐름</div></div>
+    <div><div class="k"><i>02</i>같은 좌표</div><div class="d">도면 선과 3D 모델을 한 3D 정의에서 뽑아 전환 시 선이 정확히 겹침</div></div>
+    <div><div class="k"><i>03</i>호버 인터랙션</div><div class="d">프로젝터 → 투사 범위, 키넥트 → 감지 범위 4.2×3.5m 표시</div></div>
+    <div><div class="k"><i>04</i>배포</div><div class="d" style="color:var(--blue)">gisangyu.github.io/LIMEN_WEB<br>ver1 · ver2</div></div>
+  </div>
+  <div class="pno">04</div>
+</div></section>
+
+<!-- 05 체험 UI Flow -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>콘텐츠 상세설계</div>
+  <h2>체험 UI Flow · 관객이 주요 기능을 이용하는 절차</h2>
+  <p class="lead">조작 장치 없이 "걷기"만으로 체험합니다. 단계마다 관객의 행동과 공간(바닥 · 벽)의 반응을 짝지었습니다.</p>
+  <div class="uf">
+    <div><div class="n">01</div><h4>진입</h4><div class="row"><i>관객</i>문을 열고 들어섬</div><div class="row"><i>벽 3면</i>검은 공간에 흰 점의 흐름 (개미)</div><div class="row"><i>바닥</i>점들이 발을 <em>피해 돌아감</em></div></div>
+    <div><div class="n">02</div><h4>관찰</h4><div class="row"><i>관객</i>멈춰서 둘러봄</div><div class="row"><i>벽 3면</i>흰 원 → 터널로 빨려 들어감</div><div class="row"><i>바닥</i>반응 없음 · <em>시선만 몰입</em></div></div>
+    <div><div class="n">03</div><h4>선택</h4><div class="row"><i>관객</i>바닥을 걸어 이동</div><div class="row"><i>벽 3면</i>반딧불이가 하나의 호흡으로</div><div class="row"><i>바닥</i>내 주변만 <em>더 밝아짐</em></div></div>
+    <div><div class="n">04</div><h4>발견</h4><div class="row"><i>관객</i>빛을 따라가는 나를 앎</div><div class="row"><i>벽 3면</i>나비가 빛을 따라 동굴로</div><div class="row"><i>바닥</i>발밑에서 <em>물결</em> (4-1 안)</div></div>
+    <div><div class="n">05</div><h4>관계</h4><div class="row"><i>관객</i>숨어 있던 연결을 봄</div><div class="row"><i>벽 3면</i>크리스탈 거미 · 거미집 → 기억 회랑</div><div class="row"><i>바닥</i>자동 연출 · <em>연결 구조</em>가 둘러쌈</div></div>
+    <div><div class="n">06</div><h4>자각</h4><div class="row"><i>관객</i>내 움직임이 군중을 바꿈</div><div class="row"><i>벽 3면</i>사람들이 모이고 흩어짐 → 작은 빛 하나</div><div class="row"><i>바닥</i>최대 4명 위치 반응 → <em>완전한 검정</em></div></div>
+  </div>
+  <div class="ufbar"><i style="background:#d6e2f3"></i><i style="background:#b4ccec"></i><i style="background:#86aee4"></i><i style="background:#5b93e0"></i><i style="background:#3a7fdf"></i><i style="background:var(--blue)"></i></div>
+  <div class="pno">05</div>
+</div></section>
+
+<!-- 06 기술요소 설계 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>콘텐츠 상세설계</div>
+  <h2>기술요소 설계 · 분석 · 자료수집 · 오픈소스 · 구현 방안</h2>
+  <p class="lead">필요한 기능마다 쓸 기술과 출처를 정하고, 직접 시험해 본 상태를 함께 적었습니다.</p>
+  <table class="tight">
+    <tr><th style="width:14%">기능</th><th style="width:22%">구현 방안</th><th style="width:30%">오픈소스 · 자료</th><th style="width:22%">분석 · 근거</th><th>상태</th></tr>
+    <tr><td>위치 감지</td><td>Kinect v2 천장 철골 · 무대 안쪽 사선 촬영 → 사람 위치를 바닥 좌표로</td><td>Kinect for Windows SDK 2.0, Kinect v2 Unity Asset</td><td>암실에서 RGB 보다 IR 뎁스가 안정적</td><td><span class="chip o">천장 설치 · 현장 확인 예정</span></td></tr>
+    <tr><td>4면 통합 출력</td><td>방을 전개도로 펼친 Unity 씬 1개 → 3800×2000 텍스처</td><td>Unity (Built-in RP), 자체 RoomAtlasSource 뼈대</td><td>면마다 씬을 나누면 모서리에서 끊김</td><td><span class="chip g">현장 성공</span></td></tr>
+    <tr><td>영상 전달</td><td>같은 PC 안에서 GPU 텍스처 공유</td><td>KlakSpout (Keijiro, MIT) → MadMapper</td><td>캡처 카드 없이 지연 최소</td><td><span class="chip g">현장 성공</span></td></tr>
+    <tr><td>4면 워핑 · 블렌딩</td><td>면마다 잘라 네 점 워핑, 곡면 모서리 블렌딩</td><td>MadMapper (시설 라이선스)</td><td>9/23 4면 싱크 테스트</td><td><span class="chip g">성공</span></td></tr>
+    <tr><td>장면 알고리즘</td><td>개미 = 페로몬 스티그머지, 반딧불이 = 구라모토 동기화, 흐름 = 컬 노이즈</td><td>Physarum/Ant 알고리즘 문헌, 구라모토 모형 → numpy 로 먼저 검증</td><td>사람을 "피해서" 돌아가기, 가까울수록 밝게</td><td><span class="chip o">에디터 검증</span></td></tr>
+    <tr><td>흔적 누적</td><td>지나간 자리를 지우지 않는 누적 레이어</td><td>FLOORBLOOM (꽃이 남는 바닥) 시안</td><td>기획의 "타인의 흔적" 요구</td><td><span class="chip o">시안</span></td></tr>
+    <tr><td>웹</td><td>three.js · GSAP ScrollTrigger · Lenis</td><td>three.js(MIT), GSAP, Lenis(MIT)</td><td>레퍼런스 96곳 보드로 분석</td><td><span class="chip g">배포</span></td></tr>
+  </table>
+  <div class="pno">06</div>
+</div></section>
+
+<!-- 07 키워드 · 콘셉트 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓐ</b>디자인 전략</div>
+  <h2>디자인 키워드 · 디자인 콘셉트</h2>
+  <p class="lead">"타인의 기준이 내 선택에 들어와 있음을 알아차리는 순간"을 네 개의 키워드로 시각화합니다.</p>
+  <div class="kw">
+    <div><span class="en">THRESHOLD</span><h3>문턱</h3><p>LIMEN 은 라틴어로 문턱. 꿈과 깸, 남의 기준과 나의 선택 사이의 경계</p><div class="ex">→ 벽 3면과 바닥의 경계, 모서리 곡면</div></div>
+    <div><span class="en">FLOW</span><h3>흐름</h3><p>관객이 오기 전부터 흐르는 세계. 정보 · 타인의 선택 · 사회적 기준</p><div class="ex">→ 벽을 타고 흐르는 빛줄기 · 무리</div></div>
+    <div><span class="en">TRACE</span><h3>흔적</h3><p>리뷰와 별점처럼, 앞사람의 선택이 다음 사람의 환경이 됨</p><div class="ex">→ 바닥에 남는 동선 · 페로몬 길</div></div>
+    <div><span class="en">LUCID</span><h3>자각</h3><p>통제가 아니라 관계. 자각몽처럼 공간은 그대로, 인식만 바뀜</p><div class="ex">→ 반응은 발밑에서만 · 절제된 빛</div></div>
+  </div>
+  <div class="motto"><q>세계는 이미 흐르고 있고, 고르는 자리는 발밑에 있다.</q><p>디자인 원칙 · 모든 면을 반응시키지 않는다 / 빛은 어둠에서 스스로 빛난다 / 사람의 흔적은 지우지 않는다</p></div>
+  <div class="pno">07</div>
+</div></section>
+
+<!-- 08 레퍼런스 · 무드보드 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓐ</b>디자인 전략</div>
+  <h2>디자인 레퍼런스 · 무드보드</h2>
+  <p class="lead">공간 연출은 몰입형 미디어아트에서, 흔적과 인터랙션은 데이터 시각화 · 웹 실험에서 가져왔습니다. (전체 96곳 레퍼런스 보드 별도)</p>
+  <div class="mood">
+    <div class="img w2 h2"><img src="img/night_bloom.webp" alt=""><span>무드 · 밤의 꽃 (팀 R&amp;D)</span></div>
+    <div class="img"><img src="img/ref_01_00.jpg" alt=""><span>teamLab · 몰입 공간</span></div>
+    <div class="img"><img src="img/ref_01_03.jpg" alt=""><span>Refik Anadol · 데이터 흐름</span></div>
+    <div class="img"><img src="img/ref_01_10.jpg" alt=""><span>Random Intl. · 반응형 설치</span></div>
+    <div class="img"><img src="img/ref_04_08.jpg" alt=""><span>Weavesilk · 빛의 흔적</span></div>
+    <div class="img"><img src="img/ref_05_05.jpg" alt=""><span>Strava · 누적 동선</span></div>
+    <div class="img"><img src="img/ref_01_13.jpg" alt=""><span>UVA · 빛과 공간</span></div>
+    <div class="img"><img src="img/ref_02_00.jpg" alt=""><span>Hanwha Launch · 웹 구조</span></div>
+    <div class="img"><img src="img/meadow.webp" alt=""><span>무드 · 밤의 초원</span></div>
+  </div>
+  <div class="pno">08</div>
+</div></section>
+
+<!-- 09 엘리먼트 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓐ</b>디자인 전략</div>
+  <h2>디자인 엘리먼트 · 컬러 · 타이포 · 모티브</h2>
+  <p class="lead">어둠 위에 스스로 빛나는 흰빛이 기본입니다. 색은 장면마다 한 가지만 더합니다.</p>
+  <div class="grid2" style="margin-top:44px">
+    <div>
+      <div class="k">COLOR</div>
+      <div class="sw">
+        <div style="background:#05070c;color:#fff"><small>배경 · 암실</small><span>#05070C</span></div>
+        <div style="background:#e9eef7"><small>빛 · 흰 줄기</small><span>#E9EEF7</span></div>
+        <div style="background:#b9a7f0"><small>라일락 · 꽃</small><span>#B9A7F0</span></div>
+        <div style="background:#6ff0d8"><small>자각 · 강조</small><span>#6FF0D8</span></div>
+        <div style="background:#233d70;color:#fff"><small>웹 · 도면</small><span>#233D70</span></div>
+      </div>
+      <div class="k" style="margin-top:44px">TYPOGRAPHY</div>
+      <div class="typo"><div class="a">LIMEN</div><div class="b"><b style="color:var(--ink)">Pretendard</b> Light / SemiBold<br>로고는 가는 굵기 · 넓은 자간<br>도면 수치는 IBM Plex Mono</div></div>
+    </div>
+    <div>
+      <div class="k">MOTIF · 3D OBJECT</div>
+      <div class="motif">
+        <div><div class="img"><img src="img/roomflow.jpg" alt=""></div>빛줄기 (흐름)</div>
+        <div><div class="img"><img src="img/ants2.jpg" alt=""></div>개미 무리 (흔적)</div>
+        <div><div class="img"><img src="img/floorbloom.jpg" alt=""></div>꽃 3D 메시</div>
+        <div><div class="img"><img src="img/flower.webp" alt=""></div>스스로 빛나는 꽃</div>
+      </div>
+      <div class="note"><div class="k">원칙</div><div class="d">한 장면에 강조색은 하나 · 사람 근처만 밝게 · 빛은 잔상으로 이어지게 (점이 아니라 선)</div></div>
+    </div>
+  </div>
+  <div class="pno">09</div>
+</div></section>
+
+<!-- 10 디자인 스케치 Unity -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓐ</b>디자인 전략</div>
+  <h2>디자인 스케치 · Unity 에서 시각화</h2>
+  <p class="lead">스토리보드 장면을 Unity 4면 씬으로 옮겨 디자인 엘리먼트를 적용했습니다. 위는 4면 전개도(좌 · 정면 · 우 / 아래 바닥)입니다.</p>
+  <div class="grid2" style="margin-top:44px;gap:36px">
+    <div><div class="img" style="height:300px"><img src="img/roomflow.jpg" alt=""></div><div class="cap"><b>ROOMFLOW</b>발밑에서 나온 빛줄기가 벽을 타고 오름 · 빨간 원 = 감지된 사람</div></div>
+    <div><div class="img" style="height:300px"><img src="img/ants.jpg" alt=""></div><div class="cap"><b>ANTS (장면 1)</b>흰 점이 관객을 피해 돌아가고 정면 중앙으로 모임</div></div>
+    <div><div class="img" style="height:300px"><img src="img/floorbloom.jpg" alt=""></div><div class="cap"><b>FLOORBLOOM</b>지나간 길에 꽃이 피고 그대로 남음 (흔적 시안)</div></div>
+    <div><div class="img" style="height:300px"><img src="img/floorcast.jpg" alt=""></div><div class="cap"><b>FLOORCAST</b>사람 주변 파티클이 밀려나고 떠나면 제자리로</div></div>
+  </div>
+  <div class="pno">10</div>
+</div></section>
+
+<!-- 11 디자인 구현 영상 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓐ</b>디자인 전략</div>
+  <h2>디자인 구현 동영상 · 실제 전시 공간</h2>
+  <p class="lead">호라이즌 스튜디오에서 핵심 디자인 요소를 투사해 본 영상입니다.</p>
+  <div class="grid2" style="margin-top:44px">
+    <div><div class="img" style="height:400px"><img src="img/poster_v4.jpg" alt=""></div><div class="cap"><b>몰입형 요소 · 베젤을 뚫고 나오는 호랑이</b><a class="yt" data-yt="v4" target="_blank"></a></div></div>
+    <div><div class="img" style="height:400px"><img src="img/poster_v3.jpg" alt=""></div><div class="cap"><b>다음 씬 프리비즈 · 소용돌이 전환 (Higgsfield)</b><a class="yt" data-yt="v3" target="_blank"></a></div></div>
+  </div>
+  <div class="panel" style="margin-top:44px;padding:24px 36px;display:flex;gap:40px;align-items:center">
+    <span class="badge">SUCCESS</span><div class="d" style="color:var(--ink)">위아래 베젤로 화면의 틀을 먼저 보여주고 그 밖으로 넘어오게 해, 관객이 몸을 피할 만큼 <b style="color:var(--blue)">튀어나오는 착시</b>가 성립했습니다.</div>
+  </div>
+  <div class="pno">11</div>
+</div></section>
+
+<!-- 12 전시공간 설계 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓐ</b>디자인 전략</div>
+  <h2>전시공간 설계 · 호라이즌 스튜디오</h2>
+  <p class="lead">계원예술대학교 정보관 8층. 모서리가 곡면으로 이어진 흰 사이클로라마 공간의 실측 치수를 그대로 3D 로 옮겼습니다.</p>
+</div>
+  <div class="vwrap still" style="top:300px;height:640px"><img src="img/web_model.jpg" alt="" style="object-fit:cover"></div>
+  <div class="side" style="top:300px">
+    <div class="blk"><div class="k">실측</div><div class="d">정면 <em>7.2 × 4m</em> · 옆면 각 <em>4 × 4m</em> · 바닥 <em>7.2 × 4m</em> · 무대 단차 <em>20cm</em></div></div>
+    <div class="blk"><div class="k">구역</div><div class="d"><em>체험 구역</em> 투사 바닥 7.2 × 4m (흰 무대)<br><em>운영 구역</em> 입구 쪽 · PC 데스크 · 선반</div></div>
+    <div class="blk"><div class="k">동선</div><div class="d">오른쪽 벽 앞 문으로 입장 → 바닥을 자유롭게 걷기 → 같은 문으로 퇴장. 한 회차 <em>최대 4명</em> 권장</div></div>
+    <div class="blk"><div class="k">조명</div><div class="d">스튜디오 조명은 세팅 때만 사용, 전시 중 <em>소등</em>해 투사 대비 확보</div></div>
+    <div class="blk"><div class="k">주의</div><div class="d" style="color:var(--part)">곡면 반경 · 천장 높이(벽 높이 4m 로 가정 → 철골 3.6m) · 운영 구역 깊이는 추정값</div></div>
+  </div>
+  <div class="pno">12</div>
+</section>
+
+<!-- 13 기술요소 × 스토리보드 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓑ</b>개발 전략</div>
+  <h2>필요 기술요소 정의 · 스토리보드 매칭</h2>
+  <p class="lead">스토리보드 7개 장면마다 필요한 기술과 외부 사례 · 소스를 짝지었습니다. 바닥 반응은 1 · 3 · 4 · 7, 나머지는 자동 연출이라 프리렌더도 허용합니다. 시간은 아직 초 단위 미정입니다.</p>
+  <table class="tight" style="font-size:16px">
+    <tr><th style="width:16%">장면 · 반응</th><th style="width:33%">필요 기술</th><th style="width:31%">외부 사례 · 소스</th><th>상태</th></tr>
+    <tr><td>1 개미<br><small style="color:#00807f">바닥 반응</small></td><td>흰 점 군집 · 관객을 피해 우회 → 재합류 · 정해진 시간에 정면 중앙 흰 원으로 수렴</td><td>Ant colony / Physarum 군집 문헌 · 자체 ANTS 씬</td><td><span class="chip o">ANTS 씬 · 에디터</span></td></tr>
+    <tr><td>2 터널<br><small>자동</small></td><td>빛의 중심으로 흡입 + 약한 회전 · 좌우 벽·바닥 스트릭 · 가속 후 암전</td><td>터널·스트릭 셰이더 예제 · 프리렌더 가능</td><td><span class="chip x">미착수</span></td></tr>
+    <tr><td>3 반딧불이<br><small style="color:#00807f">바닥 반응</small></td><td>관객 근처만 더 밝게 + 구라모토 동기화로 하나의 호흡 · 왼쪽 벽에 한 점 남기기</td><td>Strogatz 반딧불이 동기화 모형</td><td><span class="chip o">FIREFLY 빌드</span></td></tr>
+    <tr><td>4 나비<br><small style="color:#00807f">바닥 반응 (4-1)</small></td><td>한 마리 경로 비행 · 앞서가는 빛 따라가기 · 얕은 물 물결 (4-1 발밑 / 4-2 꽃잎)</td><td>스플라인 경로 + 날갯짓 버텍스 셰이더 · 수면 파동 시뮬레이션</td><td><span class="chip x">미착수 · 분기 테스트</span></td></tr>
+    <tr><td>5 크리스탈 동굴 · 거미<br><small>자동</small></td><td>레터박스 위로 다리가 넘어오는 착시 · 거미집 (5-1 발견 / 5-2 짓기) · 재질 보라 / 프리즘</td><td>6주차 호랑이 베젤 착시 테스트 · 자체 SPIDERWEB 로프 자산</td><td><span class="chip o">착시 검증 · 자산 보유</span></td></tr>
+    <tr><td>6 기억 회랑<br><small>자동</small></td><td>화면이 휘어 기억 패널로 · 깊이 방향 패널 흐름 · 주마등 수렴 (A · B · C · D)</td><td>생성형 영상 소스 + 패널 셰이더 · 프리렌더</td><td><span class="chip x">디자인팀 · 분기 테스트</span></td></tr>
+    <tr><td>7 사람<br><small style="color:#00807f">바닥 반응 · 최대 4명</small></td><td>관객 위치 → 3면 군중 방향 반응 · 모임 / 흩어짐 → 빛 입자 → 작은 빛 하나 → 검정</td><td>Unity 최종 씬 · ROOMFLOW 4면 입자 · Kinect 다중 인원</td><td><span class="chip o">ROOMFLOW 기반 시안</span></td></tr>
+  </table>
+  <div class="pno">13</div>
+</div></section>
+
+<!-- 14 시험구현 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓑ</b>개발 전략</div>
+  <h2>시험구현 (Prototype) 진행</h2>
+  <p class="lead">기술요소별로 연구실과 현장에서 나눠 시험했습니다. 실패한 테스트도 원인과 해결을 함께 기록합니다.</p>
+  <div class="tl"><div class="bar"></div><div class="items" style="grid-template-columns:repeat(6,1fr);gap:28px">
+    <div class="ok"><div class="dot"></div><div class="date">09.08 · 연구실</div><h4>키넥트 파티클</h4><div class="d">스켈레톤 → 파티클 반응</div><div style="margin-top:14px"><span class="badge">SUCCESS</span></div></div>
+    <div class="fail"><div class="dot"></div><div class="date">09.17 · 스튜디오</div><h4>현장 키넥트 연결</h4><div class="d">센서 인식 끊김 → 마이크 드라이버 충돌 해결</div><div style="margin-top:14px"><span class="badge fail">FAIL → 해결</span></div></div>
+    <div class="part"><div class="dot"></div><div class="date">09.22 · 스튜디오</div><h4>바닥 인터랙션</h4><div class="d">바닥 1면 반응 · 좌표 어긋남</div><div style="margin-top:14px"><span class="badge part">PARTIAL</span></div></div>
+    <div class="ok"><div class="dot"></div><div class="date">09.23 · 스튜디오</div><h4>4면 맵핑 싱크</h4><div class="d">MadMapper 4면 워핑 · 블렌딩</div><div style="margin-top:14px"><span class="badge">SUCCESS</span></div></div>
+    <div class="ok"><div class="dot"></div><div class="date">09.30 · 스튜디오</div><h4>4면 인터랙션</h4><div class="d">바닥 → 벽 3면 연결 · 2명 동시</div><div style="margin-top:14px"><span class="badge">SUCCESS</span></div></div>
+    <div class="part"><div class="dot"></div><div class="date">10.02 · 연구실</div><h4>장면 씬 2종</h4><div class="d">ANTS · FIREFLY 4면 씬 · 현장 미검증</div><div style="margin-top:14px"><span class="badge part">IN PROGRESS</span></div></div>
+  </div></div>
+  <div class="panel" style="margin-top:80px;padding:26px 40px;display:flex;gap:50px;align-items:center">
+    <div class="k" style="flex:none">공통 뼈대</div>
+    <div class="d" style="color:var(--ink)">새 장면은 <b style="color:var(--blue)">4면 공통 뼈대(RoomAtlasSource)</b> 를 상속한 필드 하나만 만들면, 센서 · Spout 출력 · 보정값을 그대로 공유합니다.</div>
+  </div>
+  <div class="pno">14</div>
+</div></section>
+
+<!-- 15 어려운 점 · 해결 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓑ</b>개발 전략</div>
+  <h2>구현의 어려운 점과 해결 방안</h2>
+  <p class="lead">현장 테스트에서 확인된 문제와, 아직 확인하지 못한 위험을 나눠 정리했습니다.</p>
+  <div class="cols4 probs" style="margin-top:56px">
+    <div><div class="k"><i>01.</i>센서 범위</div><div class="t">가로 7.2m 미달</div><div class="d">키넥트 1대 감지 폭 약 4.2 × 3.5m, 정면 벽 가까이 끊김</div>
+      <div class="note"><div class="k">해결</div><div class="d">천장 철골로 옮겨 사선 촬영 (19p)<br>각도·감지 구역 현장 조정<br>부족하면 센서 2대 (대안 참고)</div></div></div>
+    <div><div class="k"><i>02.</i>투사 그림자</div><div class="t">몸이 바닥 투사를 가림</div><div class="d">발 옆으로 그림자가 생겨 반응이 가려짐</div>
+      <div class="note"><div class="k">해결</div><div class="d">빛무리를 발 앞쪽으로 넓게<br>그림자 방향에 맞춰 콘텐츠로 보정<br>(프로젝터는 시설 세팅 고정)</div></div></div>
+    <div><div class="k"><i>03.</i>장비 연결</div><div class="t">출력 · 케이블 거리</div><div class="d">프로젝터 4대 + 모니터, 천장 키넥트까지 USB 3.0 거리</div>
+      <div class="note"><div class="k">해결</div><div class="d">GPU 출력 수 확인 → 부족하면 분배기<br>USB 3.0 액티브 연장 케이블</div></div></div>
+    <div><div class="k"><i>04.</i>운영 안정성</div><div class="t">전시 중 오작동</div><div class="d">센서가 없으면 가짜 사람이 자동으로 움직이는 테스트 기능</div>
+      <div class="note"><div class="k">해결</div><div class="d">전시 빌드에서 끄고 시작<br>세팅 체크리스트 · 자동 재시작</div></div></div>
+  </div>
+  <div class="pno">15</div>
+</div></section>
+
+<!-- 16 대체 기술 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓑ</b>개발 전략</div>
+  <h2>대체 기술 (대안) 과 스토리보드 수정</h2>
+  <p class="lead">구현이 막히면 바꿀 기술을 미리 정해 두었습니다. 대안을 쓰면 스토리보드도 함께 고칩니다.</p>
+  <table class="tight">
+    <tr><th style="width:16%">위험</th><th style="width:26%">1안 (현재)</th><th style="width:28%">대체 기술</th><th>스토리보드 수정</th></tr>
+    <tr><td>감지 폭 부족</td><td>Kinect v2 1대 · 천장 철골 사선 촬영</td><td>Kinect 2대 좌우 분할 · 또는 Orbbec Astra 보조 (드라이버 보유)</td><td>없음 · 체험 구역 표시만</td></tr>
+    <tr><td>시설 PC 에서 실시간 불가</td><td>Unity 빌드 실시간 4면 출력</td><td>노트북 반입 · 또는 벽 3면 프리렌더 + 바닥만 실시간</td><td>벽 장면은 영상으로, 반응은 바닥 한정 (기획 원칙과 일치)</td></tr>
+    <tr><td>프레임 저하</td><td>파티클 6.4만 · 프레임당 약 10ms</td><td>파티클 수 축소, GPU 계산(Compute Shader) 전환</td><td>밀도 낮은 장면으로 교체 가능</td></tr>
+    <tr><td>터널 · 나비 · 기억 회랑 미구현</td><td>실시간 장면</td><td>Higgsfield 등 생성형 영상 프리렌더</td><td>장면 2 · 4 · 6 을 영상 장면으로 표기 (4 는 바닥 물결만 실시간)</td></tr>
+    <tr><td>분기 미결정 (장면 4 · 5 · 6)</td><td>두 안 모두 시안 제작</td><td>현장 테스트 후 한 안 선택</td><td>고른 안의 프레임만 남기고 나머지 정리</td></tr>
+  </table>
+  <div class="pno">16</div>
+</div></section>
+
+<!-- 17 영상 링크 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓑ</b>개발 전략</div>
+  <h2>기술 · 디자인 구현 동영상 (성공 · 실패 모두)</h2>
+  <p class="lead">실제 전시 공간에서 작업한 핵심 인터랙션 영상입니다.</p>
+  <table class="tight">
+    <tr><th style="width:9%">구분</th><th style="width:9%">날짜</th><th style="width:34%">영상</th><th style="width:14%">결과</th><th>링크</th></tr>
+    <tr><td>기술</td><td>09.30</td><td>구현 후 첫 현장 테스트 · 4면 반응</td><td><span class="badge">SUCCESS</span></td><td><a class="yt" data-yt="v1" data-full="1" target="_blank"></a></td></tr>
+    <tr><td>기술</td><td>09.30</td><td>싱크 테스트 · 발밑 표식</td><td><span class="badge part">PARTIAL</span></td><td><a class="yt" data-yt="v2" data-full="1" target="_blank"></a></td></tr>
+    <tr><td>디자인</td><td>09.30</td><td>몰입형 요소 · 호랑이 착시</td><td><span class="badge">SUCCESS</span></td><td><a class="yt" data-yt="v4" data-full="1" target="_blank"></a></td></tr>
+    <tr><td>디자인</td><td>09.30</td><td>다음 씬 프리비즈 (Higgsfield)</td><td><span class="badge prev">PREVIZ</span></td><td><a class="yt" data-yt="v3" data-full="1" target="_blank"></a></td></tr>
+    <tr><td>기술</td><td>09.08~23</td><td>키넥트 파티클 · 인식 오류(FAIL) · 바닥 인터랙션 · 4면 워핑 싱크</td><td><span class="badge fail">FAIL 포함</span></td><td><a class="yt" href="https://gisangyu.github.io/SNOOZE/WEEK5/" target="_blank">gisangyu.github.io/SNOOZE/WEEK5</a></td></tr>
+    <tr><td>웹</td><td>10.04</td><td>홍보 웹 시안 ver1 · ver2</td><td><span class="badge">배포</span></td><td><a class="yt" href="https://gisangyu.github.io/LIMEN_WEB/" target="_blank">gisangyu.github.io/LIMEN_WEB</a></td></tr>
+  </table>
+  <div class="pno">17</div>
+</div></section>
+
+<!-- 18 시스템 구성도 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04-ⓑ</b>개발 전략</div>
+  <h2>시스템 구성도</h2>
+  <p class="lead">센서 1대 → PC 1대(Unity 씬 1개) → 텍스처 1장 → MadMapper → 프로젝터 4대. 소리는 같은 PC 에서 4채널로 나갑니다.</p>
+</div>
+  <div class="diagram"><svg viewBox="0 0 1620 670">
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#14171d"/></marker>
+      <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2495ff"/></marker>
+      <marker id="ara" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8b5cf6"/></marker></defs>
+    <!-- 단계 라벨 -->
+    <text class="tag2" x="0" y="20">INPUT · 감지</text><text class="tag2" x="380" y="20">PROCESS · 전시 PC 1대</text><text class="tag2" x="1250" y="20">OUTPUT · 출력</text>
+    <!-- 관객 + 키넥트 -->
+    <rect class="box" x="0" y="50" width="280" height="120" rx="10"/><text class="lbl" x="24" y="95">관객 (최대 4명)</text><text class="sm" x="24" y="125">바닥 7.2 × 4m 위를 걸음</text><text class="sm" x="24" y="150">위치만 사용 (스켈레톤 불필요)</text>
+    <rect class="box k" x="0" y="230" width="280" height="140" rx="10"/><text class="lbl" x="24" y="275">Kinect v2</text><text class="sm" x="24" y="305">천장 철골 · 무대 안쪽 사선</text><text class="sm" x="24" y="330">IR 뎁스 512×424 · 30fps</text><text class="sm" x="24" y="355">감지 구역은 현장 테스트로 확정</text>
+    <path class="wire" d="M140 170 V225" marker-end="url(#ar)"/><text class="wl" x="152" y="203">IR 뎁스</text>
+    <!-- PC -->
+    <rect class="box d" x="380" y="50" width="760" height="460" rx="12"/>
+    <text class="lbl w" x="410" y="92">전시 PC · Windows 11</text><text class="sm w" x="410" y="120">Unity 빌드 LIMEN_RoomFlow.exe · 씬 1개 · 장면 7개 타임라인</text>
+    <rect x="410" y="150" width="200" height="120" rx="8" fill="#1d2129" stroke="#3a404b"/><text class="lbl w" x="428" y="190" style="font-size:18px">사람 추적</text><text class="sm w" x="428" y="218">사람 위치 → 바닥 좌표</text><text class="sm w" x="428" y="242">네 점 보정 · 싱크</text>
+    <rect x="650" y="150" width="200" height="120" rx="8" fill="#1d2129" stroke="#3a404b"/><text class="lbl w" x="668" y="190" style="font-size:18px">4면 시뮬레이션</text><text class="sm w" x="668" y="218">전개도 한 번에 계산</text><text class="sm w" x="668" y="242">장면 1·3·4·7 바닥 반응</text>
+    <rect x="890" y="150" width="220" height="120" rx="8" fill="#1d2129" stroke="#2495ff"/><text class="lbl w" x="908" y="190" style="font-size:18px">텍스처 1장</text><text class="sm w" x="908" y="218">3800 × 2000</text><text class="sm w" x="908" y="242">좌 · 정면 · 우 / 바닥</text>
+    <path class="wire" d="M610 210 H645" stroke="#cfd6e0" marker-end="url(#ar)"/><path class="wire" d="M850 210 H885" stroke="#cfd6e0" marker-end="url(#ar)"/>
+    <rect x="890" y="320" width="220" height="120" rx="8" fill="#1d2129" stroke="#2495ff"/><text class="lbl w" x="908" y="360" style="font-size:18px">MadMapper</text><text class="sm w" x="908" y="388">면마다 잘라 워핑</text><text class="sm w" x="908" y="412">곡면 모서리 블렌딩</text>
+    <path class="wire b" d="M1000 270 V315" marker-end="url(#arb)"/><text class="wl" x="1012" y="298" style="fill:#7fb8ff">Spout (GPU 공유)</text>
+    <rect x="410" y="320" width="200" height="120" rx="8" fill="#1d2129" stroke="#3a404b"/><text class="lbl w" x="428" y="360" style="font-size:18px">사운드</text><text class="sm w" x="428" y="388">장면별 앰비언스</text><text class="sm w" x="428" y="412">합성 · 4채널</text>
+    <rect x="650" y="320" width="200" height="120" rx="8" fill="#1d2129" stroke="#3a404b"/><text class="lbl w" x="668" y="360" style="font-size:18px">운영 모니터</text><text class="sm w" x="668" y="388">전개도 미리보기</text><text class="sm w" x="668" y="412">센서 · 싱크 확인</text>
+    <text class="sm w" x="410" y="488">GPU · RTX 4060 급 · 파티클 6.4만 / 프레임 약 10ms</text>
+    <path class="wire" d="M280 300 H375" marker-end="url(#ar)"/><text class="wl" x="292" y="290">USB 3.0</text><text class="warn" x="292" y="322">액티브 연장 필요</text>
+    <!-- 출력 -->
+    <rect class="box k" x="1250" y="50" width="370" height="270" rx="10"/><text class="lbl" x="1274" y="92">프로젝터 × 4 · 엡손 10,000 ANSI</text>
+    <text class="sm" x="1274" y="128">P1 바닥 7.2 × 4m</text><text class="sm" x="1274" y="156">P2 정면 벽 7.2 × 4m</text><text class="sm" x="1274" y="184">P3 좌측 벽 4 × 4m</text><text class="sm" x="1274" y="212">P4 우측 벽 4 × 4m</text>
+    <text class="warn" x="1274" y="250">GPU 출력 4 + 모니터 1 → 출력 수 확인</text><text class="sm" x="1274" y="276">부족 시 디스플레이 분배기</text>
+    <path class="wire b" d="M1110 380 H1180 V185 H1245" marker-end="url(#arb)"/><text class="wl" x="1125" y="370">HDMI / DP</text>
+    <rect class="box" x="1250" y="370" width="370" height="140" rx="10"/><text class="lbl" x="1274" y="412">스피커 × 4 · Genelec 8020D</text><text class="sm" x="1274" y="442">네 모서리 · 공간 음향</text><text class="warn" x="1274" y="472">오디오 인터페이스 사양 확인</text>
+    <path class="wire a" d="M510 440 V560 H1200 V440 H1245" marker-end="url(#ara)"/><text class="wl" x="700" y="585" style="fill:#8b5cf6">4ch 오디오</text>
+    <!-- 범례 -->
+    <g transform="translate(0,610)"><line class="wire" x1="0" y1="10" x2="40" y2="10"/><text class="wl" x="50" y="15">센서 데이터</text>
+      <line class="wire b" x1="170" y1="10" x2="210" y2="10"/><text class="wl" x="220" y="15">영상</text>
+      <line class="wire a" x1="300" y1="10" x2="340" y2="10"/><text class="wl" x="350" y="15">소리</text>
+      <text class="warn" x="460" y="15">주황 = 시설에 확인이 필요한 항목</text></g>
+  </svg></div>
+  <div class="pno">18</div>
+</section>
+
+<!-- 19 키넥트 설치 위치 -->
+<section class="slide isoc"><div class="pad">
+  <div class="sec"><b>04-ⓑ</b>개발 전략</div>
+  <h2>키넥트 설치 위치와 촬영 방향</h2>
+  <p class="lead">무대 왼쪽 3m · 앞 끝선에서 안쪽 0.5m 위 천장 철골에 고정하고, 무대 안쪽을 사선으로 내려다봅니다.</p>
+</div>
+  <div class="gimg" style="left:150px;top:300px;width:1140px;height:641px"><img src="19p_ceiling_stage_v3.png" alt="키넥트 설치 방식 비교와 설치 위치 평면"></div>
+  <div class="gside" style="left:1340px;top:300px">
+    <div class="gpt"><i>01</i><div><b>천장 철골에 고정</b><span>보·원형 파이프에 클램프와 브래킷으로 부착</span></div></div>
+    <div class="gpt"><i>02</i><div><b>무대 안쪽으로 사선 촬영</b><span>앞쪽에서 안쪽을 향해 비스듬히 내려다봄</span></div></div>
+    <div class="gpt"><i>03</i><div><b>현장에서 각도·구역 조정</b><span>기울기 각도와 감지 구역은 설치 후 테스트로 확정</span></div></div>
+    <div class="gpos"><span>설치 위치 (평면)</span><b>왼쪽 300cm · 앞 50cm</b><small>무대 왼쪽 벽 = 0 · 무대 앞 끝선 = 0</small></div>
+  </div>
+  <p class="gcap">설치 계획 개념도 — 감지 범위는 현장 테스트로 확인</p>
+  <div class="pno">19</div>
+</section>
+
+<!-- 20 4면 투사 구성과 장비 배치 -->
+<section class="slide isoc"><div class="pad">
+  <div class="sec"><b>04-ⓑ</b>개발 전략</div>
+  <h2>4면 투사 구성과 천장 장비 배치</h2>
+  <p class="lead">P1 은 바닥, P2·P3·P4 는 정면·왼쪽·오른쪽 벽을 맡습니다. 프로젝터는 시설 세팅을 그대로 쓰고, 면 맞춤은 MadMapper 맵핑으로 합니다.</p>
+</div>
+  <div class="gimg" style="left:150px;top:290px;width:1190px;height:670px"><img src="20p_ceiling_stage_v4.png" alt="벽·바닥 전개도와 천장 장비 배치도"></div>
+  <div class="gside" style="left:1385px;top:300px">
+    <div class="groles">
+      <div><i>P1</i><b>바닥</b><small>앞쪽 줄</small></div>
+      <div><i>P2</i><b>정면 벽</b><small>가운데</small></div>
+      <div><i>P3</i><b>왼쪽 벽</b><small>교차 투사</small></div>
+      <div><i>P4</i><b>오른쪽 벽</b><small>교차 투사</small></div>
+    </div>
+    <div class="gkey">P2 · P3 · P4 는 같은 줄,<br><em>P1 만 앞쪽</em></div>
+    <div class="gorder"><span>천장 배치 (관객이 정면 벽을 바라본 기준)</span>
+      <div class="row"><b>P4</b><b>P2</b><b>P3</b></div><div class="row one"><b>P1</b></div><small>↓ 관객 · 무대 앞</small></div>
+  </div>
+  <p class="gcap">면 크기: 바닥·정면 벽 720 × 400 · 좌우 벽 400 × 400 (cm) · 프로젝터 위치·각도는 대여 시설 고정값 (변경 불가)</p>
+  <div class="pno">20</div>
+</section>
+
+<!-- 21 천장 철골 설치 -->
+<section class="slide isoc"><div class="pad">
+  <div class="sec"><b>04-ⓑ</b>개발 전략</div>
+  <h2>천장 철골 구조와 장비 위치</h2>
+  <p class="lead">프로젝터는 시설 철골에 고정된 그대로 쓰고, 우리가 추가하는 키넥트만 같은 철골에 부착합니다.</p>
+</div>
+  <div class="gimg" style="left:150px;top:290px;width:1190px;height:670px"><img src="21p_ceiling_stage_v3.png" alt="천장 철골과 장비 부착 방식 입체 개념도"></div>
+  <div class="gside" style="left:1385px;top:300px">
+    <div class="gref"><img src="steel_grid.jpg" alt="호라이즌 스튜디오 천장 철골 현장 사진"><small>현장 참조 · 호라이즌 스튜디오 천장</small></div>
+    <div class="gpt"><i>01</i><div><b>보 + 원형 파이프</b><span>굵은 직선 보와 가는 파이프가 가로·세로로 교차</span></div></div>
+    <div class="gpt"><i>02</i><div><b>프로젝터는 그대로</b><span>대여 시설의 세팅값이라 위치·각도는 건드리지 않고 맵핑만 수정</span></div></div>
+    <div class="gpt"><i>03</i><div><b>철골 설치 높이 약 3.6m</b><span>천장·벽 높이 4m 기준 · 무대 단차 20cm</span></div></div>
+  </div>
+  <p class="gcap">천장 구조 개념도 · 최종 프로젝터 배치는 20p 기준</p>
+  <div class="pno">21</div>
+</section>
+
+<!-- 22 EOD -->
+<section class="slide eod"><h1>E.O.D</h1></section>
+
+</div>
+<div id="nav"><button id="prev">‹</button><span id="cnt"></span><button id="next">›</button></div>
+
+<script>
+// ===== 실측 기하 · 19~21p 세 도면이 전부 이 값 하나에서 나온다 =====
+// 단위 cm. 원점 = 무대 앞단 왼쪽 모서리. x → 오른쪽(정면 벽을 바라본 기준), y → 정면 벽 쪽(음수 = 무대 밖), z → 위(무대 바닥 0)
+const G={W:720,D:400,WH:400,STEP:20,CEIL:400,DROP:40};
+G.H=G.CEIL-G.DROP;                      // 철골 = 천장 − 40 (천장 높이 미실측 → 벽 높이와 같다고 가정)
+const DEV=[
+  {id:'P1',x:360,y:-150,c:'#1d2b53',face:'front'},
+  {id:'P2',x:360,y:-20, c:'#1d2b53',face:'floor'},
+  {id:'P3',x:510,y:200, c:'#1d2b53',face:'left'},
+  {id:'P4',x:210,y:200, c:'#1d2b53',face:'right'},
+  {id:'K', x:360,y:200, c:'#00a6a6'}];
+const KC='#00a6a6',RED='#e8590c',INK='#1d2b53',MUTE='#8b93a1';
+(()=>{
+const tn=d=>Math.tan(d*Math.PI/180);
+G.kw=2*G.H*tn(35.3); G.kd=2*G.H*tn(30);
+G.cov={x0:Math.max(0,360-G.kw/2),x1:Math.min(G.W,360+G.kw/2),y0:Math.max(0,200-G.kd/2),y1:Math.min(G.D,200+G.kd/2)};
+G.covW=Math.round(G.cov.x1-G.cov.x0); G.covD=Math.round(G.cov.y1-G.cov.y0);
+G.needH=Math.ceil(G.W/(2*tn(35.3)));
+const m=v=>(v/100).toFixed(1);
+const V={H:G.H,CEIL:G.CEIL,Hroom:G.H+G.STEP,covW:G.covW,covD:G.covD,kdM:m(G.kd),needH:G.needH,edge:Math.round(G.cov.x0)};
+document.querySelectorAll('[data-g]').forEach(e=>e.textContent=V[e.dataset.g]);
+
+// ---------- SVG 도우미 ----------
+const f=n=>+n.toFixed(1);
+const ln=(x1,y1,x2,y2,st='')=>`<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" style="${st}"/>`;
+const tx=(x,y,s,st='',cls='')=>`<text x="${f(x)}" y="${f(y)}" class="${cls}" style="${st}">${s}</text>`;
+const poly=(pts,st)=>`<polygon points="${pts.map(p=>f(p[0])+','+f(p[1])).join(' ')}" style="${st}"/>`;
+const tick=(x,y)=>`<path d="M${f(x-4)} ${f(y+4)}L${f(x+4)} ${f(y-4)}" style="stroke:${INK};stroke-width:1.3"/>`;
+const DS=`stroke:${INK};stroke-width:1`;
+// 가로 치수줄: 눈금 위치 배열과 라벨
+function chainH(xs,y,labels,up=true){let s=ln(xs[0],y,xs[xs.length-1],y,DS);
+  xs.forEach(x=>s+=tick(x,y));
+  labels.forEach((l,i)=>{if(l!=null)s+=tx((xs[i]+xs[i+1])/2,y+(up?-6:15),l,'','dt')});return s}
+function chainV(x,ys,labels,right=true){let s=ln(x,ys[0],x,ys[ys.length-1],DS);
+  ys.forEach(y=>s+=tick(x,y));
+  labels.forEach((l,i)=>{if(l!=null)s+=tx(x+(right?7:-7),(ys[i]+ys[i+1])/2+5,l,`text-anchor:${right?'start':'end'}`,'dt')});return s}
+const hatch=(id,c)=>`<pattern id="${id}" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" style="stroke:${c};stroke-width:2;opacity:.45"/></pattern>`;
+function person(x,yFoot,h,c=INK,op=1){const w=h*.2;return `<g style="opacity:${op}"><circle cx="${f(x)}" cy="${f(yFoot-h+w*.55)}" r="${f(w*.55)}" fill="${c}"/><rect x="${f(x-w/2)}" y="${f(yFoot-h+w*1.2)}" width="${f(w)}" height="${f(h-w*1.2)}" rx="${f(w*.4)}" fill="${c}"/></g>`}
+function devDot(x,y,d,r=13){return d.id==='K'
+  ?`<rect x="${f(x-r)}" y="${f(y-r*.75)}" width="${f(r*2)}" height="${f(r*1.5)}" rx="4" fill="${d.c}"/><text class="dv" x="${f(x)}" y="${f(y)}">K</text>`
+  :`<circle cx="${f(x)}" cy="${f(y)}" r="${r}" fill="${d.c}"/><text class="dv" x="${f(x)}" y="${f(y)}">${d.id}</text>`}
+
+function picto(x,y,k,c){const z=zz=>y-zz*k;return `<g fill="${c}"><circle cx="${f(x)}" cy="${f(z(160))}" r="${f(13*k)}"/>
+  <path d="M${f(x-22*k)} ${f(z(140))}h${f(44*k)}l${f(4*k)} ${f(62*k)}h${f(-10*k)}l${f(-2*k)} ${f(-36*k)}v${f(114*k)}h${f(-13*k)}v${f(-68*k)}h${f(-3*k)}v${f(68*k)}h${f(-13*k)}v${f(-114*k)}l${f(-2*k)} ${f(36*k)}h${f(-10*k)}z"/></g>`}
+// ================= 19p 전환 인포그래픽 =================
+(()=>{const el=document.getElementById('svgSwitch');if(!el)return;
+  // 아이소메트릭 · 픽토그램(ISOTYPE) — u = 왼쪽 벽부터, v = 정면 벽에서 관객 쪽으로, z = 높이
+  const S=.36,GR='#adb5bd';
+  const mk=(ox,oy)=>(u,v,z=0)=>[ox+(u-v)*.866*S,oy+(u+v)*.5*S-z*S];
+  const pl=(I,pts,st)=>poly(pts.map(p=>I(...p)),st);
+  const box=(I,u,v,z,du,dv,dz,ct,cl,cr)=>pl(I,[[u,v,z+dz],[u+du,v,z+dz],[u+du,v+dv,z+dz],[u,v+dv,z+dz]],`fill:${ct}`)+
+    pl(I,[[u,v+dv,z],[u+du,v+dv,z],[u+du,v+dv,z+dz],[u,v+dv,z+dz]],`fill:${cl}`)+pl(I,[[u+du,v,z],[u+du,v+dv,z],[u+du,v+dv,z+dz],[u+du,v,z+dz]],`fill:${cr}`);
+  const ring=(I,u,v,r,st)=>{const c=I(u,v,0);return `<ellipse cx="${f(c[0])}" cy="${f(c[1])}" rx="${f(r*S*1.22)}" ry="${f(r*S*.7)}" style="${st}"/>`};
+  function room(I,D,after){
+    const E=`stroke:${INK};stroke-width:1.4`;let h='';
+    h+=pl(I,[[0,0,0],[720,0,0],[720,0,400],[0,0,400]],`fill:#f1f3f5;${E}`)+pl(I,[[0,0,0],[0,400,0],[0,400,400],[0,0,400]],`fill:#e9ecef;${E}`);
+    h+=pl(I,[[0,400,0],[720,400,0],[720,400,-20],[0,400,-20]],`fill:#ced4da;${E}`)+pl(I,[[720,0,0],[720,400,0],[720,400,-20],[720,0,-20]],`fill:#adb5bd;${E}`);
+    h+=pl(I,[[0,0,0],[720,0,0],[720,400,0],[0,400,0]],`fill:#f8f9fa;${E}`);
+    const [u0,u1,v0,v1]=D.cov,k=D.k,ac=after?KC:INK,cv=[[u0,v0,0],[u1,v0,0],[u1,v1,0],[u0,v1,0]];
+    h+=pl(I,cv,`fill:${ac};fill-opacity:.14;stroke:${ac};stroke-width:1.8;stroke-dasharray:7 5`);
+    for(let i=0;i<4;i++)h+=pl(I,[k,cv[i],cv[(i+1)%4]],`fill:${ac};fill-opacity:.05`);
+    if(after){const a=I(0,200,372),b=I(720,200,372);h+=ln(a[0],a[1],b[0],b[1],`stroke:${INK};stroke-width:4;stroke-linecap:round`)}
+    [...D.people].sort((a,b)=>(a[0]+a[1])-(b[0]+b[1])).forEach(([u,v,st])=>{
+      if(after)h+=ring(I,u,v,36,`fill:none;stroke:${KC};stroke-width:2.2`);
+      if(st==='miss')h+=ring(I,u,v,36,`fill:none;stroke:${RED};stroke-width:2;stroke-dasharray:4 3`);
+      const b=I(u,v,0);h+=picto(b[0],b[1],S,st==='miss'?RED:st==='hidden'?GR:INK);
+      const t=I(u,v,215);
+      if(st==='hidden')h+=tx(t[0],t[1],'가려짐',`text-anchor:middle;font-size:13px;font-weight:700;fill:#868e96`);
+      if(st==='miss')h+=tx(t[0],t[1],'미감지',`text-anchor:middle;font-size:13px;font-weight:700;fill:${RED}`);
+    });
+    cv.forEach(c=>{const a=I(...k),b=I(...c);h+=ln(a[0],a[1],b[0],b[1],`stroke:${ac};stroke-width:1.3;opacity:.75`)});
+    h+=box(I,k[0]-24,k[1]-9,k[2]-6,48,18,13,after?KC:INK,after?'#008585':'#141f3d',after?'#006b6b':'#0b1430');
+    return h}
+  const BEFORE={cov:[150,570,25,375],k:[360,550,330],people:[[330,215,'ok'],[300,125,'hidden'],[660,345,'miss']]};
+  const AFTER={cov:[G.cov.x0,G.cov.x1,G.D-G.cov.y1,G.D-G.cov.y0],k:[360,G.D-200,G.H],people:[[150,280,'ok'],[330,80,'ok'],[520,330,'ok'],[600,120,'ok']]};
+  let o=`<defs><marker id="sw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="${INK}"/></marker></defs>`;
+  o+=room(mk(250,236),BEFORE,false)+room(mk(1060,236),AFTER,true);
+  const pct=Math.round(G.covW*G.covD/(G.W*G.D)*100);
+  const stat=(x,tag,tc,title,big,bc,lines)=>tx(x,40,tag,`font-size:14px;font-weight:800;letter-spacing:2px;fill:${tc}`)+tx(x,70,title,`font-size:22px;font-weight:700;fill:${INK}`)+
+    tx(x-4,190,big,`font-size:84px;font-weight:800;letter-spacing:-3px;fill:${bc}`)+lines.map((l,i)=>tx(x,236+i*30,l,`font-size:17px;fill:${i?'#6b7280':INK};font-weight:${i?400:600}`)).join('');
+  o+=stat(500,'BEFORE',INK,'정면 대각선','51%','#ced4da',['감지 4.2 × 3.5m','뒤 사람이 가려짐','가장자리는 미감지']);
+  o+=stat(1310,'AFTER',KC,'천장 설치',pct+'%',KC,[`감지 ${m(G.covW)} × ${m(G.covD)}m`,'깊이 4m 전부','사람끼리 가리지 않음']);
+  o+=`<path d="M712 250H790" style="stroke:${INK};stroke-width:3" marker-end="url(#sw)"/>`+tx(751,232,'천장으로','text-anchor:middle;font-size:14px;font-weight:700;fill:'+INK);
+  el.innerHTML=o;
+})();
+
+// ================= 20p 평면 전개도 =================
+(()=>{const el=document.getElementById('svgPlan');if(!el)return;
+  const s=.6,LW=G.WH*s,FX=44+LW,FW=G.W*s,FT=300,FB=FT+G.D*s;      // 바닥 x FX..FX+FW, y FT..FB (위 = 정면 벽 쪽)
+  const PX=x=>FX+x*s,PY=y=>FB-y*s;                                  // 바닥 평면 좌표
+  const col=id=>DEV.find(d=>d.id===id).c;
+  let o=`<defs><marker id="pa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs>`;
+  const face=(x,y,w,h,c,t1,t2)=>`<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" style="fill:${c};fill-opacity:.07;stroke:${INK};stroke-width:2"/>`+
+    tx(x+w/2,y+h/2-4,t1,`text-anchor:middle;font-size:17px;font-weight:700;fill:${c}`)+tx(x+w/2,y+h/2+18,t2,'text-anchor:middle;font-size:14px;fill:#505b6e');
+  // 100cm 격자
+  let g='';const gs=`stroke:#e4e8ee;stroke-width:1`;
+  for(let k=100;k<G.W;k+=100){g+=ln(PX(k),FT-G.WH*s,PX(k),FB,gs)}
+  for(let k=100;k<G.D;k+=100){g+=ln(FX-LW,PY(k),FX+FW+LW,PY(k),gs)}
+  for(let k=100;k<G.WH;k+=100){g+=ln(FX,FT-k*s,FX+FW,FT-k*s,gs)+ln(FX-k*s,FT,FX-k*s,FB,gs)+ln(FX+FW+k*s,FT,FX+FW+k*s,FB,gs)}
+  // 무대 밖(방 바닥)
+  o+=`<rect x="${FX-30}" y="${FB}" width="${FW+60}" height="${215*s}" style="fill:#f1f2f4;stroke:${MUTE};stroke-dasharray:4 4"/>`+tx(FX+FW+24,FB+18,'방 바닥 (무대보다 20 낮음)','text-anchor:end;font-size:13px;fill:#8b93a1');
+  o+=g;
+  o+=face(FX,FT-G.WH*s,FW,G.WH*s,col('P1'),'정면 벽 · P1','720 × 400');
+  o+=face(FX,FT,FW,G.D*s,col('P2'),'','');
+  o+=face(FX-LW,FT,LW,G.D*s,col('P3'),'좌측 벽 · P3','400 × 400');
+  o+=face(FX+FW,FT,LW,G.D*s,col('P4'),'우측 벽 · P4','400 × 400');
+  o+=tx(PX(360),PY(358),'바닥 · P2 &nbsp;720 × 400',`text-anchor:middle;font-size:17px;font-weight:700;fill:${col('P2')}`);
+  // 접는 선
+  const fold=`stroke:${INK};stroke-width:2;stroke-dasharray:10 5`;
+  o+=ln(FX,FT,FX+FW,FT,fold)+ln(FX,FT,FX,FB,fold)+ln(FX+FW,FT,FX+FW,FB,fold);
+  // 무대 앞단 = 단차
+  o+=ln(FX-LW,FB,FX+FW+LW,FB,`stroke:${INK};stroke-width:3.5`);
+  o+=tx(FX-LW,FB+20,'▲ 무대 앞단 · 단차 20','font-size:14px;font-weight:600')+tx(FX-LW,FB+38,'접는 선 = 벽과 바닥이 만나는 모서리','font-size:12.5px;fill:#8b93a1');
+  // 키넥트 감지 범위
+  o+=`<rect x="${f(PX(G.cov.x0))}" y="${f(PY(G.cov.y1))}" width="${f(G.covW*s)}" height="${f(G.covD*s)}" style="fill:${KC};fill-opacity:.07;stroke:${KC};stroke-width:2;stroke-dasharray:7 5"/>`;
+  o+=tx(PX(360),PY(20)-4,`K 탑뷰 감지 ${G.covW} × ${G.covD}`,`text-anchor:middle;font-size:14px;font-weight:600;fill:${KC}`);
+  // 교차 투사 부채 (P3 → 좌벽, P4 → 우벽), P1 → 정면 벽
+  const fan=(d,wx)=>poly([[PX(d.x),PY(d.y)],[PX(wx),PY(0)],[PX(wx),PY(G.D)]],`fill:${d.c};fill-opacity:.045;stroke:${d.c};stroke-width:1;stroke-dasharray:4 4;stroke-opacity:.6`);
+  o+=fan(DEV[2],0)+fan(DEV[3],G.W);
+  o+=`<path d="M${PX(360)} ${PY(-150)-14}V${FT-G.WH*s/2+40}" style="stroke:${col('P1')};stroke-width:1.6;stroke-dasharray:6 5;fill:none" marker-end="url(#pa)"/>`;
+  // 치수
+  o+=chainH([0,210,360,510,720].map(PX),PY(310),['210','150','150','210']);
+  [210,360,510].forEach(x=>o+=ln(PX(x),PY(200)-14,PX(x),PY(310),`stroke:${MUTE};stroke-width:1;stroke-dasharray:2 3`));
+  o+=chainV(PX(85),[PY(0),PY(200),PY(400)],['200','200'],false)+ln(PX(85),PY(200),PX(210)-14,PY(200),`stroke:${MUTE};stroke-width:1;stroke-dasharray:2 3`);
+  o+=chainV(PX(635),[PY(0),PY(200),PY(400)],['200','200'],true)+ln(PX(510)+14,PY(200),PX(635),PY(200),`stroke:${MUTE};stroke-width:1;stroke-dasharray:2 3`);
+  o+=chainV(PX(420),[PY(0),PY(-20),PY(-150)],[null,'130'],true)+tx(PX(420)+7,PY(-10)+2,'20','','dt');
+  o+=ln(PX(360)+14,PY(-20),PX(420),PY(-20),`stroke:${MUTE};stroke-width:1;stroke-dasharray:2 3`)+ln(PX(360)+14,PY(-150),PX(420),PY(-150),`stroke:${MUTE};stroke-width:1;stroke-dasharray:2 3`);
+  o+=chainV(PX(300),[PY(0),PY(-150)],['150'],false)+ln(PX(300),PY(-150),PX(360)-14,PY(-150),`stroke:${MUTE};stroke-width:1;stroke-dasharray:2 3`);
+  o+=chainH([0,360,720].map(PX),PY(-200)+2,['360','360'],false);
+  o+=chainH([0,720].map(PX),FT-G.WH*s-14,['720']);
+  o+=chainV(FX+FW+LW-10,[FT,FB],['400'],false);
+  o+=chainH([FX+FW,FX+FW+LW],FT-14,['400 (벽 높이)'])+chainH([FX-LW,FX],FT-14,['400 (벽 높이)']);
+  o+=chainV(FX+FW+14,[FT-G.WH*s,FT],['400']);
+  // 장비
+  DEV.forEach(d=>o+=devDot(PX(d.x),PY(d.y),d));
+  o+=tx(PX(360)+64,PY(-150)+5,'철골, 무대 밖','font-size:13px;fill:#505b6e');
+  o+=tx(PX(800),FT-G.WH*s+10,'단위 cm','font-size:14px;fill:#8b93a1');
+  el.innerHTML=o;
+})();
+
+// ================= 21p 3D 와이어프레임 =================
+(()=>{const el=document.getElementById('svg3d');if(!el)return;
+  const DEF={yaw:-17,pitch:27};let yaw=DEF.yaw,pitch=DEF.pitch;
+  const W=1180,Hh=780;
+  function render(){
+    const cy=Math.cos(yaw*Math.PI/180),sy=Math.sin(yaw*Math.PI/180),cp=Math.cos(pitch*Math.PI/180),sp=Math.sin(pitch*Math.PI/180);
+    const raw=([x,y,z])=>{const X=x*cy+y*sy,Yd=-x*sy+y*cy;return [X,-(z*cp+Yd*sp)]};
+    // 화면 맞춤 (방 + 무대 밖 영역)
+    const box=[];[-90,G.W+110].forEach(x=>[-230,G.D].forEach(y=>[-20,G.CEIL+50].forEach(z=>box.push(raw([x,y,z])))));
+    const xs=box.map(p=>p[0]),ys=box.map(p=>p[1]),mx=Math.min(...xs),Mx=Math.max(...xs),my=Math.min(...ys),My=Math.max(...ys);
+    const k=Math.min((W-40)/(Mx-mx),(Hh-40)/(My-my)),ox=(W-(Mx-mx)*k)/2-mx*k,oy=(Hh-(My-my)*k)/2-my*k;
+    const P=p=>{const r=raw(p);return [r[0]*k+ox,r[1]*k+oy]};
+    const L=(a,b,st)=>{const A=P(a),B=P(b);return ln(A[0],A[1],B[0],B[1],st)};
+    const Q=(pts,st)=>poly(pts.map(P),st);
+    const T=(p,s,st='',dx=0,dy=0)=>{const A=P(p);return tx(A[0]+dx,A[1]+dy,s,st,'h3')};
+    let o='';
+    const EDGE=`stroke:${INK};stroke-width:2`,THIN=`stroke:#d3d9e1;stroke-width:1`;
+    // 방 바닥 (무대 밖)
+    o+=Q([[-60,-230,-20],[G.W+60,-230,-20],[G.W+60,0,-20],[-60,0,-20]],`fill:#f1f2f4;stroke:${MUTE};stroke-width:1;stroke-dasharray:4 4`);
+    // 투사면
+    const FACES={front:[[0,G.D,0],[G.W,G.D,0],[G.W,G.D,G.WH],[0,G.D,G.WH]],floor:[[0,0,0],[G.W,0,0],[G.W,G.D,0],[0,G.D,0]],
+      left:[[0,0,0],[0,G.D,0],[0,G.D,G.WH],[0,0,G.WH]],right:[[G.W,0,0],[G.W,G.D,0],[G.W,G.D,G.WH],[G.W,0,G.WH]]};
+    DEV.filter(d=>d.face).forEach(d=>o+=Q(FACES[d.face],`fill:${d.c};fill-opacity:.07`));
+    // 격자 100
+    for(let x=100;x<G.W;x+=100){o+=L([x,0,0],[x,G.D,0],THIN)+L([x,G.D,0],[x,G.D,G.WH],THIN)}
+    for(let y=100;y<G.D;y+=100){o+=L([0,y,0],[G.W,y,0],THIN)+L([0,y,0],[0,y,G.WH],THIN)+L([G.W,y,0],[G.W,y,G.WH],THIN)}
+    for(let z=100;z<G.WH;z+=100){o+=L([0,0,z],[0,G.D,z],THIN)+L([0,G.D,z],[G.W,G.D,z],THIN)+L([G.W,G.D,z],[G.W,0,z],THIN)}
+    // 무대 + 벽 모서리
+    [[[0,0,0],[G.W,0,0]],[[0,0,-20],[G.W,0,-20]],[[0,0,-20],[0,0,0]],[[G.W,0,-20],[G.W,0,0]],
+     [[0,0,0],[0,G.D,0]],[[G.W,0,0],[G.W,G.D,0]],[[0,G.D,0],[G.W,G.D,0]],
+     [[0,0,0],[0,0,G.WH]],[[0,G.D,0],[0,G.D,G.WH]],[[G.W,G.D,0],[G.W,G.D,G.WH]],[[G.W,0,0],[G.W,0,G.WH]],
+     [[0,0,G.WH],[0,G.D,G.WH]],[[0,G.D,G.WH],[G.W,G.D,G.WH]],[[G.W,G.D,G.WH],[G.W,0,G.WH]]].forEach(([a,b])=>o+=L(a,b,EDGE));
+    // 빔 (투사면 네 귀퉁이로)
+    const H=G.H-8;
+    DEV.filter(d=>d.face).forEach(d=>FACES[d.face].forEach(c=>o+=L([d.x,d.y,H],c,`stroke:${d.c};stroke-width:1;stroke-dasharray:5 5;opacity:.38`)));
+    // 키넥트 감지 뿔
+    const cv=[[G.cov.x0,G.cov.y0,0],[G.cov.x1,G.cov.y0,0],[G.cov.x1,G.cov.y1,0],[G.cov.x0,G.cov.y1,0]];
+    o+=Q(cv,`fill:${KC};fill-opacity:.16;stroke:${KC};stroke-width:2;stroke-dasharray:7 5`);
+    cv.forEach(c=>o+=L([360,200,H],c,`stroke:${KC};stroke-width:1.6;opacity:.85`));
+    // 철골 (개략)
+    const TR=`stroke:#3a404b;stroke-width:5;stroke-linecap:round`;
+    o+=L([0,200,G.H],[G.W,200,G.H],TR)+L([360,-170,G.H],[360,200,G.H],TR);
+    o+=L([0,0,G.CEIL],[G.W,0,G.CEIL],`stroke:${MUTE};stroke-width:1;stroke-dasharray:3 4`)+T([G.W,0,G.CEIL],'천장 (가정 400)','font-size:12px;fill:#8b93a1',8,-4);
+    // 수선 + 바닥 표식
+    DEV.forEach(d=>{const zf=d.y<0?-20:0;o+=L([d.x,d.y,H],[d.x,d.y,zf],`stroke:${d.c};stroke-width:1.2;stroke-dasharray:2 3`);const A=P([d.x,d.y,zf]);o+=`<circle cx="${f(A[0])}" cy="${f(A[1])}" r="4" fill="${d.c}"/>`});
+    // 치수
+    const dim=(a,b,lab,dx=0,dy=0,st='')=>{const A=P(a),B=P(b);return ln(A[0],A[1],B[0],B[1],DS)+tick(A[0],A[1])+tick(B[0],B[1])+tx((A[0]+B[0])/2+dx,(A[1]+B[1])/2+dy,lab,st,'h3 dt')};
+    const ext=(a,b)=>L(a,b,`stroke:${MUTE};stroke-width:1`);
+    o+=ext([0,G.D,G.WH],[0,G.D,G.WH+45])+ext([G.W,G.D,G.WH],[G.W,G.D,G.WH+45])+dim([0,G.D,G.WH+40],[G.W,G.D,G.WH+40],'720',0,-8,'text-anchor:middle');
+    o+=ext([G.W,0,G.WH],[G.W,0,G.WH+45])+dim([G.W,0,G.WH+40],[G.W,G.D,G.WH+40],'400',10,-6);
+    o+=ext([0,0,0],[-60,0,0])+ext([0,0,G.WH],[-60,0,G.WH])+dim([-55,0,0],[-55,0,G.WH],'400',-10,0,'text-anchor:end');
+    o+=ext([0,200,G.H],[-60,200,G.H])+ext([0,200,0],[-60,200,0])+dim([-55,200,0],[-55,200,G.H],'H '+G.H,-10,0,'text-anchor:end;fill:#14171d;font-weight:700');
+    o+=ext([G.W,0,-20],[G.W+60,0,-20])+ext([G.W,0,0],[G.W+60,0,0])+dim([G.W+55,0,-20],[G.W+55,0,0],'단차 20',10,5);
+    o+=dim([0,200,0],[210,200,0],'210',0,-8,'text-anchor:middle')+dim([210,200,0],[360,200,0],'150',0,-8,'text-anchor:middle')+dim([360,200,0],[510,200,0],'150',0,-8,'text-anchor:middle')+dim([510,200,0],[G.W,200,0],'210',0,-8,'text-anchor:middle');
+    o+=dim([110,0,0],[110,200,0],'200',-8,0,'text-anchor:end')+dim([110,200,0],[110,G.D,0],'200',-8,0,'text-anchor:end')+ext([110,200,0],[210,200,0]);
+    o+=dim([440,0,-20],[440,-20,-20],'20',10,4)+dim([440,-20,-20],[440,-150,-20],'130',10,4)+ext([360,-20,-20],[440,-20,-20])+ext([360,-150,-20],[440,-150,-20]);
+    o+=dim([0,-195,-20],[360,-195,-20],'360',0,16,'text-anchor:middle')+dim([360,-195,-20],[G.W,-195,-20],'360',0,16,'text-anchor:middle')+ext([360,-150,-20],[360,-195,-20]);
+    // 사람 (픽토그램) — 감지되면 발밑 청록 고리
+    [[120,250],[300,90],[560,380],[640,170]].sort((p,q)=>(q[1]-p[1])).forEach(([x,y])=>{const c=P([x,y,0]),r=34;
+      const e=[P([x+r,y,0]),P([x,y+r,0])];o+=`<ellipse cx="${f(c[0])}" cy="${f(c[1])}" rx="${f(Math.abs(e[0][0]-c[0])+Math.abs(e[1][0]-c[0]))}" ry="${f(Math.abs(e[0][1]-c[1])+Math.abs(e[1][1]-c[1]))}" style="fill:none;stroke:${KC};stroke-width:2"/>`;
+      o+=picto(c[0],c[1],k*cp,INK)});
+    // 장비 (위에 그림)
+    DEV.forEach(d=>{const A=P([d.x,d.y,G.H-14]);o+=devDot(A[0],A[1],d,d.id==='K'?14:15)});
+    o+=T([G.W/2,G.D,G.WH/2],'정면 벽 · P1',`text-anchor:middle;font-size:16px;font-weight:700;fill:${DEV[0].c}`);
+    o+=T([0,G.D/2,G.WH*.78],'좌측 벽 · P3',`text-anchor:middle;font-size:16px;font-weight:700;fill:${DEV[2].c}`);
+    o+=T([G.W,G.D/2,G.WH*.78],'우측 벽 · P4',`text-anchor:middle;font-size:16px;font-weight:700;fill:${DEV[3].c}`);
+    o+=T([G.W*.84,45,0],'바닥 · P2',`text-anchor:middle;font-size:16px;font-weight:700;fill:${DEV[1].c}`);
+    o+=T([G.W+50,-225,-20],'방 바닥 (무대 밖)','text-anchor:end;font-size:13px;fill:#8b93a1');
+    o+=T([G.W,200,G.H],'철골','font-size:13px;font-weight:600;fill:#3a404b',10,-6);
+    el.innerHTML=o;
+  }
+  render();
+  let drag=null;
+  el.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,yaw,pitch};el.setPointerCapture(e.pointerId);el.style.cursor='grabbing'});
+  el.addEventListener('pointermove',e=>{if(!drag)return;yaw=drag.yaw-(e.clientX-drag.x)*.3;pitch=Math.max(5,Math.min(85,drag.pitch+(e.clientY-drag.y)*.25));render()});
+  el.addEventListener('pointerup',()=>{drag=null;el.style.cursor='grab'});
+  el.addEventListener('dblclick',()=>{yaw=DEF.yaw;pitch=DEF.pitch;render()});
+})();
+})();
+</script>
+<script>
+const S=[...document.querySelectorAll('.slide')];let i=0;
+try{i=Math.min(+(location.hash.slice(1)||1)-1,S.length-1)||0}catch(e){}
+// 평면도 1m 격자
+(()=>{const g=document.querySelector('.plan .grid');if(!g)return;let h='';for(let x=212;x<=788;x+=80)h+=`<line x1="${x}" y1="52" x2="${x}" y2="636"/>`;for(let y=58;y<=636;y+=80)h+=`<line x1="212" y1="${y}" x2="788" y2="${y}"/>`;g.innerHTML=h})();
+const YT={v1:'STNkf8scYjI',v2:'D-2FvAqLQNU',v3:'Bs4EiypOhe0',v4:'KR0eAcOA6Q4'};
+document.querySelectorAll('a.yt[data-yt]').forEach(a=>{
+  const id=YT[a.dataset.yt];
+  if(!id){a.textContent='YouTube 링크 추가 예정';a.classList.add('none');return}
+  a.href='https://youtu.be/'+id;
+  a.textContent=a.dataset.full?'https://youtu.be/'+id:'  ▶ youtu.be/'+id;
+});
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);S.forEach(e=>e.style.transform='scale('+s+')')}
+function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((e,k)=>e.classList.toggle('on',k===i));
+  document.getElementById('cnt').textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1))}
+addEventListener('resize',fit);
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))go(i+1);if(['ArrowLeft','PageUp'].includes(e.key))go(i-1)});
+document.getElementById('prev').onclick=()=>go(i-1);document.getElementById('next').onclick=()=>go(i+1);
+fit();go(i);
+</script>
+</body>
+</html>
