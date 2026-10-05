@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIMEN 스토리보드 무드보드</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#f9f9fa; --ink:#14171d; --sub:#505b6e; --mute:#8b93a1; --line:#dfe3e8;
+  --blue:#2495ff; --blue-d:#1a7fe0; --panel:#eef4fd; --cover:#111214;
+  --ok:#2495ff; --fail:#e5484d; --part:#f08c00; --vio:#6e56cf;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#2a2c30;font-family:Pretendard,"Pretendard Variable",-apple-system,"Malgun Gothic",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;word-break:keep-all}
+#deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.slide{position:absolute;width:1920px;height:1080px;background:var(--bg);transform-origin:center;display:none;overflow:hidden}
+.slide.on{display:block}
+.pad{position:absolute;inset:0;padding:110px 150px 90px}
+.pno{position:absolute;right:48px;bottom:32px;font-size:15px;color:var(--mute)}
+.sec{font-size:26px;font-weight:600;color:var(--blue);letter-spacing:-.2px}
+.sec b{margin-right:10px}
+h2{font-size:38px;font-weight:600;letter-spacing:-.8px;margin-top:40px}
+.lead{font-size:23px;color:var(--sub);margin-top:22px;letter-spacing:-.3px;line-height:1.5}
+.lead b.bl{color:var(--vio)}
+.k{font-size:21px;color:var(--blue);font-weight:600}
+.k.fail{color:var(--fail)}
+.d{font-size:19px;color:var(--sub);line-height:1.75}
+.d em{font-style:normal;color:var(--blue);font-weight:600}
+.note{border-left:4px solid var(--blue);background:var(--panel);padding:20px 26px;margin-top:26px}
+.note .k{font-size:19px}
+.note .d{margin-top:8px}
+.badge{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:700;letter-spacing:1px;padding:6px 14px;border-radius:30px;color:#fff;background:var(--ok)}
+.badge.part{background:var(--part)}
+
+/* cover */
+.cover{background:var(--cover);color:#e9ebee}
+.cover .cv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.42}
+.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,18,20,.96) 0%,rgba(17,18,20,.82) 42%,rgba(17,18,20,.25) 100%)}
+.cover>*:not(.cv){position:relative;z-index:1}
+.cover .top{position:absolute;top:52px;left:52px;right:78px;display:flex;justify-content:space-between;font-size:20px;color:#cfd3d9;z-index:1}
+.cover .tt{position:absolute;left:52px;top:440px;z-index:1}
+.cover .tt p{font-size:26px;color:#d6d9de;font-weight:500}
+.cover .tt h1{font-size:56px;color:var(--blue);font-weight:700;letter-spacing:-1.5px;margin-top:18px}
+.cover .tt .sub2{font-size:22px;color:#9aa1ab;margin-top:22px}
+.cover .foot{position:absolute;left:52px;right:78px;bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;font-size:20px;color:#cfd3d9;z-index:1}
+.cover .foot .l span{margin-right:52px}
+.cover .crew{display:flex;gap:32px;align-items:flex-end;line-height:1.65}
+
+/* index */
+.idx{margin-top:90px;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+.idx>div{padding:34px 40px 34px 0;border-right:1px solid var(--line);margin-right:40px}
+.idx>div:last-child{border-right:0}
+.idx .n{font-size:22px;color:var(--blue);font-weight:600}
+.idx h3{font-size:30px;font-weight:600;margin:10px 0 22px;letter-spacing:-.5px}
+.idx li{list-style:none;font-size:20px;color:var(--sub);line-height:1.9}
+.mine{display:inline-block;margin-top:70px;font-size:19px;color:var(--sub);background:var(--panel);padding:14px 22px;border-radius:6px}
+.mine b{color:var(--blue);font-weight:600}
+
+/* tags */
+.tg{display:inline-block;font-size:14px;font-weight:600;padding:3px 10px;border-radius:20px;margin-left:8px;vertical-align:2px;white-space:nowrap}
+.tg.r{background:var(--blue);color:#fff}
+.tg.p{border:1.5px solid var(--blue);color:var(--blue);padding:2px 9px}
+.tg.n{background:#e4e7ec;color:#5b6575}
+.tg.b{background:var(--vio);color:#fff}
+.bx{position:absolute;top:10px;right:10px;font-size:15px;font-weight:700;color:#fff;background:var(--vio);padding:4px 10px;border-radius:4px}
+.bx.warn{background:var(--fail)}
+
+/* overview */
+.ovs{display:grid;grid-template-columns:repeat(7,1fr);gap:18px;margin-top:56px}
+.ov .oi{aspect-ratio:16/9;border-radius:6px;overflow:hidden;background:#000}
+.ov .oi img{width:100%;height:100%;object-fit:cover;display:block}
+.ov .on{font-size:20px;color:var(--blue);font-weight:700;margin-top:18px}
+.ov h4{font-size:24px;font-weight:600;letter-spacing:-.5px;margin-top:4px}
+.ov p{font-size:16px;color:var(--sub);line-height:1.6;margin-top:10px;min-height:calc(16px*1.6*4)}
+.ov .ot{margin-top:12px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.ov .ot .tg{margin-left:0}
+.ovbar{display:flex;gap:40px;margin-top:44px;padding-top:24px;border-top:1px solid var(--line);font-size:18px;color:var(--sub);align-items:center}
+.ovbar .mu{margin-left:auto;color:var(--mute)}
+.ovbar .dt{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:0}
+.dt.r{background:var(--blue)}.dt.n{background:#c3c9d2}.dt.b{background:var(--vio)}
+
+/* how to */
+.howto{display:grid;grid-template-columns:340px 1fr;gap:70px;margin-top:40px;align-items:start}
+.hs{height:640px;border:1px solid var(--line);border-radius:6px;overflow:hidden;cursor:zoom-in;background:#fff}
+.hs img{height:100%;display:block;margin:0 auto}
+.hl{list-style:none;counter-reset:h}
+.hl li{counter-increment:h;display:grid;grid-template-columns:54px 190px 1fr;padding:17px 0;border-top:1px solid var(--line);font-size:20px;align-items:baseline}
+.hl li:first-child{border-top:0;padding-top:4px}
+.hl li:before{content:counter(h,decimal-leading-zero);color:var(--blue);font-weight:600}
+.hl li b{font-weight:600}
+.hl li span{color:var(--sub);line-height:1.6}
+.howto .note{margin-top:22px}
+
+/* dark */
+.slide.dk{background:#0b0c0f;color:#e9ebee}
+.dk .lead,.dk .d{color:#a3abb7}
+.dk .note{background:#15181d}
+.dk .pno{color:#5c6470}
+.pcs7{display:grid;grid-template-columns:repeat(7,1fr);gap:18px;margin-top:56px}
+.pc .pci{aspect-ratio:16/9;border-radius:6px 6px 0 0;overflow:hidden}
+.pc .pci img{width:100%;height:100%;object-fit:cover;display:block}
+.pc .pcs{display:flex;height:58px;border-radius:0 0 6px 6px;overflow:hidden}
+.pc .pcs i{flex:1}
+.pc .pcn{font-size:22px;font-weight:600;margin-top:18px}
+.pc .pcn b{color:var(--blue);margin-right:8px}
+.pc .pck{font-size:16px;color:#a3abb7;margin-top:8px;line-height:1.55}
+
+/* mood */
+.mood .pad{padding:88px 150px 60px}
+.md{display:grid;grid-template-columns:520px 1fr;gap:64px;margin-top:30px}
+.mn{font-size:96px;font-weight:200;line-height:1;color:var(--blue)}
+.mh{font-size:52px;font-weight:700;letter-spacing:-1.5px;margin-top:14px}
+.me{font-size:16px;letter-spacing:4px;color:#7d8694;margin-top:10px}
+.mline{font-size:21px;color:#cfd4db;line-height:1.55;margin-top:22px}
+.mt{margin-top:18px}.mt .tg{margin-left:0;margin-right:8px}
+.dk .tg.n{background:#262a31;color:#a3abb7}
+.mk{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.mk span{font-size:16px;border:1px solid #343a44;color:#cfd4db;padding:5px 12px;border-radius:20px}
+.msw{margin-top:26px;display:grid;gap:8px}
+.sw{display:grid;grid-template-columns:34px 92px 1fr;gap:14px;align-items:center;font-size:16px}
+.sw i{width:34px;height:26px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.sw b{font-weight:500;color:#e9ebee;font-variant-numeric:tabular-nums;letter-spacing:.3px}
+.sw span{color:#8b93a1}
+.hero{height:430px;border-radius:8px;overflow:hidden;background:#000}
+.hero img{width:100%;height:100%;object-fit:cover;display:block}
+.subs{display:grid;gap:14px;margin-top:14px;height:130px}
+.subs.n1{grid-template-columns:1fr}.subs.n2{grid-template-columns:1fr 1fr}.subs.n3{grid-template-columns:repeat(3,1fr)}
+.subs div{border-radius:6px;overflow:hidden}
+.subs img{width:100%;height:100%;object-fit:cover;display:block}
+.mb{position:absolute;left:150px;right:150px;bottom:60px;display:grid;grid-template-columns:1.45fr 1fr;gap:64px;border-top:1px solid #262a31;padding-top:24px}
+.mb .k{font-size:18px}
+.mb ul{list-style:none;margin-top:10px}
+.mb li{font-size:17px;color:#cfd4db;line-height:1.5;padding:3px 0 3px 18px;position:relative}
+.mb li:before{content:"";position:absolute;left:0;top:13px;width:6px;height:6px;border-radius:50%;background:var(--blue)}
+.mb p{font-size:17px;color:#cfd4db;line-height:1.75;margin-top:10px}
+
+/* storyboard frames */
+.pad.sb{padding:80px 150px 60px}
+.sb h2{font-size:36px;margin-top:22px}
+.sb .lead{font-size:20px;margin-top:12px}
+.fg{display:grid;gap:28px;margin-top:40px}
+.fg.c2{grid-template-columns:repeat(2,1fr)}.fg.c3{grid-template-columns:repeat(3,1fr)}.fg.c4{grid-template-columns:repeat(4,1fr)}.fg.c5{grid-template-columns:repeat(5,1fr);gap:20px}
+.fg.c3.two{width:1380px;gap:24px 28px;margin-top:30px}
+.fg.c2.big{width:1400px}
+.fr{cursor:zoom-in}
+.fr .im{position:relative;aspect-ratio:982/630;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:#fff}
+.fr .im img{width:100%;height:100%;object-fit:cover;display:block}
+.fr .no{position:absolute;left:8px;top:8px;font-size:13px;font-weight:700;color:#fff;background:rgba(20,23,29,.82);padding:3px 8px;border-radius:3px;letter-spacing:.5px}
+.fr figcaption{margin-top:10px}
+.fr .ft{font-size:18px;font-weight:600;letter-spacing:-.3px;line-height:1.4}
+.fr .ft b{color:var(--blue);margin-right:8px;font-weight:600}
+.fr .ft .tg{font-size:12px;padding:2px 8px;margin-left:6px}
+.fr .fm{font-size:15px;color:var(--sub);margin-top:5px;line-height:1.5}
+.fr:hover .im{outline:3px solid var(--blue);outline-offset:-1px}
+.c5 .fr .ft{font-size:16px}.c5 .fr .fm{font-size:14px}
+.fr.gap .im{border:2px dashed var(--fail);background:#000}
+.fr.gap .im img{opacity:.55}
+.fr.gap{cursor:default}
+.fr.gap:hover .im{outline:0}
+.br4 .fr:nth-child(2) .im,.br4 .fr:nth-child(3) .im{border:2px solid var(--vio)}
+
+/* 4 vs */
+.vs{display:grid;grid-template-columns:repeat(2,540px);gap:110px;justify-content:center;margin-top:24px}
+.vc ul{list-style:none;margin-top:14px}
+.vc li{font-size:18px;color:var(--sub);line-height:1.6;padding-left:16px;position:relative}
+.vc li:before{content:"";position:absolute;left:0;top:12px;width:6px;height:6px;border-radius:50%;background:var(--vio)}
+.vc li b{color:var(--ink);font-weight:600}
+.vs+.note{margin-top:22px}
+
+/* 5 branches */
+.brr{display:grid;grid-template-columns:250px 1fr;gap:34px;margin-top:24px;align-items:start}
+.brr+.brr{padding-top:24px;border-top:1px solid var(--line)}
+.brl{position:relative}
+.brl .bx{position:static;display:inline-block;font-size:18px}
+.brl b{font-size:26px;font-weight:600;margin-left:10px;vertical-align:-2px}
+.brl small{display:block;font-size:15px;color:var(--mute);margin-top:12px}
+.brl p{font-size:17px;color:var(--sub);line-height:1.6;margin-top:10px}
+.brr .fg{margin-top:0}
+
+/* 6 abcd */
+.abg{display:grid;grid-template-columns:150px 1fr 1fr;gap:30px 30px;margin-top:36px;align-items:center}
+.abx{font-size:18px;color:var(--sub);text-align:center;padding-bottom:4px;border-bottom:2px solid var(--ink)}
+.abx b,.aby b{color:var(--ink);font-weight:600}
+.aby{font-size:17px;color:var(--sub);line-height:1.55;align-self:stretch;display:flex;flex-direction:column;justify-content:center;border-right:2px solid var(--ink);padding-right:14px}
+.ab{position:relative}
+.abh .bx{position:absolute;left:-12px;top:-12px;right:auto;z-index:2;font-size:18px;padding:4px 12px}
+.fg.mini{gap:12px;margin-top:0}
+.mini .fr .ft{font-size:14px}
+.abn{display:flex;gap:40px;margin-top:22px;font-size:16px;color:var(--sub)}
+.abn b{color:var(--ink);font-weight:600;margin-right:8px}
+
+/* decisions */
+table.dt{width:100%;border-collapse:collapse;margin-top:44px;font-size:19px}
+.dt th{font-size:18px;color:var(--blue);font-weight:600;text-align:left;padding:0 18px 14px;border-bottom:2px solid var(--ink)}
+.dt td{padding:17px 18px;border-bottom:1px solid var(--line);vertical-align:middle;line-height:1.5;color:var(--sub)}
+.dt td:first-child{color:var(--ink);font-weight:600}
+.dt .badge{font-size:13px;padding:4px 10px}
+.gaps{display:grid;grid-template-columns:repeat(3,1fr);gap:50px;margin-top:44px}
+.gaps .k{font-size:19px}
+.gaps .d{font-size:17px;margin-top:10px;line-height:1.7}
+.gaps .d em{color:var(--fail)}
+.gaps>div:last-child .d em{color:var(--blue)}
+
+.eod{background:var(--cover)}
+.eod h1{position:absolute;left:52px;top:500px;font-size:56px;color:var(--blue);font-weight:700}
+
+/* nav · lightbox */
+#nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;color:#c9ced6;font-size:14px;z-index:5;background:rgba(0,0,0,.45);padding:6px 12px;border-radius:20px}
+#nav button{background:none;border:0;color:#fff;font-size:18px;cursor:pointer;padding:2px 8px}
+#lb{position:fixed;inset:0;background:rgba(8,9,11,.92);z-index:10;display:none;align-items:center;justify-content:center;gap:28px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-height:94vh;max-width:60vw;display:block;border-radius:4px;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+#lb .lbc{color:#cfd4db;font-size:15px;max-width:260px;line-height:1.7}
+#lb .lbc b{display:block;color:#fff;font-size:20px;margin-bottom:6px}
+#lb .x{position:absolute;top:14px;right:20px;background:none;border:0;color:#fff;font-size:34px;cursor:pointer}
+
+@media print{
+  @page{size:1920px 1080px;margin:0}
+  html,body{background:#fff}
+  #deck{position:static;display:block}
+  .slide{display:block!important;position:relative;transform:none!important;page-break-after:always;break-after:page}
+  #nav,#lb{display:none!important}
+}
+
+.fr .qf{position:relative;margin-top:10px;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:#fff}
+.fr .qf img{width:100%;display:block}
+.fr .qf span{position:absolute;right:6px;bottom:6px;font-size:12px;font-weight:600;color:var(--mute);background:rgba(255,255,255,.9);padding:2px 6px;border-radius:3px}
+.fg.w3{width:1420px}
+.vs .fr .qf{width:56%;margin-left:auto;margin-right:auto}
+.vc ul{margin-top:8px}
+
+.sbf{position:absolute;left:150px;right:150px;bottom:64px;display:grid;grid-template-columns:repeat(4,1fr);gap:44px;border-top:1px solid var(--line);padding-top:22px}
+.sbf .k{font-size:17px}
+.sbf p{font-size:16px;color:var(--sub);line-height:1.65;margin-top:8px}
+.mini .fr .no{left:auto;right:8px}
+
+</style>
+</head>
+<body>
+<div id="deck">
+<section class="slide cover">
+  <img class="cv" src="sb_web/c/1468.jpg" alt="">
+  <div class="top"><span>CAPSTONE DESIGN · WEEK 06</span><span>Degital Media Design</span></div>
+  <div class="tt">
+    <p>스토리보드 · 무드보드 정리</p>
+    <h1>LIMEN 스토리보드 &amp; 무드보드</h1>
+    <div class="sub2">7개 장면 · 63프레임 연필 스토리보드 · 컬러 렌더 무드 · 비교 중인 분기안</div>
+  </div>
+  <div class="foot">
+    <div class="l"><span>Date_ 2026.10.06</span><span>Prof_심한수 교수님</span><span>Team_ SNOOZE</span></div>
+    <div class="crew">
+      <div>[기획]<br>A_22561083_이채연(팀장)</div>
+      <div>[프로그래밍]<br>D_22561061_유기상</div>
+      <div>[디자인]<br>B_22261052_배정훈<br>C_22261063_심혜민<br>C_22461106_조가연<br>C_22461014_김노은<br>C_22261029_김현기</div>
+    </div>
+  </div>
+</section>
+<section class="slide "><div class="pad">
+  <div class="sec">Index</div>
+  <div class="idx i4">
+    <div><div class="n">01</div><h3>전체 흐름</h3><ul><li>7개 장면 한눈에 보기</li><li>스토리보드 읽는 법</li></ul></div>
+    <div><div class="n">02</div><h3>무드보드</h3><ul><li>장면별 팔레트 한 장</li><li>장면별 무드 · 표현 규칙 · 사운드</li></ul></div>
+    <div><div class="n">03</div><h3>스토리보드</h3><ul><li>장면별 프레임</li><li>분기 비교 4 · 5 · 6</li></ul></div>
+    <div><div class="n">04</div><h3>결정할 것</h3><ul><li>비교 중인 분기안</li><li>비어 있는 부분</li></ul></div>
+  </div>
+  <div class="mine">출처 — 피그마 <b>SNOOZE_LIMEN › claude용 더미데이터</b> 페이지 · 연필 스토리보드 55장(63장 중) + 컬러 렌더 보드 31장 + 장면 설명 텍스트</div>
+</div><div class="pno">02</div></section>
+<section class="slide "><div class="pad">
+  <div class="sec"><b>01</b>전체 흐름</div>
+  <h2>작은 점에서 시작해 사람으로 끝나는 7개의 장면</h2>
+  <div class="lead">개미 → 터널 → 반딧불이 → 나비 → 크리스탈 동굴·거미 → 기억 회랑 → 사람. 앞 장면의 마지막 빛이 다음 장면의 시작이 된다.</div>
+  <div class="ovs"><div class="ov"><div class="oi"><img src="sb_web/c/1436.jpg" alt=""></div>
+      <div class="on">1</div><h4>개미</h4><p>흰 점이 관객을 피해 돌아가고, 정면 중앙으로 모여 흰 원이 된다</p><div class="ot"><span class="tg r">관객 회피 · 재합류</span></div></div><div class="ov"><div class="oi"><img src="sb_web/c/1440.jpg" alt=""></div>
+      <div class="on">2</div><h4>터널</h4><p>흰 중심으로 빨려 들어가다 시점까지 가속하고, 암전된다</p><div class="ot"><span class="tg n">인터랙션 없음</span></div></div><div class="ov"><div class="oi"><img src="sb_web/c/1441.jpg" alt=""></div>
+      <div class="on">3</div><h4>반딧불이</h4><p>제각각 깜빡이던 빛이 하나의 호흡으로 맞아가고, 한 점만 남는다</p><div class="ot"><span class="tg r">관객 근처가 더 밝아짐</span></div></div><div class="ov"><div class="oi"><img src="sb_web/c/1443.jpg" alt=""></div>
+      <div class="on">4</div><h4>나비</h4><p>한 마리 나비가 빛을 따라 꽃과 얕은 물의 밤을 건너 동굴로 들어간다</p><div class="ot"><span class="tg r">물결 (4-1 안)</span><span class="tg b">분기 4-1 / 4-2</span></div></div><div class="ov"><div class="oi"><img src="sb_web/c/1452.jpg" alt=""></div>
+      <div class="on">5</div><h4>크리스탈 동굴 · 거미</h4><p>안개 속 거대한 크리스탈 거미가 화면 경계를 넘어 다가오고, 거미집이 드러난다</p><div class="ot"><span class="tg n">인터랙션 없음</span><span class="tg b">분기 5-1 / 5-2</span></div></div><div class="ov"><div class="oi"><img src="sb_web/c/1468.jpg" alt=""></div>
+      <div class="on">6</div><h4>기억 회랑</h4><p>거미 공간이 휘어져 한 장의 기억이 되고, 수많은 생명의 시점이 깊이 방향으로 흐른다</p><div class="ot"><span class="tg n">인터랙션 없음</span><span class="tg b">분기 A · B · C · D</span></div></div><div class="ov"><div class="oi"><img src="sb_web/c/1474.jpg" alt=""></div>
+      <div class="on">7</div><h4>사람</h4><p>빛으로 번진 사람들이 관객의 움직임에 따라 모이고 흩어지다, 입자가 되어 작은 빛 하나로 사라진다</p><div class="ot"><span class="tg r">최대 4명 위치 → 3면 군중 흐름</span></div></div></div>
+  <div class="ovbar"><span><i class="dt r"></i>바닥 관객 위치 반응 — 1 · 3 · 4 · 7</span><span><i class="dt n"></i>자동 연출 — 2 · 5 · 6</span><span><i class="dt b"></i>현장 테스트 후 고를 분기 — 4 · 5 · 6</span><span class="mu">관객 최대 4명 · 시간은 아직 "초 단위 미정"</span></div>
+</div><div class="pno">03</div></section>
+<section class="slide "><div class="pad">
+  <div class="sec"><b>01</b>전체 흐름</div>
+  <h2>스토리보드 한 장 읽는 법</h2>
+  <div class="howto">
+    <div class="hs" data-f="01"><img src="sb_web/f/01.jpg" alt=""></div>
+    <div><ol class="hl">
+      <li><b>4면 구조</b><span>좌측벽 · 정면벽 · 우측벽 · 바닥면을 펼쳐서, 같은 순간에 각 면에 무엇이 나오는지</span></li>
+      <li><b>공간 목업</b><span>같은 순간을 관객 시점 투시도로. 선으로 그린 사람은 실제 관람객 (최대 4명), 점선 원은 관객 위치 표시</span></li>
+      <li><b>연출 포인트</b><span>무엇이 보이고, 자동 연출인지 · 바닥 인터랙션인지</span></li>
+      <li><b>사운드</b><span>장면마다 "제안" 단계의 소리 방향</span></li>
+      <li><b>의미</b><span>그 순간이 LIMEN 이야기에서 맡는 한 줄</span></li>
+      <li><b>타임라인</b><span>장면 안의 위치(초반·중반·후반)와 다음 페이지. 초 단위 시간은 전부 미정</span></li>
+    </ol>
+  <div class="note"><div class="k">연필판과 컬러판</div><div class="d">연필 스토리보드(흰 바탕, 63프레임)가 장면 순서와 연출의 기준이고, 같은 페이지 아래의 컬러 렌더 보드(검은 바탕, 31장)가 색과 빛의 무드를 보여준다. 이 문서의 무드보드는 컬러판, 스토리보드는 연필판에서 가져왔다. 프레임을 누르면 원본 한 장이 크게 열린다.</div></div></div>
+  </div>
+</div><div class="pno">04</div></section>
+<section class="slide dk"><div class="pad">
+  <div class="sec"><b>02</b>무드보드</div>
+  <h2>검은 공간에서 빛이 색을 얻어가는 흐름</h2>
+  <div class="lead">흑백의 점(1·2)에서 시작해 반딧불이의 노랑·연두, 밤의 남색과 금빛, 차가운 블루 크리스탈, 기억의 퍼플→골드를 지나 사람의 파랑·주황·분홍·흰빛으로 끝난다.</div>
+  <div class="pcs7"><div class="pc"><div class="pci"><img src="sb_web/c/1436.jpg" alt=""></div><div class="pcs"><i style="background:#050505"></i><i style="background:#2a2a2a"></i><i style="background:#9a9a9a"></i><i style="background:#e6e6e6"></i><i style="background:#ffffff"></i></div>
+      <div class="pcn"><b>1</b>개미</div><div class="pck">낮은 밀도 · 우회 · 합류</div></div><div class="pc"><div class="pci"><img src="sb_web/c/1440.jpg" alt=""></div><div class="pcs"><i style="background:#050505"></i><i style="background:#3a3a3a"></i><i style="background:#b3b3b3"></i><i style="background:#f2f2f2"></i><i style="background:#ffffff"></i></div>
+      <div class="pcn"><b>2</b>터널</div><div class="pck">화이트 코어 · 약한 소용돌이 · 스트릭</div></div><div class="pc"><div class="pci"><img src="sb_web/c/1441.jpg" alt=""></div><div class="pcs"><i style="background:#030604"></i><i style="background:#1d2b18"></i><i style="background:#f4e06a"></i><i style="background:#a8e05f"></i><i style="background:#4fd6c4"></i></div>
+      <div class="pcn"><b>3</b>반딧불이</div><div class="pck">발광 입자 · 제각각 → 동조 · 하나의 호흡</div></div><div class="pc"><div class="pci"><img src="sb_web/c/1443.jpg" alt=""></div><div class="pcs"><i style="background:#03060c"></i><i style="background:#152e49"></i><i style="background:#5f7391"></i><i style="background:#f4c96b"></i><i style="background:#eef0fa"></i></div>
+      <div class="pcn"><b>4</b>나비</div><div class="pck">밤의 자연 · 과하지 않은 꽃 · 얕은 물</div></div><div class="pc"><div class="pci"><img src="sb_web/c/1452.jpg" alt=""></div><div class="pcs"><i style="background:#070d1c"></i><i style="background:#1a3e6d"></i><i style="background:#456aa5"></i><i style="background:#a6bfe6"></i><i style="background:#b28cff"></i></div>
+      <div class="pcn"><b>5</b>크리스탈 동굴 · 거미</div><div class="pck">차가운 크리스탈 · 안개 · 레터박스 착시</div></div><div class="pc"><div class="pci"><img src="sb_web/c/1468.jpg" alt=""></div><div class="pcs"><i style="background:#0c0e22"></i><i style="background:#435596"></i><i style="background:#8b6cc9"></i><i style="background:#f08aa8"></i><i style="background:#ffa94d"></i><i style="background:#ffd36b"></i></div>
+      <div class="pcn"><b>6</b>기억 회랑</div><div class="pck">주마등 · 기억 패널 · 깊이 방향</div></div><div class="pc"><div class="pci"><img src="sb_web/c/1474.jpg" alt=""></div><div class="pcs"><i style="background:#050506"></i><i style="background:#5aa0ff"></i><i style="background:#ff9a4a"></i><i style="background:#ff8fc0"></i><i style="background:#fff4ea"></i></div>
+      <div class="pcn"><b>7</b>사람</div><div class="pck">빛으로 번진 실루엣 · 군중의 흐름 · 모이고 흩어짐</div></div></div>
+  <div class="note"><div class="k">전 장면 공통</div><div class="d">바탕은 언제나 검은 공간 · 형태보다 <em>빛과 입자</em>로 표현 · 장면 사이는 컷이 아니라 <em>앞 장면의 마지막 빛</em>이 이어받는다 (흰 원 → 터널 중심광 → 암전 속 작은 빛 → 나비가 따라가는 빛 → 동굴 중앙의 빛 → 주마등 수렴점 → 마지막 작은 빛)</div></div>
+</div><div class="pno">05</div></section>
+<section class="slide dk mood"><div class="pad">
+  <div class="sec"><b>02</b>무드보드 · 1 / 7</div>
+  <div class="md">
+    <div class="ml">
+      <div class="mn">1</div><h2 class="mh">개미</h2><div class="me">ANTS</div>
+      <p class="mline">흰 점이 관객을 피해 돌아가고, 정면 중앙으로 모여 흰 원이 된다</p>
+      <div class="mt"><span class="tg r">바닥 반응 · 관객 회피 · 재합류</span></div>
+      <div class="mk"><span>낮은 밀도</span><span>우회</span><span>합류</span><span>자동 수렴</span><span>흡인력</span></div>
+      <div class="msw"><div class="sw"><i style="background:#050505"></i><b>#050505</b><span>바탕 검정</span></div><div class="sw"><i style="background:#2a2a2a"></i><b>#2a2a2a</b><span>먼 점</span></div><div class="sw"><i style="background:#9a9a9a"></i><b>#9a9a9a</b><span>중간 점</span></div><div class="sw"><i style="background:#e6e6e6"></i><b>#e6e6e6</b><span>밝은 점</span></div><div class="sw"><i style="background:#ffffff"></i><b>#ffffff</b><span>수렴 원</span></div></div>
+    </div>
+    <div class="mr">
+      <div class="hero"><img src="sb_web/c/1436.jpg" alt=""></div>
+      <div class="subs n2"><div><img src="sb_web/c/1435.jpg" alt=""></div><div><img src="sb_web/c/1437.jpg" alt=""></div></div>
+    </div>
+  </div>
+  <div class="mb">
+    <div><div class="k">정해진 표현 규칙</div><ul><li>개미의 실제 형태는 끝까지 보여주지 않는다 — 추상적인 흰 점</li><li>점을 선으로 연결하지 않고 작은 점으로 유지한다</li><li>관객이 길을 바꿔도 흐름은 이어진다 (우회 → 앞선 점 뒤로 합류)</li><li>정해진 시간이 되면 관객과 무관하게 정면 가운데로 수렴</li><li>흰 원의 위치를 그대로 유지한 채 터널 중심광으로 넘어간다</li></ul></div>
+    <div><div class="k">사운드 무드 (제안)</div><p>아주 낮은 공간음 · 드문 작은 점 소리 → 같은 방향으로 이어지는 점 소리 → 압축되는 저음과 가벼운 흡입음</p></div>
+  </div>
+</div><div class="pno">06</div></section>
+<section class="slide dk mood"><div class="pad">
+  <div class="sec"><b>02</b>무드보드 · 2 / 7</div>
+  <div class="md">
+    <div class="ml">
+      <div class="mn">2</div><h2 class="mh">터널</h2><div class="me">TUNNEL</div>
+      <p class="mline">흰 중심으로 빨려 들어가다 시점까지 가속하고, 암전된다</p>
+      <div class="mt"><span class="tg n">인터랙션 없음</span></div>
+      <div class="mk"><span>화이트 코어</span><span>약한 소용돌이</span><span>스트릭</span><span>가속</span><span>암전</span></div>
+      <div class="msw"><div class="sw"><i style="background:#050505"></i><b>#050505</b><span>암전</span></div><div class="sw"><i style="background:#3a3a3a"></i><b>#3a3a3a</b><span>배경 흐름</span></div><div class="sw"><i style="background:#b3b3b3"></i><b>#b3b3b3</b><span>스트릭</span></div><div class="sw"><i style="background:#f2f2f2"></i><b>#f2f2f2</b><span>빛줄기</span></div><div class="sw"><i style="background:#ffffff"></i><b>#ffffff</b><span>중심 코어</span></div></div>
+    </div>
+    <div class="mr">
+      <div class="hero"><img src="sb_web/c/1440.jpg" alt=""></div>
+      <div class="subs n1"><div><img src="sb_web/c/1439.jpg" alt=""></div></div>
+    </div>
+  </div>
+  <div class="mb">
+    <div><div class="k">정해진 표현 규칙</div><ul><li>블랙홀이 아니라 &quot;빛의 중심&quot;으로 수렴하는 느낌</li><li>직선 흡입에 약한 회전을 더한다</li><li>처음엔 카메라 고정 → 점점 가속 (전시장 벽은 그대로, 영상 속 시점만 움직임)</li><li>좌우 벽과 바닥에 긴 스트릭</li><li>밝은 중심으로 완전히 흡수된 뒤 4면 실제 검정</li></ul></div>
+    <div><div class="k">사운드 무드 (제안)</div><p>살짝 회전하는 공기음 → 빨라지고 높아지는 흡입음 → 짧은 정적</p></div>
+  </div>
+</div><div class="pno">07</div></section>
+<section class="slide dk mood"><div class="pad">
+  <div class="sec"><b>02</b>무드보드 · 3 / 7</div>
+  <div class="md">
+    <div class="ml">
+      <div class="mn">3</div><h2 class="mh">반딧불이</h2><div class="me">FIREFLY</div>
+      <p class="mline">제각각 깜빡이던 빛이 하나의 호흡으로 맞아가고, 한 점만 남는다</p>
+      <div class="mt"><span class="tg r">바닥 반응 · 관객 근처가 더 밝아짐</span></div>
+      <div class="mk"><span>발광 입자</span><span>제각각 → 동조</span><span>하나의 호흡</span><span>평균 밝기 상승</span><span>남은 한 점</span></div>
+      <div class="msw"><div class="sw"><i style="background:#030604"></i><b>#030604</b><span>어둠</span></div><div class="sw"><i style="background:#1d2b18"></i><b>#1d2b18</b><span>바탕 녹음</span></div><div class="sw"><i style="background:#f4e06a"></i><b>#f4e06a</b><span>노랑</span></div><div class="sw"><i style="background:#a8e05f"></i><b>#a8e05f</b><span>연두</span></div><div class="sw"><i style="background:#4fd6c4"></i><b>#4fd6c4</b><span>청록</span></div></div>
+    </div>
+    <div class="mr">
+      <div class="hero"><img src="sb_web/c/1441.jpg" alt=""></div>
+      <div class="subs n1"><div><img src="sb_web/c/1445.jpg" alt=""></div></div>
+    </div>
+  </div>
+  <div class="mb">
+    <div><div class="k">정해진 표현 규칙</div><ul><li>반딧불이 몸체는 보이지 않는다 — 빛의 입자로만</li><li>처음엔 점마다 깜빡이는 때가 다르다</li><li>관객 근처 점만 추가로 밝아짐 + 공간 전체 밝기도 서서히 상승 (두 변화가 함께)</li><li>후반엔 빛이 하나둘 사라지고 왼쪽 벽에 작은 빛 하나</li><li>그 빛이 왼쪽 → 정면 → 오른쪽으로, 나비가 화면 밖에서 등장해 따라감</li></ul></div>
+    <div><div class="k">사운드 무드 (제안)</div><p>서로 다른 간격의 작은 맑은 소리 → 흩어진 소리가 하나의 박자로 → 왼쪽에서 들리는 작은 한 음</p></div>
+  </div>
+</div><div class="pno">08</div></section>
+<section class="slide dk mood"><div class="pad">
+  <div class="sec"><b>02</b>무드보드 · 4 / 7</div>
+  <div class="md">
+    <div class="ml">
+      <div class="mn">4</div><h2 class="mh">나비</h2><div class="me">BUTTERFLY</div>
+      <p class="mline">한 마리 나비가 빛을 따라 꽃과 얕은 물의 밤을 건너 동굴로 들어간다</p>
+      <div class="mt"><span class="tg r">바닥 반응 · 물결 (4-1 안)</span><span class="tg b">분기 4-1 / 4-2</span></div>
+      <div class="mk"><span>밤의 자연</span><span>과하지 않은 꽃</span><span>얕은 물</span><span>은은한 발광</span><span>따라가기</span></div>
+      <div class="msw"><div class="sw"><i style="background:#03060c"></i><b>#03060c</b><span>밤</span></div><div class="sw"><i style="background:#152e49"></i><b>#152e49</b><span>남색</span></div><div class="sw"><i style="background:#5f7391"></i><b>#5f7391</b><span>물빛</span></div><div class="sw"><i style="background:#f4c96b"></i><b>#f4c96b</b><span>금빛 반딧불</span></div><div class="sw"><i style="background:#eef0fa"></i><b>#eef0fa</b><span>흰 꽃</span></div></div>
+    </div>
+    <div class="mr">
+      <div class="hero"><img src="sb_web/c/1443.jpg" alt=""></div>
+      <div class="subs n2"><div><img src="sb_web/c/1444.jpg" alt=""></div><div><img src="sb_web/c/1447.jpg" alt=""></div></div>
+    </div>
+  </div>
+  <div class="mb">
+    <div><div class="k">정해진 표현 규칙</div><ul><li>나비는 항상 한 마리 · 작은 빛이 나비보다 앞에 있다</li><li>은은하게 발광하되 과도한 판타지 오브젝트처럼 보이지 않게</li><li>꽃은 양옆 아래에 조금만, 바닥은 얕은 물</li><li>빛 경로: 왼쪽 → 정면 → 오른쪽</li><li>오른쪽 벽부터 꽃과 물이 동굴로 바뀌고, 정면·왼쪽엔 이전 흔적이 남는다</li></ul></div>
+    <div><div class="k">사운드 무드 (제안)</div><p>가벼운 물소리와 얇은 선율 → 발 위치(4-1) 또는 꽃잎(4-2)에 맞춘 작은 물소리 → 동굴의 낮은 울림이 섞임</p></div>
+  </div>
+</div><div class="pno">09</div></section>
+<section class="slide dk mood"><div class="pad">
+  <div class="sec"><b>02</b>무드보드 · 5 / 7</div>
+  <div class="md">
+    <div class="ml">
+      <div class="mn">5</div><h2 class="mh">크리스탈 동굴 · 거미</h2><div class="me">CRYSTAL CAVE · SPIDER</div>
+      <p class="mline">안개 속 거대한 크리스탈 거미가 화면 경계를 넘어 다가오고, 거미집이 드러난다</p>
+      <div class="mt"><span class="tg n">인터랙션 없음</span><span class="tg b">분기 5-1 / 5-2</span></div>
+      <div class="mk"><span>차가운 크리스탈</span><span>안개</span><span>레터박스 착시</span><span>공포보다 경이</span><span>연결 구조</span></div>
+      <div class="msw"><div class="sw"><i style="background:#070d1c"></i><b>#070d1c</b><span>동굴 어둠</span></div><div class="sw"><i style="background:#1a3e6d"></i><b>#1a3e6d</b><span>딥 블루</span></div><div class="sw"><i style="background:#456aa5"></i><b>#456aa5</b><span>크리스탈</span></div><div class="sw"><i style="background:#a6bfe6"></i><b>#a6bfe6</b><span>하이라이트</span></div><div class="sw"><i style="background:#b28cff"></i><b>#b28cff</b><span>보라 프리즘</span></div></div>
+    </div>
+    <div class="mr">
+      <div class="hero"><img src="sb_web/c/1452.jpg" alt=""></div>
+      <div class="subs n3"><div><img src="sb_web/c/1451.jpg" alt=""></div><div><img src="sb_web/c/1455.jpg" alt=""></div><div><img src="sb_web/c/1456.jpg" alt=""></div></div>
+    </div>
+  </div>
+  <div class="mb">
+    <div><div class="k">정해진 표현 규칙</div><ul><li>거미는 공포보다 경이로운 마주침 — 아름다움과 신비로움</li><li>정면 위아래 검은 띠(레터박스)로 화면 경계를 만들고, 앞다리가 그 위로 겹쳐 튀어나온 착시</li><li>실제 거미나 입체 조형물이 튀어나오는 것은 아니다</li><li>바닥에 거미를 복제하지 않는다 · 실 윗부분은 영상 속 동굴 천장 (실제 천장 투사 안 함)</li><li>거미 재질은 보라 계열 / 프리즘 계열 두 가지 비교 예정</li></ul></div>
+    <div><div class="k">사운드 무드 (제안)</div><p>동굴의 낮은 잔향 → 낮은 긴장음과 느린 진동 → 날카롭지 않은 크리스탈 공명 → 가는 실 같은 울림</p></div>
+  </div>
+</div><div class="pno">10</div></section>
+<section class="slide dk mood"><div class="pad">
+  <div class="sec"><b>02</b>무드보드 · 6 / 7</div>
+  <div class="md">
+    <div class="ml">
+      <div class="mn">6</div><h2 class="mh">기억 회랑</h2><div class="me">MEMORY CORRIDOR</div>
+      <p class="mline">거미 공간이 휘어져 한 장의 기억이 되고, 수많은 생명의 시점이 깊이 방향으로 흐른다</p>
+      <div class="mt"><span class="tg n">인터랙션 없음</span><span class="tg b">분기 A · B · C · D</span></div>
+      <div class="mk"><span>주마등</span><span>기억 패널</span><span>깊이 방향</span><span>곤충·동물·사람의 시점</span><span>수렴</span></div>
+      <div class="msw"><div class="sw"><i style="background:#0c0e22"></i><b>#0c0e22</b><span>소실 어둠</span></div><div class="sw"><i style="background:#435596"></i><b>#435596</b><span>블루</span></div><div class="sw"><i style="background:#8b6cc9"></i><b>#8b6cc9</b><span>퍼플</span></div><div class="sw"><i style="background:#f08aa8"></i><b>#f08aa8</b><span>핑크</span></div><div class="sw"><i style="background:#ffa94d"></i><b>#ffa94d</b><span>오렌지</span></div><div class="sw"><i style="background:#ffd36b"></i><b>#ffd36b</b><span>골드</span></div></div>
+    </div>
+    <div class="mr">
+      <div class="hero"><img src="sb_web/c/1468.jpg" alt=""></div>
+      <div class="subs n3"><div><img src="sb_web/c/1460.jpg" alt=""></div><div><img src="sb_web/c/1461.jpg" alt=""></div><div><img src="sb_web/c/1470.jpg" alt=""></div></div>
+    </div>
+  </div>
+  <div class="mb">
+    <div><div class="k">정해진 표현 규칙</div><ul><li>장면을 컷으로 바꾸지 않는다 — 거미 공간 화면 자체의 원근·비율이 휘며 패널로 축소</li><li>패널은 액자처럼 고정되지 않고 앞뒤 깊이 방향으로 스쳐 지나간다</li><li>가운데에 대표 이미지 한 장을 두지 않는다</li><li>색은 좌우가 아니라 깊이로: 가까이 블루·퍼플 → 소실점으로 핑크 → 오렌지 → 골드</li><li>후반엔 내용을 알아볼 수 없을 만큼 스트릭으로 — 선명한 회상 사진처럼 그리지 않는다</li></ul></div>
+    <div><div class="k">사운드 무드 (제안)</div><p>긴 울림이 늘어나고 휘어짐 → 장면별 작은 소리들이 겹쳐 흐름 → 길게 늘어나며 빨라짐 → 빠른 흡입음이 절정에 도달</p></div>
+  </div>
+</div><div class="pno">11</div></section>
+<section class="slide dk mood"><div class="pad">
+  <div class="sec"><b>02</b>무드보드 · 7 / 7</div>
+  <div class="md">
+    <div class="ml">
+      <div class="mn">7</div><h2 class="mh">사람</h2><div class="me">PEOPLE</div>
+      <p class="mline">빛으로 번진 사람들이 관객의 움직임에 따라 모이고 흩어지다, 입자가 되어 작은 빛 하나로 사라진다</p>
+      <div class="mt"><span class="tg r">바닥 반응 · 최대 4명 위치 → 3면 군중 흐름</span></div>
+      <div class="mk"><span>빛으로 번진 실루엣</span><span>군중의 흐름</span><span>모이고 흩어짐</span><span>입자화</span><span>마지막 빛</span></div>
+      <div class="msw"><div class="sw"><i style="background:#050506"></i><b>#050506</b><span>검은 공간</span></div><div class="sw"><i style="background:#5aa0ff"></i><b>#5aa0ff</b><span>파랑</span></div><div class="sw"><i style="background:#ff9a4a"></i><b>#ff9a4a</b><span>주황</span></div><div class="sw"><i style="background:#ff8fc0"></i><b>#ff8fc0</b><span>분홍</span></div><div class="sw"><i style="background:#fff4ea"></i><b>#fff4ea</b><span>흰빛</span></div></div>
+    </div>
+    <div class="mr">
+      <div class="hero"><img src="sb_web/c/1474.jpg" alt=""></div>
+      <div class="subs n3"><div><img src="sb_web/c/1479.jpg" alt=""></div><div><img src="sb_web/c/1475.jpg" alt=""></div><div><img src="sb_web/c/1476.jpg" alt=""></div></div>
+    </div>
+  </div>
+  <div class="mb">
+    <div><div class="k">정해진 표현 규칙</div><ul><li>얼굴이나 의상 같은 디테일 없이 파랑·주황·분홍·흰빛이 번진 형태</li><li>실제 관객과 영상 속 사람을 구분해서 본다 · 바닥은 사람 빛을 반사</li><li>Unity 최종 인터랙션 씬 — 바닥에서 최대 4명의 좌표를 실시간 인식</li><li>엔딩: 형체가 흐려짐 → 빛 입자 → 정면의 작은 빛 하나 → 완전한 검정</li><li>실제 관객은 사라지는 대상이 아니다 · 바닥에 별도 중심 빛을 만들지 않는다</li></ul></div>
+    <div><div class="k">사운드 무드 (제안)</div><p>아주 약한 한 호흡 → 여러 호흡의 층 → 여러 방향의 부드러운 발걸음 리듬 → 긴 잔향 → 무음</p></div>
+  </div>
+</div><div class="pno">12</div></section>
+<section class="slide "><div class="pad sb">
+  <div class="sec"><b>03</b>스토리보드 · 1 개미</div>
+  <h2>1 · 개미 — 흩어진 점이 하나의 문이 되기까지</h2><div class="lead">낮은 밀도의 흰 점 → 관객을 피해 돌아 다시 합류 → 정해진 시간에 자동 수렴 → 빽빽한 흰 원</div>
+  <div class="fg c4 "><figure class="fr" data-f="01"><div class="im"><img src="sb_web/m/01.jpg" alt="" loading="lazy"><span class="no">01</span></div><div class="qf"><img src="sb_web/q/01.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>1-01</b>작은 점들의 시작<span class="tg p">반응 준비</span></div><div class="fm">작은 존재들이 따로 움직이기 시작한다.</div></figcaption></figure><figure class="fr" data-f="03"><div class="im"><img src="sb_web/m/03.jpg" alt="" loading="lazy"><span class="no">03</span></div><div class="qf"><img src="sb_web/q/03.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>1-03</b>우회한 점들의 합류<span class="tg r">바닥 반응</span></div><div class="fm">개별 움직임이 다시 무리를 만든다.</div></figcaption></figure><figure class="fr" data-f="04"><div class="im"><img src="sb_web/m/04.jpg" alt="" loading="lazy"><span class="no">04</span></div><div class="qf"><img src="sb_web/q/04.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>1-04</b>정면 중앙으로 모이기</div><div class="fm">흩어진 움직임에 하나의 방향이 생긴다.</div></figcaption></figure><figure class="fr" data-f="05"><div class="im"><img src="sb_web/m/05.jpg" alt="" loading="lazy"><span class="no">05</span></div><div class="qf"><img src="sb_web/q/05.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>1-05</b>흰 원형 군집 완성</div><div class="fm">형성된 흐름 안으로 들어갈 문이 열린다.</div></figcaption></figure></div><div class="sbf"><div><div class="k">바닥 인터랙션</div><p>바닥에서 관객 위치를 읽어, 주변 점이 관객을 피해 옆으로 우회한다. 우회한 점은 앞선 점의 방향을 따라 다시 흐름에 합류</p></div><div><div class="k">자동 연출</div><p>정해진 시간이 되면 관객과 무관하게 전체 점이 정면 중앙으로 수렴해 빽빽한 흰 원이 된다</p></div><div><div class="k">사운드 흐름</div><p>아주 낮은 공간음 · 드문 작은 점 소리 → 같은 방향으로 이어지는 점 소리 → 압축되는 저음과 가벼운 흡입음</p></div><div><div class="k">다음 장면으로</div><p>흰 원이 위치를 유지한 채 터널의 밝은 중심광이 된다</p></div></div>
+</div><div class="pno">13</div></section>
+<section class="slide "><div class="pad sb">
+  <div class="sec"><b>03</b>스토리보드 · 2 터널</div>
+  <h2>2 · 터널 — 바라보던 흐름에 끌려 들어가기</h2><div class="lead">약한 소용돌이 → 영상 속 카메라 가속 → 4면 실제 검정. 이 장면은 인터랙션이 없다</div>
+  <div class="fg c3 w3"><figure class="fr" data-f="07"><div class="im"><img src="sb_web/m/07.jpg" alt="" loading="lazy"><span class="no">07</span></div><div class="qf"><img src="sb_web/q/07.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>2-02</b>약한 소용돌이</div><div class="fm">정해진 방향으로 몸이 이끌리는 느낌이다.</div></figcaption></figure><figure class="fr" data-f="08"><div class="im"><img src="sb_web/m/08.jpg" alt="" loading="lazy"><span class="no">08</span></div><div class="qf"><img src="sb_web/q/08.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>2-03</b>시점까지 가속</div><div class="fm">바라보던 흐름에 관객 자신도 끌려간다.</div></figcaption></figure><figure class="fr" data-f="10"><div class="im"><img src="sb_web/m/10.jpg" alt="" loading="lazy"><span class="no">10</span></div><div class="qf"><img src="sb_web/q/10.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>2-05</b>터널 뒤 암전</div><div class="fm">속도를 멈추고 새 감각을 기다린다.</div></figcaption></figure></div><div class="sbf"><div><div class="k">연출</div><p>직선 흡입 + 약한 회전. 영상 속 카메라가 점점 중심으로 가속하고, 좌우 벽과 바닥의 빛줄기가 길어진다</p></div><div><div class="k">인터랙션</div><p>없음 — 시각과 청각만으로 몰입하는 전환 구간</p></div><div><div class="k">사운드 흐름</div><p>살짝 회전하는 공기음 → 빨라지고 높아지는 흡입음 → 짧은 정적</p></div><div><div class="k">다음 장면으로</div><p>4면 실제 검정 뒤, 암전된 공간에 작은 빛들이 나타나며 반딧불이로</p></div></div>
+</div><div class="pno">14</div></section>
+<section class="slide "><div class="pad sb">
+  <div class="sec"><b>03</b>스토리보드 · 3 반딧불이</div>
+  <h2>3 · 반딧불이 — 각자의 신호가 하나의 리듬으로</h2><div class="lead">제각각 깜빡임 → 관객 근처가 더 밝아지고 전체 리듬이 맞아감 → 왼쪽 벽에 남은 한 점 → 나비 등장</div>
+  <div class="fg c4 "><figure class="fr" data-f="11"><div class="im"><img src="sb_web/m/11.jpg" alt="" loading="lazy"><span class="no">11</span></div><div class="qf"><img src="sb_web/q/11.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>3-01</b>각자 깜빡이는 빛<span class="tg p">반응 준비</span></div><div class="fm">서로 다른 신호가 공존한다.</div></figcaption></figure><figure class="fr" data-f="13"><div class="im"><img src="sb_web/m/13.jpg" alt="" loading="lazy"><span class="no">13</span></div><div class="qf"><img src="sb_web/q/13.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>3-03</b>밝기가 오르고 리듬이 모임<span class="tg r">바닥 반응</span></div><div class="fm">개별 신호들이 서로 맞아간다.</div></figcaption></figure><figure class="fr" data-f="15"><div class="im"><img src="sb_web/m/15.jpg" alt="" loading="lazy"><span class="no">15</span></div><div class="qf"><img src="sb_web/q/15.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>3-05</b>왼쪽에 남은 한 점</div><div class="fm">무리의 신호가 하나의 이끌림이 된다.</div></figcaption></figure><figure class="fr" data-f="16"><div class="im"><img src="sb_web/m/16.jpg" alt="" loading="lazy"><span class="no">16</span></div><div class="qf"><img src="sb_web/q/16.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>3-06</b>나비 한 마리 진입</div><div class="fm">외부의 신호를 따라가기 시작한다.</div></figcaption></figure></div><div class="sbf"><div><div class="k">바닥 인터랙션</div><p>관객 근처의 점만 추가로 밝아진다. 동시에 공간 전체 평균 밝기도 시간에 따라 조금씩 오른다</p></div><div><div class="k">자동 연출</div><p>랜덤했던 깜빡임이 점차 맞아들어가 공간 전체가 하나의 호흡처럼 동기화된다</p></div><div><div class="k">사운드 흐름</div><p>서로 다른 간격의 작은 맑은 소리 → 흩어진 소리가 하나의 박자로 → 왼쪽에서 들리는 작은 한 음</p></div><div><div class="k">다음 장면으로</div><p>왼쪽 벽에 남은 작은 빛 하나를 나비가 화면 밖에서 나타나 따라간다</p></div></div>
+</div><div class="pno">15</div></section>
+<section class="slide "><div class="pad sb">
+  <div class="sec"><b>03</b>스토리보드 · 4 나비</div>
+  <h2>4 · 나비 — 빛을 따라 자연을 건너 동굴로</h2><div class="lead">4-공통01 다음은 <b class="bl">4-1 또는 4-2</b> 중 하나를 고른 뒤 4-공통02로 합류한다</div>
+  <div class="fg c5 br4"><figure class="fr" data-f="17"><div class="im"><img src="sb_web/m/17.jpg" alt="" loading="lazy"><span class="no">17</span></div><div class="qf"><img src="sb_web/q/17.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>4-공통01</b>꽃과 얕은 물의 공간</div><div class="fm">빛을 따라 자연 공간으로 들어간다.</div></figcaption></figure><figure class="fr" data-f="18"><div class="im"><img src="sb_web/m/18.jpg" alt="" loading="lazy"><span class="no">18</span><span class="bx">4-1</span></div><div class="qf"><img src="sb_web/q/18.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>4-1</b>관객 발밑에서 생기는 물결<span class="tg r">바닥 반응</span></div><div class="fm">관객도 자연의 움직임에 영향을 준다.</div></figcaption></figure><figure class="fr" data-f="19"><div class="im"><img src="sb_web/m/19.jpg" alt="" loading="lazy"><span class="no">19</span><span class="bx">4-2</span></div><div class="qf"><img src="sb_web/q/19.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>4-2</b>꽃잎이 닿은 곳의 물결</div><div class="fm">작은 자연의 움직임이 주변으로 퍼진다.</div></figcaption></figure><figure class="fr" data-f="20"><div class="im"><img src="sb_web/m/20.jpg" alt="" loading="lazy"><span class="no">20</span></div><div class="qf"><img src="sb_web/q/20.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>4-공통02</b>오른쪽 동굴 입구로</div><div class="fm">따라가던 길이 낯선 안쪽으로 열린다.</div></figcaption></figure><figure class="fr" data-f="21"><div class="im"><img src="sb_web/m/21.jpg" alt="" loading="lazy"><span class="no">21</span></div><div class="qf"><img src="sb_web/q/21.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>4-공통03</b>동굴 문턱 통과</div><div class="fm">익숙한 공간의 경계를 넘는다.</div></figcaption></figure></div><div class="sbf"><div><div class="k">바닥 인터랙션</div><p>4-1을 고르면 관객 발밑에서 물결. 4-2는 꽃잎이 떨어진 곳에서 물결 (다음 장 비교)</p></div><div><div class="k">공간</div><p>어두운 밤의 자연 — 좌우 아래 과하지 않은 꽃, 바닥은 얕은 물, 나비와 빛이 수면에 반사</p></div><div><div class="k">사운드 흐름</div><p>가벼운 물소리와 얇은 선율 → 발 위치(4-1) 또는 꽃잎(4-2)에 맞춘 작은 물소리 → 동굴의 낮은 울림이 섞임</p></div><div><div class="k">다음 장면으로</div><p>오른쪽 벽부터 공간이 크리스탈 동굴로 바뀌며 나비와 빛이 안으로 들어간다</p></div></div>
+</div><div class="pno">16</div></section>
+<section class="slide "><div class="pad sb">
+  <div class="sec"><b>03</b>스토리보드 · 분기 비교 4</div>
+  <h2>4-1 관객 발밑 물결 vs 4-2 꽃잎 물결</h2>
+  <div class="lead">같은 순간(나비와 빛이 정면에 있을 때) 바닥 물결을 무엇이 만드는가. 현장에서 두 안을 테스트한 뒤 결정한다.</div>
+  <div class="vs">
+    <div class="vc"><figure class="fr" data-f="18"><div class="im"><img src="sb_web/m/18.jpg" alt="" loading="lazy"><span class="no">18</span><span class="bx">4-1</span></div><div class="qf"><img src="sb_web/q/18.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>4-1</b>관객 발밑에서 생기는 물결<span class="tg r">바닥 반응</span></div><div class="fm">관객도 자연의 움직임에 영향을 준다.</div></figcaption></figure><ul><li>관객이 움직인 위치를 중심으로 수면에 잔잔한 파동</li><li><b>바닥 인터랙션</b> — 관객 움직임 → 물결</li><li>사운드: 발 위치에 맞춘 작은 물소리</li></ul></div>
+    <div class="vc"><figure class="fr" data-f="19"><div class="im"><img src="sb_web/m/19.jpg" alt="" loading="lazy"><span class="no">19</span><span class="bx">4-2</span></div><div class="qf"><img src="sb_web/q/19.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>4-2</b>꽃잎이 닿은 곳의 물결</div><div class="fm">작은 자연의 움직임이 주변으로 퍼진다.</div></figcaption></figure><ul><li>꽃잎이나 작은 꽃이 물에 떨어지면서 물결</li><li><b>자동 연출</b> — 물결 중심은 관객 발이 아니라 꽃잎이 닿은 곳</li><li>사운드: 꽃잎이 물에 닿는 작은 소리</li></ul></div>
+  </div>
+  <div class="note"><div class="k">검토 메모</div><div class="d">4-1을 고르면 바닥 반응 장면이 1 · 3 · 4 · 7 네 곳, 4-2를 고르면 1 · 3 · 7 세 곳이 된다. 컬러판에서는 4-2도 "꽃잎 낙하 인터랙션"으로 적혀 있어, 4-2를 관객 반응으로 볼지 자동으로 볼지 팀에서 한 번 맞춰야 한다.</div></div>
+</div><div class="pno">17</div></section>
+<section class="slide "><div class="pad sb">
+  <div class="sec"><b>03</b>스토리보드 · 5 동굴·거미</div>
+  <h2>5 · 크리스탈 동굴 · 거미 — 숨은 존재와 화면의 경계</h2><div class="lead">동굴로 번지는 공간 → 안개 속 중앙의 빛 → 크리스탈이 밝아짐 → 거미 실루엣 → 전신 → 레터박스를 넘는 착시. 이후 5-1 / 5-2로 나뉜다</div>
+  <div class="fg c3 two"><figure class="fr" data-f="22"><div class="im"><img src="sb_web/m/22.jpg" alt="" loading="lazy"><span class="no">22</span></div><figcaption><div class="ft"><b>5-공통01</b>동굴로 바뀌는 공간</div><div class="fm">표면 아래 숨은 공간에 진입한다.</div></figcaption></figure><figure class="fr" data-f="23"><div class="im"><img src="sb_web/m/23.jpg" alt="" loading="lazy"><span class="no">23</span></div><figcaption><div class="ft"><b>5-공통02</b>짙은 안개와 중앙의 빛</div><div class="fm">보이지 않는 것을 향해 시선을 모은다.</div></figcaption></figure><figure class="fr" data-f="24"><div class="im"><img src="sb_web/m/24.jpg" alt="" loading="lazy"><span class="no">24</span></div><figcaption><div class="ft"><b>5-공통03</b>크리스탈이 밝아짐</div><div class="fm">숨은 공간의 구조가 서서히 보인다.</div></figcaption></figure><figure class="fr" data-f="25"><div class="im"><img src="sb_web/m/25.jpg" alt="" loading="lazy"><span class="no">25</span></div><figcaption><div class="ft"><b>5-공통04</b>안개 속 큰 거미</div><div class="fm">숨겨진 존재를 처음 알아차린다.</div></figcaption></figure><figure class="fr" data-f="26"><div class="im"><img src="sb_web/m/26.jpg" alt="" loading="lazy"><span class="no">26</span></div><figcaption><div class="ft"><b>5-공통05</b>크리스탈 거미 전신</div><div class="fm">존재와 화면의 경계를 인식한다.</div></figcaption></figure><figure class="fr" data-f="27"><div class="im"><img src="sb_web/m/27.jpg" alt="" loading="lazy"><span class="no">27</span></div><figcaption><div class="ft"><b>5-공통06</b>화면 경계를 넘는 착시</div><div class="fm">화면과 관객 사이의 경계가 흔들린다.</div></figcaption></figure></div>
+</div><div class="pno">18</div></section>
+<section class="slide "><div class="pad sb">
+  <div class="sec"><b>03</b>스토리보드 · 분기 비교 5</div>
+  <h2>5-1 이미 있던 거미집을 발견 vs 5-2 작은 거미가 직접 짓기</h2>
+  <div class="lead">큰 거미가 튀어나간 뒤의 두 버전. 도착하는 완성 구조와 위치는 같고, 만들어지는 과정이 다르다. 둘 다 공통 전환(36)으로 이어진다.</div>
+  <div class="brr"><div class="brl"><span class="bx">5-1</span><b>발견</b><small>3프레임</small><p>안개가 걷히며 숨겨져 있던 거미줄과 바닥의 거미집 구조가 서서히 드러난다</p></div><div class="fg c5"><figure class="fr" data-f="28"><div class="im"><img src="sb_web/m/28.jpg" alt="" loading="lazy"><span class="no">28</span></div><div class="qf"><img src="sb_web/q/28.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>5-1-01</b>안개 틈의 기존 거미줄</div><div class="fm">없던 것이 생기기보다 숨은 것이 보인다.</div></figcaption></figure><figure class="fr" data-f="29"><div class="im"><img src="sb_web/m/29.jpg" alt="" loading="lazy"><span class="no">29</span></div><div class="qf"><img src="sb_web/q/29.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>5-1-02</b>벽의 거미줄이 드러남</div><div class="fm">개별 실이 하나의 연결망임을 알게 된다.</div></figcaption></figure><figure class="fr" data-f="30"><div class="im"><img src="sb_web/m/30.jpg" alt="" loading="lazy"><span class="no">30</span></div><div class="qf"><img src="sb_web/q/30.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>5-1-03</b>바닥까지 전체 구조</div><div class="fm">우리를 둘러싼 연결 구조를 발견한다.</div></figcaption></figure></div></div>
+  <div class="brr"><div class="brl"><span class="bx">5-2</span><b>형성</b><small>5프레임</small><p>빈 공간에 작은 거미가 위에서 실을 타고 내려와 직접 실을 연결해 거미집을 만든다</p></div><div class="fg c5"><figure class="fr" data-f="31"><div class="im"><img src="sb_web/m/31.jpg" alt="" loading="lazy"><span class="no">31</span></div><div class="qf"><img src="sb_web/q/31.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>5-2-01</b>큰 거미가 떠난 빈 공간</div><div class="fm">새로운 구조가 생길 자리를 남긴다.</div></figcaption></figure><figure class="fr" data-f="32"><div class="im"><img src="sb_web/m/32.jpg" alt="" loading="lazy"><span class="no">32</span></div><div class="qf"><img src="sb_web/q/32.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>5-2-02</b>한 가닥 실을 타고 내려옴</div><div class="fm">작은 행동 하나에서 구조가 시작된다.</div></figcaption></figure><figure class="fr" data-f="33"><div class="im"><img src="sb_web/m/33.jpg" alt="" loading="lazy"><span class="no">33</span></div><div class="qf"><img src="sb_web/q/33.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>5-2-03</b>첫 번째 연결</div><div class="fm">관계가 하나씩 만들어진다.</div></figcaption></figure><figure class="fr" data-f="34"><div class="im"><img src="sb_web/m/34.jpg" alt="" loading="lazy"><span class="no">34</span></div><div class="qf"><img src="sb_web/q/34.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>5-2-04</b>벽을 잇는 부분 구조</div><div class="fm">반복되는 작은 행동이 구조를 키운다.</div></figcaption></figure><figure class="fr" data-f="35"><div class="im"><img src="sb_web/m/35.jpg" alt="" loading="lazy"><span class="no">35</span></div><div class="qf"><img src="sb_web/q/35.jpg" alt="" loading="lazy"><span>4면 구조</span></div><figcaption><div class="ft"><b>5-2-05</b>직접 만든 거미집 완성</div><div class="fm">스스로 만든 관계가 우리를 둘러싼다.</div></figcaption></figure></div></div>
+</div><div class="pno">19</div></section>
+<section class="slide "><div class="pad sb">
+  <div class="sec"><b>03</b>스토리보드 · 6 기억 회랑</div>
+  <h2>6 · 기억 회랑 — 경험이 기억으로 바뀌는 전환</h2>
+  <div class="lead">거미집 장면을 갑자기 잘라 바꾸지 않는다. 영상 자체가 휘고 눌려 한 장의 기억 패널이 되고, 떠다니는 수많은 패널 중 하나로 들어간다.</div>
+  <div class="fg c2 big"><figure class="fr" data-f="36"><div class="im"><img src="sb_web/m/36.jpg" alt="" loading="lazy"><span class="no">36</span></div><figcaption><div class="ft"><b>6-전환01</b>거미 공간 자체가 휘어짐</div><div class="fm">방금의 경험이 기억으로 바뀌기 시작한다.</div></figcaption></figure><figure class="fr" data-f="37"><div class="im"><img src="sb_web/m/37.jpg" alt="" loading="lazy"><span class="no">37</span></div><figcaption><div class="ft"><b>6-전환02</b>여러 기억 중 하나로</div><div class="fm">하나의 경험이 더 큰 기억의 흐름에 합류한다.</div></figcaption></figure></div>
+  <div class="note"><div class="k">다음 단계</div><div class="d">37 이후 기억 회랑 → 패널 가속 → 강한 주마등 수렴의 세 단계를 <em>A · B · C · D 네 조합</em>으로 그려 비교한다 (다음 장).</div></div>
+</div><div class="pno">20</div></section>
+<section class="slide "><div class="pad sb">
+  <div class="sec"><b>03</b>스토리보드 · 분기 비교 6</div>
+  <h2>중앙 빛 있음/없음 × 패널 밝기 다름/같음</h2>
+  <div class="lead">테스트 6-1~6-4를 조합한 네 버전. 세 단계 모두 같은 흐름이고, 마지막 수렴 뒤엔 어느 조합이든 공통 7-0-1(50)로 넘어간다.</div>
+  <div class="abg">
+    <div></div><div class="abx">패널 밝기 <b>서로 다름</b> (6-3)</div><div class="abx">패널 밝기 <b>거의 같음</b> (6-4)</div>
+    <div class="aby">정면 소실점<br><b>강한 빛 있음</b><br>(6-1)</div><div class="ab"><div class="abh"><span class="bx">A</span></div><div class="fg c3 mini"><figure class="fr" data-f="38"><div class="im"><img src="sb_web/m/38.jpg" alt="" loading="lazy"><span class="no">38</span></div><figcaption><div class="ft"><b>6-A-01</b>기억 회랑 · A</div></figcaption></figure><figure class="fr" data-f="39"><div class="im"><img src="sb_web/m/39.jpg" alt="" loading="lazy"><span class="no">39</span></div><figcaption><div class="ft"><b>6-A-02</b>패널 가속 · A</div></figcaption></figure><figure class="fr" data-f="40"><div class="im"><img src="sb_web/m/40.jpg" alt="" loading="lazy"><span class="no">40</span></div><figcaption><div class="ft"><b>6-A-03</b>강한 주마등 수렴 · A</div></figcaption></figure></div></div><div class="ab"><div class="abh"><span class="bx">B</span></div><div class="fg c3 mini"><figure class="fr" data-f="41"><div class="im"><img src="sb_web/m/41.jpg" alt="" loading="lazy"><span class="no">41</span></div><figcaption><div class="ft"><b>6-B-01</b>기억 회랑 · B</div></figcaption></figure><figure class="fr" data-f="42"><div class="im"><img src="sb_web/m/42.jpg" alt="" loading="lazy"><span class="no">42</span></div><figcaption><div class="ft"><b>6-B-02</b>패널 가속 · B</div></figcaption></figure><figure class="fr" data-f="43"><div class="im"><img src="sb_web/m/43.jpg" alt="" loading="lazy"><span class="no">43</span></div><figcaption><div class="ft"><b>6-B-03</b>강한 주마등 수렴 · B</div></figcaption></figure></div></div>
+    <div class="aby">정면 중앙<br><b>빛 없음</b><br>(6-2)</div><div class="ab"><div class="abh"><span class="bx">C</span></div><div class="fg c3 mini"><figure class="fr" data-f="44"><div class="im"><img src="sb_web/m/44.jpg" alt="" loading="lazy"><span class="no">44</span></div><figcaption><div class="ft"><b>6-C-01</b>기억 회랑 · C</div></figcaption></figure><figure class="fr" data-f="45"><div class="im"><img src="sb_web/m/45.jpg" alt="" loading="lazy"><span class="no">45</span></div><figcaption><div class="ft"><b>6-C-02</b>패널 가속 · C</div></figcaption></figure><figure class="fr" data-f="46"><div class="im"><img src="sb_web/m/46.jpg" alt="" loading="lazy"><span class="no">46</span></div><figcaption><div class="ft"><b>6-C-03</b>강한 주마등 수렴 · C</div></figcaption></figure></div></div><div class="ab"><div class="abh"><span class="bx">D</span></div><div class="fg c3 mini"><figure class="fr" data-f="47"><div class="im"><img src="sb_web/m/47.jpg" alt="" loading="lazy"><span class="no">47</span></div><figcaption><div class="ft"><b>6-D-01</b>기억 회랑 · D</div></figcaption></figure><figure class="fr" data-f="48"><div class="im"><img src="sb_web/m/48.jpg" alt="" loading="lazy"><span class="no">48</span></div><figcaption><div class="ft"><b>6-D-02</b>패널 가속 · D</div></figcaption></figure><figure class="fr" data-f="49"><div class="im"><img src="sb_web/m/49.jpg" alt="" loading="lazy"><span class="no">49</span></div><figcaption><div class="ft"><b>6-D-03</b>강한 주마등 수렴 · D</div></figcaption></figure></div></div>
+  </div>
+  <div class="abn"><span><b>-01 기억 회랑</b> 여러 생명의 시점이 하나의 기억 흐름을 이룬다</span><span><b>-02 패널 가속</b> 서로 다른 기억이 하나의 속도로 묶인다</span><span><b>-03 강한 주마등 수렴</b> 기억의 내용보다 하나로 모이는 감각이 남는다</span></div>
+  <div class="note"><div class="k">비교할 때 볼 것 (검토 메모)</div><div class="d"><em>중앙 빛</em> — 있으면 시선이 한 점으로 모이고 다음 장면의 "작은 빛"과 이어지기 쉽다. 없으면 검은 소실점이 7-0-2의 거의 검정 화면과 자연스럽게 붙는다. <em>패널 밝기</em> — 다르면 몇몇 기억이 도드라져 "고른 기억"처럼 읽히고, 같으면 하나의 흐름으로 읽힌다. 실제 투사 밝기에서 패널 내용이 얼마나 보이는지도 함께 확인.</div></div>
+</div><div class="pno">21</div></section>
+<section class="slide "><div class="pad sb">
+  <div class="sec"><b>03</b>스토리보드 · 7 사람</div>
+  <h2>7 · 사람 — 흐름의 끝에서 인간을 마주하다</h2>
+  <div class="lead">주마등이 사라진 검은 공간에 한 사람, 그리고 여러 사람. Unity 최종 인터랙션 씬으로, 바닥에서 최대 4명의 실제 관객 좌표를 읽는다.</div>
+  <div class="fg c3 two"><figure class="fr" data-f="50"><div class="im"><img src="sb_web/m/50.jpg" alt="" loading="lazy"><span class="no">50</span></div><figcaption><div class="ft"><b>7-0-1</b>주마등 수렴의 마지막</div><div class="fm">기억이 사라지고 다음 존재의 자리가 열린다.</div></figcaption></figure><figure class="fr" data-f="51"><div class="im"><img src="sb_web/m/51.jpg" alt="" loading="lazy"><span class="no">51</span></div><figcaption><div class="ft"><b>7-0-2</b>거의 검정, 마지막 잔상</div><div class="fm">이전 경험과 새로운 장면 사이의 틈이다.</div></figcaption></figure><figure class="fr" data-f="52"><div class="im"><img src="sb_web/m/52.jpg" alt="" loading="lazy"><span class="no">52</span></div><figcaption><div class="ft"><b>7-0-3</b>첫 사람 한 명</div><div class="fm">흐름의 끝에서 인간을 마주한다.</div></figcaption></figure><figure class="fr" data-f="53"><div class="im"><img src="sb_web/m/53.jpg" alt="" loading="lazy"><span class="no">53</span></div><figcaption><div class="ft"><b>7-01</b>사람이 하나씩 늘어남</div><div class="fm">한 사람의 존재가 여러 사람으로 이어진다.</div></figcaption></figure><figure class="fr" data-f="54"><div class="im"><img src="sb_web/m/54.jpg" alt="" loading="lazy"><span class="no">54</span></div><figcaption><div class="ft"><b>7-02</b>사람들이 3면을 채움<span class="tg p">반응 준비</span></div><div class="fm">인간의 움직임도 하나의 군집이 된다.</div></figcaption></figure><figure class="fr gap"><div class="im"><img src="sb_web/c/1474.jpg" alt="" loading="lazy"><span class="no">55–57</span><span class="bx warn">피그마에 없음</span></div><figcaption><div class="ft"><b>7-03~</b>관객 반응 구간<span class="tg r">바닥 반응</span></div><div class="fm">컬러판 7-3 기준: 관객이 다가가면 실루엣이 모여들고 멀어지면 흩어진다. 움직임에 따라 방향·속도가 바뀐다</div></figcaption></figure></div>
+</div><div class="pno">22</div></section>
+<section class="slide "><div class="pad sb">
+  <div class="sec"><b>03</b>스토리보드 · 7 엔딩</div>
+  <h2>7 · 엔딩 — 사람은 빛 입자가 되고, 작은 빛 하나만 남는다</h2><div class="lead">형체가 흐려짐 → 빛 입자로 분해 → 공간 전체로 퍼짐 → 정면의 작은 빛으로 수렴 → 마지막 빛 → 완전한 검정, 작품 종료</div>
+  <div class="fg c3 two"><figure class="fr" data-f="58"><div class="im"><img src="sb_web/m/58.jpg" alt="" loading="lazy"><span class="no">58</span></div><figcaption><div class="ft"><b>7-END02</b>형체가 흐려짐</div><div class="fm">개별 모습보다 남겨진 빛이 중요해진다.</div></figcaption></figure><figure class="fr" data-f="59"><div class="im"><img src="sb_web/m/59.jpg" alt="" loading="lazy"><span class="no">59</span></div><figcaption><div class="ft"><b>7-END03</b>사람이 빛 입자로</div><div class="fm">형태는 사라져도 움직임의 흔적은 남는다.</div></figcaption></figure><figure class="fr" data-f="60"><div class="im"><img src="sb_web/m/60.jpg" alt="" loading="lazy"><span class="no">60</span></div><figcaption><div class="ft"><b>7-END04</b>입자가 공간에 흩어짐</div><div class="fm">각자의 흔적이 같은 공간에 남는다.</div></figcaption></figure><figure class="fr" data-f="61"><div class="im"><img src="sb_web/m/61.jpg" alt="" loading="lazy"><span class="no">61</span></div><figcaption><div class="ft"><b>7-END05</b>작은 빛으로 수렴</div><div class="fm">많은 흔적이 다시 하나로 돌아간다.</div></figcaption></figure><figure class="fr" data-f="62"><div class="im"><img src="sb_web/m/62.jpg" alt="" loading="lazy"><span class="no">62</span></div><figcaption><div class="ft"><b>7-END06</b>마지막 작은 빛</div><div class="fm">모든 흐름의 마지막 흔적이다.</div></figcaption></figure><figure class="fr" data-f="63"><div class="im"><img src="sb_web/m/63.jpg" alt="" loading="lazy"><span class="no">63</span></div><figcaption><div class="ft"><b>7-END07</b>완전한 검정, 종료</div><div class="fm">흐름이 사라진 자리에 관객이 남는다.</div></figcaption></figure></div>
+</div><div class="pno">23</div></section>
+<section class="slide "><div class="pad">
+  <div class="sec"><b>04</b>결정할 것</div>
+  <h2>현장 테스트로 고를 분기와 비어 있는 부분</h2>
+  <table class="dt">
+    <tr><th style="width:180px">장면</th><th>비교안 A</th><th>비교안 B</th><th style="width:300px">스토리보드 분량</th><th style="width:150px">상태</th></tr>
+    <tr><td>4 나비 · 물결</td><td>4-1 관객 발밑에서 물결 (바닥 반응)</td><td>4-2 꽃잎이 닿은 곳에서 물결 (자동)</td><td>각 1프레임, 앞뒤 공통</td><td><span class="badge part">테스트 후 결정</span></td></tr>
+    <tr><td>5 거미집</td><td>5-1 숨어 있던 거미집이 드러남</td><td>5-2 작은 거미가 실을 이어 직접 지음</td><td>5-1 3프레임 · 5-2 5프레임</td><td><span class="badge part">테스트 후 결정</span></td></tr>
+    <tr><td>5 거미 재질</td><td>보라 계열</td><td>프리즘 계열</td><td>별도 재질 테스트</td><td><span class="badge part">테스트 예정</span></td></tr>
+    <tr><td>6 중앙 빛</td><td>6-1 정면 소실점에 강한 빛</td><td>6-2 별도의 빛 없음</td><td rowspan="2">A · B · C · D 각 3프레임</td><td rowspan="2"><span class="badge part">테스트 후 결정</span></td></tr>
+    <tr><td>6 패널 밝기</td><td>6-3 패널마다 밝기 다르게</td><td>6-4 거의 동일하게 통일</td></tr>
+  </table>
+  <div class="gaps">
+    <div><div class="k fail">비어 있는 프레임</div><div class="d"><em>55 · 56 · 57</em> (7-03 · 7-04 · 7-END01) — 7번 장면의 관객 반응 핵심 구간인데 연필판에 없다. 지금은 컬러판 7-3 설명으로만 남아 있다. 02 · 06 · 09 · 12 · 14 도 없지만 장면 내부 중간 단계다.</div></div>
+    <div><div class="k fail">시간</div><div class="d">63프레임 모두 "초 단위 시간 미정". 컬러판에 적힌 시간(00:34–00:40, 01:12–01:20, 약 5~6초 등)은 서로 맞지 않아 전체 러닝타임으로 쓸 수 없다.</div></div>
+    <div><div class="k">다음 정리</div><div class="d">이 스토리보드를 기준으로 <em>장비 구성</em>과 <em>체험 UI 플로우</em>를 같은 형식으로 이어 붙인다.</div></div>
+  </div>
+</div><div class="pno">24</div></section>
+<section class="slide eod"><h1>E.O.D</h1></section>
+</div>
+<div id="nav"><button id="prev">‹</button><span id="cnt"></span><button id="next">›</button></div>
+<div id="lb"><img alt=""><div class="lbc"></div><button class="x">×</button></div>
+<script>
+const S=[...document.querySelectorAll('.slide')];let i=0;
+try{i=Math.min(+(location.hash.slice(1)||1)-1,S.length-1)||0}catch(e){}
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);S.forEach(e=>e.style.transform='scale('+s+')')}
+function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((e,k)=>e.classList.toggle('on',k===i));
+  document.getElementById('cnt').textContent=(i+1)+' / '+S.length;try{history.replaceState(null,'','#'+(i+1))}catch(e){}}
+// 프레임을 누르면 원본 스토리보드 한 장이 크게 열린다
+const lb=document.getElementById('lb'),lbi=lb.querySelector('img'),lbc=lb.querySelector('.lbc');
+document.querySelectorAll('[data-f]').forEach(el=>el.addEventListener('click',()=>{
+  const nn=el.dataset.f,ft=el.querySelector('.ft'),fm=el.querySelector('.fm');
+  lbi.src='sb_web/f/'+nn+'.jpg';
+  lbc.innerHTML='<b>'+nn+' / 63</b>'+(ft?ft.textContent:'')+(fm?'<br><br>'+fm.textContent:'');
+  lb.classList.add('on')}));
+const close=()=>lb.classList.remove('on');
+lb.addEventListener('click',close);
+addEventListener('resize',fit);
+addEventListener('keydown',e=>{if(lb.classList.contains('on')){if(e.key==='Escape')close();return}
+  if(['ArrowRight','PageDown',' '].includes(e.key))go(i+1);if(['ArrowLeft','PageUp'].includes(e.key))go(i-1)});
+document.getElementById('prev').onclick=()=>go(i-1);document.getElementById('next').onclick=()=>go(i+1);
+fit();go(i);
+
+</script>
+</body>
+</html>
