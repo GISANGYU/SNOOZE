@@ -143,6 +143,22 @@ ul.dl li b{color:var(--ink)}
 .sc .nm b{font-size:22px;font-weight:700}
 .sc .d{font-size:16px;margin-top:8px;line-height:1.6}
 .triple{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:22px}
+.t-hold{background:var(--part)} .t-drop{background:#7a818c}
+/* scene scope */
+.scope{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:28px;margin-top:40px}
+.scope .box{border-radius:10px;padding:28px 30px}
+.scope .main{background:var(--panel);border:2px solid var(--blue)}
+.scope .hold{background:#fff4e6;border:2px solid var(--part)}
+.scope .drop{background:#eceef1}
+.scope h4{font-size:18px;font-weight:700;letter-spacing:.5px;color:var(--blue)}
+.scope .hold h4{color:var(--part)} .scope .drop h4{color:var(--mute)}
+.scope .big{font-size:30px;font-weight:800;margin:10px 0 16px;letter-spacing:-.6px}
+.ppl{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:40px}
+.ppl>div{border-radius:10px;padding:26px 28px;background:#fff;border:1px solid var(--line)}
+.ppl>div.on{background:var(--panel);border:2px solid var(--blue)}
+.ppl .v{font-size:64px;font-weight:800;color:var(--blue);letter-spacing:-2px;line-height:1}
+.ppl .v small{font-size:26px;margin-left:4px}
+.ppl .l{font-size:20px;font-weight:700;margin-top:12px}
 </style>
 </head>
 <body>
@@ -163,7 +179,7 @@ ul.dl li b{color:var(--ink)}
     <div class="me"><span>담당</span><b>개발 · 유기상</b></div>
   </div>
   <div class="foot">
-    <div>기준일 <b>2026.10.08</b> · 진행된 내용까지 정리<br>전시 2026.11.20 – 11.22</div>
+    <div>기준일 <b>2026.10.12</b> · 진행된 내용까지 정리<br>전시 2026.11.20 – 11.22</div>
     <div style="text-align:right">Kinect v2 · Unity 2022.3 · KlakSpout · MadMapper</div>
   </div>
 </section>
@@ -172,26 +188,26 @@ ul.dl li b{color:var(--ink)}
 <section class="slide"><div class="pad">
   <div class="sec"><b>05</b>개발 전략</div>
   <h2>평가 항목별 구성과 현재 진행 상황</h2>
-  <p class="lead">평가표의 다섯 항목을 순서대로 정리했습니다. 6주차 보고 이후 <b>장면 씬 제작과 인터랙션 방식 수정</b>이 크게 진행됐습니다.</p>
+  <p class="lead">평가표의 다섯 항목을 순서대로 정리했습니다. 6주차 보고 이후 <b>인터랙션 방식 수정</b>과 <b>Unity 로 구현할 장면 확정</b>이 크게 진행됐습니다.</p>
   <div class="idx">
     <div><div class="n">01</div><h3>필요 기술요소 정의</h3><ul><li>기술 스택</li><li>스토리보드 7장면 매칭</li><li>외부 사례 · 소스 확보</li></ul></div>
-    <div><div class="n">02</div><h3>기술요소별 시험구현</h3><ul><li>시험구현 타임라인</li><li>4면 공통 구조</li><li>위치 감지 · 보정</li><li>제스처 인터랙션 (신규)</li></ul></div>
+    <div><div class="n">02</div><h3>기술요소별 시험구현</h3><ul><li>시험구현 타임라인</li><li>4면 공통 구조</li><li>위치 감지 · 보정</li><li>제스처 인터랙션</li><li>가상 스켈레톤 테스트</li></ul></div>
     <div><div class="n">03</div><h3>어려운 점 · 해결 방안</h3><ul><li>문제 → 원인 → 해결</li><li>대체 기술과 스토리보드 수정</li></ul></div>
-    <div><div class="n">04</div><h3>디자인 × 기술<br>통합 구현</h3><ul><li>장면별 Unity 구현 결과</li><li>개발 · 검증 도구</li></ul></div>
+    <div><div class="n">04</div><h3>디자인 × 기술<br>통합 구현</h3><ul><li>확정 장면 — 반딧불이 · 사람</li><li>보류 · 폐기 장면</li><li>개발 · 검증 도구</li></ul></div>
     <div><div class="n">05</div><h3>시스템 구성도</h3><ul><li>입력 · 처리 · 출력</li><li>남은 검증과 일정</li></ul></div>
   </div>
   <div class="kpi">
-    <div><div class="v">5<small>/ 7장면</small></div><div class="l">Unity 로 구현한 장면 (1·2·3·4·7)<br>5 거미 미착수 · 6 기억 회랑은 영상</div></div>
-    <div><div class="v">8<small>개</small></div><div class="l">실행 가능한 4면 출력 빌드<br>(Spout 송출 · 키넥트 DLL 포함)</div></div>
+    <div><div class="v">2<small>/ 7장면</small></div><div class="l">Unity 메인 장면 확정<br>반딧불이 · 사람 (개미는 보류)</div></div>
+    <div><div class="v">1<small>대</small></div><div class="l">감지는 Kinect v2 한 대로만<br>별도 예비 감지 시스템 없음</div></div>
     <div><div class="v">3800×2000</div><div class="l">4면을 한 장에 담는 출력 텍스처<br>1m = 250px, 네 면 밀도 동일</div></div>
-    <div><div class="v">2<small>명</small></div><div class="l">현장(09.30)에서 동시에 감지 ·<br>각자 자리에서 반응 확인</div></div>
+    <div><div class="v">2<small>명 기준</small></div><div class="l">감지 최대 6명 · 인터랙션 최대 4명<br>연출은 2명일 때 가장 잘 보이도록</div></div>
   </div>
   <div class="crumb">SNOOZE · LIMEN</div><div class="pno">02</div>
 </div></section>
 
 <!-- 3 CHANGE -->
 <section class="slide"><div class="pad">
-  <div class="sec"><b>05</b>개발 전략 · 지난 보고 이후 달라진 점</div>
+  <div class="sec"><b>05</b>개발 전략 · 지난 보고 이후 달라진 점 ①</div>
   <h2>사용자 테스트 결과, 인터랙션을 "위치"에서 "제스처 + 위치"로 바꿨습니다</h2>
   <p class="lead">바닥 위치만 감지해 반응을 주는 구조로 사용자 테스트를 해 보니, <b>관객은 벽에만 집중하고 바닥을 거의 보지 않았습니다.</b><br>바닥에서만 일어나는 반응은 관객이 알아채지 못해, 관객이 바라보는 벽도 반응하도록 고쳤습니다.</p>
   <div class="cmp">
@@ -210,8 +226,8 @@ ul.dl li b{color:var(--ink)}
       <h4>이후 · 2026.10.08 수정</h4>
       <div class="big">스켈레톤 제스처 + 위치</div>
       <ul class="dl">
-        <li><b>위치</b> = 주변 밝기에만 사용 (지금처럼)</li>
-        <li><b>제스처</b> = 벽 1m 안에서 팔을 휘두를 때만 그 벽 입자가 비켜남</li>
+        <li><b>위치</b> = 주변 밝기에 사용</li>
+        <li><b>제스처</b> = 벽 1m 안에서 팔을 휘두를 때만 그 벽이 반응</li>
         <li>몸통 기준 <b>손 · 팔꿈치 상대속도</b>로 판정 → 걷기 · 다가가기는 무반응</li>
         <li>2~3초 뒤 제자리 복귀 — 세계를 <b>통제</b>하지 않고 <b>관계</b>를 맺는 강도</li>
       </ul>
@@ -219,50 +235,89 @@ ul.dl li b{color:var(--ink)}
   </div>
   <div class="note" style="margin-top:30px">
     <div class="k">기획 원칙과의 관계</div>
-    <div class="d" style="margin-top:6px">"모든 면이 반응하면 내가 세계를 통제한다로 읽힌다"는 9월 기획의 원칙은 유지합니다. 벽은 <b>다가가는 것만으로는 움직이지 않고</b>, 의도적인 손짓에만 짧게 반응하도록 강도를 제한했습니다. 로직은 초기 테스트 씬 SILMIX(손으로 입자를 건드리면 일렁이며 섞임)를 4면 구조로 옮긴 것입니다.</div>
+    <div class="d" style="margin-top:6px">"모든 면이 반응하면 내가 세계를 통제한다로 읽힌다"는 9월 기획의 원칙은 유지합니다. 벽은 <b>다가가는 것만으로는 움직이지 않고</b>, 의도적인 손짓에만 짧게 반응하도록 강도를 제한했습니다. 판정 로직은 초기 손 인터랙션 테스트(손으로 입자를 건드리면 일렁이며 섞임)를 4면 구조로 옮긴 것입니다.</div>
   </div>
   <div class="crumb">SNOOZE · LIMEN</div><div class="pno">03</div>
 </div></section>
 
-<!-- 4 TECH STACK -->
+<!-- 4 SCOPE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05</b>개발 전략 · 지난 보고 이후 달라진 점 ②</div>
+  <h2>스토리보드 7장면 중 Unity 메인 장면은 반딧불이 · 사람 2개로 정했습니다</h2>
+  <p class="lead">7장면을 모두 실시간으로 만들기보다, <b>관객 반응이 분명하게 읽히는 장면 2개</b>에 개발을 집중합니다. 나머지 장면은 스토리보드의 흐름을 잇는 장면으로 둡니다.</p>
+  <div class="scope">
+    <div class="box main">
+      <h4>확정 · Unity 메인 장면</h4>
+      <div class="big">3 반딧불이 · 7 사람</div>
+      <ul class="dl">
+        <li><b>반딧불이</b> — 어두운 방에서 관객 둘레만 빛나고, 벽 앞에서 손짓하면 반딧불이가 비켜났다 돌아옴</li>
+        <li><b>사람</b> — 벽을 창문 삼아 바깥 군중을 보고, 내가 걷는 방향으로 군중이 흐르며, 벽과 바닥 거울 속 내가 내 팔 동작을 따라 함</li>
+        <li>두 장면 모두 <b>위치 + 제스처</b>를 쓰고, 2명 기준으로 조정</li>
+      </ul>
+    </div>
+    <div class="box hold">
+      <h4>보류</h4>
+      <div class="big">1 개미</div>
+      <ul class="dl">
+        <li>장면은 빌드까지 완성 (흰 점 개미떼가 줄지어 행진 → 정면의 흰 원)</li>
+        <li><b>관객이 인터랙션을 잘못 인식함</b> — 개미가 자신을 피해 간다는 반응이 의도대로 읽히지 않음</li>
+        <li>장면에 인터랙션이 꼭 필요한지부터 다시 검토</li>
+      </ul>
+    </div>
+    <div class="box drop">
+      <h4>폐기</h4>
+      <div class="big">4 나비 (물 파동)</div>
+      <ul class="dl">
+        <li>바닥 얕은 물에 발밑 물결이 퍼지는 장면 — GPU 파동 시뮬레이션으로 빌드까지 만들었으나 폐기</li>
+        <li>확정 2장면에 개발 시간을 모음</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note" style="margin-top:30px">
+    <div class="k">감지 방식도 하나로 정리</div>
+    <div class="d" style="margin-top:6px">감지는 <b>Kinect v2 카메라 한 대로만</b> 합니다. 웹캠 · TouchDesigner 를 쓰는 예비 감지 경로나 뎁스 덩어리 추적 같은 보조 시스템은 구현하지 않습니다.</div>
+  </div>
+  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">04</div>
+</div></section>
+
+<!-- 5 TECH STACK -->
 <section class="slide"><div class="pad">
   <div class="sec"><b>05-1</b>필요 기술요소 정의</div>
   <h2>기술 스택 — 센서 1대, PC 1대, 프로그램 1개로 4면을 움직입니다</h2>
   <table>
     <thead><tr><th style="width:220px">층</th><th style="width:380px">채택 기술</th><th>역할 · 선택 이유</th><th style="width:150px">상태</th></tr></thead>
     <tbody>
-      <tr><td class="nm">감지<small>Input</small></td><td><b>Kinect v2</b> + Kinect for Windows SDK 2.0</td><td>IR 뎁스 512×424 · 25관절 · 최대 6명. <b>어두운 전시장에서 RGB 카메라보다 IR 뎁스가 안정적</b>. 위치(발목 관절)와 제스처(손 · 팔꿈치 · 척추)를 한 센서에서 동시에 얻음</td><td><span class="tag t-ok">현장 검증</span></td></tr>
-      <tr><td class="nm">예비 감지<small>Backup</small></td><td>웹캠 + MediaPipe TouchDesigner 플러그인<br>천장 뎁스 덩어리 추적 (자체 제작)</td><td>키넥트 고장 대비(단종품). 천장 수직 설치처럼 스켈레톤이 안 잡히는 경우엔 뎁스맵에서 바닥보다 솟은 덩어리를 사람으로 셈</td><td><span class="tag t-ok">연구실 검증</span></td></tr>
-      <tr><td class="nm">인터랙션 · 렌더<small>Process</small></td><td><b>Unity 2022.3.20f1</b> (Built-in RP)<br>K2Examples 키넥트 플러그인</td><td>4면 전개도 시뮬레이션, 파티클 · 커스텀 셰이더 · GPU 파동 시뮬레이션. 4면을 <b>3800×2000 한 장</b>으로 출력하므로 TouchDesigner 무료판 출력 제한(1280×1280)을 피해 Unity 로 일원화</td><td><span class="tag t-ok">빌드 8개</span></td></tr>
+      <tr><td class="nm">감지<small>Input</small></td><td><b>Kinect v2</b> + Kinect for Windows SDK 2.0</td><td>IR 뎁스 512×424 · 25관절. <b>어두운 전시장에서 RGB 카메라보다 IR 뎁스가 안정적</b>. 위치(발목 관절)와 제스처(손 · 팔꿈치 · 척추)를 한 센서에서 동시에 얻음. <b>감지 최대 6명 · 인터랙션 최대 4명 · 기준 2명</b></td><td><span class="tag t-ok">현장 검증</span></td></tr>
+      <tr><td class="nm">인터랙션 · 렌더<small>Process</small></td><td><b>Unity 2022.3.20f1</b> (Built-in RP)<br>Kinect v2 Examples 플러그인</td><td>4면 전개도 시뮬레이션, 파티클 · 커스텀 셰이더 · 3D 군중 투시. 감지 → 계산 → 렌더 → 출력까지 <b>Unity 하나로</b> 처리하고, 4면을 <b>3800×2000 한 장</b>으로 출력</td><td><span class="tag t-ok">빌드</span></td></tr>
       <tr><td class="nm">출력 연결<small>Output</small></td><td><b>KlakSpout</b> (GPU 텍스처 공유) → <b>MadMapper</b></td><td>같은 PC 안에서 복사 없이 텍스처를 넘김. MadMapper 가 면마다 잘라 워핑 · 블렌딩. 시설 프로젝터는 위치 · 각도 고정이라 <b>맞춤은 전부 맵핑에서</b></td><td><span class="tag t-ok">현장 검증</span></td></tr>
-      <tr><td class="nm">사운드</td><td>Unity 실시간 합성 (<code>OnAudioFilterRead</code>)</td><td>파일 없이 장면 상태(동기화 박자, 밝기)를 따라 패드 · 종 · 자연음 합성. 4채널 출력 예정</td><td><span class="tag t-part">1장면 적용</span></td></tr>
-      <tr><td class="nm">프리비즈 · 에셋</td><td>Blender 5.1 · Higgsfield · three.js</td><td>발광 나비 3D 모델, 다음 장면 생성형 예상 영상, 웹 4면 시뮬레이터(5주차)로 구현 전 방향 확인</td><td><span class="tag t-ok">사용 중</span></td></tr>
+      <tr><td class="nm">사운드</td><td>Unity 실시간 합성 (<code>OnAudioFilterRead</code>)</td><td>파일 없이 장면 상태(밝기 · 박자)를 따라 패드 · 종 · 자연음 합성. 4채널 출력 예정</td><td><span class="tag t-part">반딧불이 적용</span></td></tr>
+      <tr><td class="nm">프리비즈</td><td>Higgsfield · three.js</td><td>다음 장면 생성형 예상 영상, 웹 4면 시뮬레이터(5주차)로 구현 전 방향 확인</td><td><span class="tag t-ok">사용 중</span></td></tr>
       <tr><td class="nm">작업 · 전시 PC</td><td>RTX 4060 (8GB) · RAM 32GB · Windows 11</td><td>파티클 6.4만 개 기준 프레임당 계산 약 10ms. GPU 출력 단자 수(프로젝터 4 + 모니터 1)는 시설 확인 필요</td><td><span class="tag t-part">시설 확인</span></td></tr>
-    </tbody>
-  </table>
-  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">04</div>
-</div></section>
-
-<!-- 5 STORYBOARD MATCH -->
-<section class="slide"><div class="pad" style="padding-top:80px">
-  <div class="sec"><b>05-1</b>필요 기술요소 정의 · 스토리보드 매칭</div>
-  <h2>스토리보드 7장면 × 필요 기술 × 구현 씬</h2>
-  <table style="margin-top:24px">
-    <thead><tr><th style="width:170px">장면 · 반응</th><th>필요 기술 · 구현 방식</th><th style="width:330px">외부 사례 · 소스</th><th style="width:250px">Unity 씬</th><th style="width:140px">상태</th></tr></thead>
-    <tbody>
-      <tr><td class="nm">1 개미<small>바닥 반응 · 회피</small></td><td>흰 점 개미떼가 좌벽 · 바닥 · 우벽에서 정면으로 <b>줄지어 행진</b>(레인 추종 조향 + 걸음 박동) → 관객은 <b>돌아서 피함</b> → 정면 가운데 흰 원으로 수렴</td><td>Ant colony 스티그머지(페로몬) 모형 → 1차 ANTS 씬. 너무 추상적이라는 피드백으로 레인 추종으로 교체</td><td><code>ANTMARCH</code></td><td><span class="tag t-ok">빌드</span></td></tr>
-      <tr><td class="nm">2 터널<small>자동</small></td><td>정면 너머 60m 가상 복도의 점을 <b>관객 눈높이(2m)에서 4면에 투사</b> · 로그 깊이 분포 · 소용돌이 → 가속 → 흰빛 → 암전</td><td>워프 · 스타필드 원근 투사 기법. 개미의 흰 원이 그대로 소실점이 됨</td><td><code>TUNNEL</code></td><td><span class="tag t-ip">에디터 검증</span></td></tr>
-      <tr><td class="nm">3 반딧불이<small>근접 밝기 · 동기화</small></td><td>하나둘 켜짐 → 관객 근처 밝아짐 · 발밑 빛웅덩이 → <b>박자가 하나로 모임</b> → 좌벽 한 점만 남음 (다음 나비가 따라갈 빛)</td><td>Kuramoto · Strogatz 반딧불이 위상 동기화 모형</td><td><code>FIREFLY_SIGNAL</code><br><code>FIREFLY_NEBULA_VEIL</code></td><td><span class="tag t-ok">빌드</span></td></tr>
-      <tr><td class="nm">4 나비<small>4-1 발밑 / 4-2 꽃잎 물결</small></td><td>벽 = 별 · 흰 꽃 · 앞서가는 빛과 발광 나비, 바닥 = 얕은 물. 걸으면 발밑 물결(4-1), 꽃잎이 떨어진 자리 물결(4-2)</td><td>GPU 2D 파동방정식(RenderTexture 핑퐁), Blender 발광 나비 모델</td><td><code>BUTTERFLY</code><br><code>BUTTERFLY_WATER</code></td><td><span class="tag t-ok">빌드</span></td></tr>
-      <tr><td class="nm">5 크리스탈 동굴 · 거미<small>자동 · 착시</small></td><td>레터박스(베젤) 위로 다리가 넘어오는 <b>돌출 착시</b> · 거미집 (5-1 발견 / 5-2 짓기)</td><td>6주차 호랑이 베젤 착시 현장 테스트 성공, 자체 SPIDERWEB 로프 렌더링 자산</td><td>—</td><td><span class="tag t-none">씬 미착수</span></td></tr>
-      <tr><td class="nm">6 기억 회랑<small>자동</small></td><td>화면이 휘어 기억 패널로 · 깊이 방향 패널 흐름 · 주마등 수렴 (A~D 분기)</td><td>생성형 영상 소스 + 프리렌더 (디자인 파트)</td><td>영상 재생</td><td><span class="tag t-none">디자인 파트</span></td></tr>
-      <tr><td class="nm">7 사람<small>방향 · 모임 반응</small></td><td>벽을 <b>창문</b>으로 삼아 바깥 광장의 3D 군중을 투시 · 관객이 걷는 방향으로 군중이 흐름 · 가까운 벽으로 모임 · 바닥 거울에 <b>관객 자신</b>이 비침</td><td>비대칭 투시 투영(Off-axis projection), 휴머노이드 모델 · 걷기 애니메이션</td><td><code>PEOPLE3D</code></td><td><span class="tag t-ok">빌드</span></td></tr>
     </tbody>
   </table>
   <div class="crumb">SNOOZE · LIMEN</div><div class="pno">05</div>
 </div></section>
 
-<!-- 6 EXTERNAL SOURCES -->
+<!-- 6 STORYBOARD MATCH -->
+<section class="slide"><div class="pad" style="padding-top:80px">
+  <div class="sec"><b>05-1</b>필요 기술요소 정의 · 스토리보드 매칭</div>
+  <h2>스토리보드 7장면 × 필요 기술 × Unity 구현 범위</h2>
+  <table style="margin-top:24px">
+    <thead><tr><th style="width:190px">장면 · 반응</th><th>필요 기술 · 구현 방식</th><th style="width:360px">외부 사례 · 소스</th><th style="width:160px">Unity</th></tr></thead>
+    <tbody>
+      <tr><td class="nm">1 개미<small>바닥 반응 · 회피</small></td><td>흰 점 개미떼가 좌벽 · 바닥 · 우벽에서 정면으로 <b>줄지어 행진</b> → 관객은 돌아서 피함 → 정면 가운데 흰 원으로 수렴. 관객이 인터랙션을 잘못 인식해 보류</td><td>개미 군집 페로몬 모형 → 너무 추상적이라는 피드백으로 줄 추종 방식으로 교체</td><td><span class="tag t-hold">보류</span></td></tr>
+      <tr><td class="nm">2 터널<small>자동</small></td><td>정면 너머로 이어지는 복도 · 소용돌이 → 가속 → 흰빛 → 암전. 인터랙션 없음</td><td>워프 · 스타필드 원근 투사 기법</td><td><span class="tag t-none">메인 아님</span></td></tr>
+      <tr style="background:var(--panel)"><td class="nm">3 반딧불이<small>근접 밝기 · 제스처</small></td><td>어두운 방에서 <b>관객 둘레만</b> 빛남 · 벽에 다가가면 그 벽이 밝아짐 · <b>벽 앞 손짓</b>에 반딧불이가 비켜났다 복귀 · 빈 방엔 숨 쉬는 반딧불이 몇 마리만</td><td>반딧불이 집단 발광 · 근접 밝기, 손 상대속도 제스처 판정</td><td><span class="tag t-ok">확정</span></td></tr>
+      <tr><td class="nm">4 나비<small>발밑 물결</small></td><td>벽 = 별 · 흰 꽃 · 발광 나비, 바닥 = 얕은 물. 걸으면 발밑 물결</td><td>GPU 2D 파동방정식 (빌드까지 제작)</td><td><span class="tag t-drop">폐기</span></td></tr>
+      <tr><td class="nm">5 크리스탈 동굴 · 거미<small>자동 · 착시</small></td><td>레터박스(베젤) 위로 다리가 넘어오는 <b>돌출 착시</b> · 거미집</td><td>6주차 호랑이 베젤 착시 현장 테스트</td><td><span class="tag t-none">메인 아님</span></td></tr>
+      <tr><td class="nm">6 기억 회랑<small>자동</small></td><td>화면이 휘어 기억 패널로 · 깊이 방향 패널 흐름 · 주마등 수렴</td><td>생성형 영상 소스 + 프리렌더 (디자인 파트)</td><td><span class="tag t-none">메인 아님</span></td></tr>
+      <tr style="background:var(--panel)"><td class="nm">7 사람<small>방향 · 모임 · 동작</small></td><td>벽을 <b>창문</b>으로 삼아 바깥 군중을 투시 · 관객이 걷는 방향으로 군중이 흐름 · 가까운 벽으로 모임 · 벽 · 바닥 거울 속 <b>관객 자신</b>이 팔 동작을 따라 함</td><td>비대칭 투시 투영(Off-axis projection), 관절 → 3D 인물 팔 리타깃팅</td><td><span class="tag t-ok">확정</span></td></tr>
+    </tbody>
+  </table>
+  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">06</div>
+</div></section>
+
+<!-- 7 EXTERNAL SOURCES -->
 <section class="slide"><div class="pad">
   <div class="sec"><b>05-1</b>필요 기술요소 정의 · 외부 구현 사례 및 소스 확보</div>
   <h2>가져다 쓴 것과 직접 만든 것을 나눴습니다</h2>
@@ -272,10 +327,9 @@ ul.dl li b{color:var(--ink)}
       <div class="k">확보한 외부 소스</div>
       <table style="margin-top:14px">
         <tbody>
-          <tr><td class="nm" style="width:270px">Kinect v2 Examples<small>RF Solutions · Unity 에셋</small></td><td>센서 연결, 관절 · 뎁스 · 바디인덱스, 바닥 평면 자동 보정. 휴머노이드 모델 · 걷기 애니메이션 <b>(외부 배포 시 라이선스 확인 필요)</b></td></tr>
+          <tr><td class="nm" style="width:270px">Kinect v2 Examples<small>RF Solutions · Unity 에셋</small></td><td>센서 연결, 관절 · 뎁스, 바닥 평면 자동 보정. 사람 장면의 휴머노이드 모델 · 걷기 애니메이션 <b>(외부 배포 시 라이선스 확인 필요)</b></td></tr>
           <tr><td class="nm">KlakSpout<small>Keijiro Takahashi · 오픈소스</small></td><td>Unity → MadMapper GPU 텍스처 공유. 프로젝트에 내장(2.0.5)</td></tr>
           <tr><td class="nm">MadMapper<small>상용 · 시설</small></td><td>4면 워핑 · 엣지 블렌딩. 스튜디오에서 사전 테스트 완료</td></tr>
-          <tr><td class="nm">MediaPipe TD 플러그인<small>오픈소스</small></td><td>웹캠 기반 실루엣 · 손 · 포즈 — 예비 감지 경로</td></tr>
           <tr><td class="nm">KSUtil 녹화본<small>Kinect SDK 도구</small></td><td>.xef 녹화본을 센서처럼 주입 → 센서 없이 개발</td></tr>
         </tbody>
       </table>
@@ -284,41 +338,42 @@ ul.dl li b{color:var(--ink)}
       <div class="k">참고한 알고리즘 · 사례 → 직접 구현</div>
       <table style="margin-top:14px">
         <tbody>
-          <tr><td class="nm" style="width:250px">Kuramoto 동기화<small>반딧불이 집단 깜빡임</small></td><td>개체마다 위상, 이웃 박자로 끌림 → 관객 근처부터 박자가 맞음</td></tr>
-          <tr><td class="nm">Curl noise 흐름장<small>유체 같은 입자 흐름</small></td><td>방의 3D 좌표에서 노이즈를 뽑아 <b>모서리 너머로 끊김 없이</b> 흐름</td></tr>
-          <tr><td class="nm">2D 파동방정식<small>GPU 수면 시뮬레이션</small></td><td>높이장 핑퐁 텍스처, 벽 반사, 감쇠 · 점성 → 나비 장면 바닥 물</td></tr>
-          <tr><td class="nm">Off-axis 투시<small>CAVE · 몰입형 룸</small></td><td>관객 눈높이 기준 벽마다 비대칭 원근 → 터널 · 사람 장면</td></tr>
+          <tr><td class="nm" style="width:250px">상대속도 제스처<small>손 · 팔꿈치 vs 척추</small></td><td>몸 전체 이동을 빼고 팔만의 속도를 봄 → 걷기는 무반응, 손짓만 반응</td></tr>
+          <tr><td class="nm">3D 노이즈 밀도장<small>성운 같은 입자 분포</small></td><td>방의 3D 좌표에서 노이즈를 뽑아 <b>모서리 너머로 끊김 없이</b> 이어지는 반딧불이 분포</td></tr>
+          <tr><td class="nm">Off-axis 투시<small>CAVE · 몰입형 룸</small></td><td>관객 눈높이 기준 벽마다 비대칭 원근 → 사람 장면의 창문 · 바닥 거울</td></tr>
+          <tr><td class="nm">관절 리타깃팅<small>키넥트 → 휴머노이드</small></td><td>어깨 → 팔꿈치 → 손목 방향을 3D 인물의 팔뼈에 덮어씀. 벽 속 나는 좌우 반전(거울)</td></tr>
           <tr><td class="nm">호모그래피 4점 보정<small>프로젝션 맵핑 표준</small></td><td>센서 바닥 좌표 → 투사면 좌표. 회전 · 사다리꼴을 한 번에 흡수</td></tr>
         </tbody>
       </table>
     </div>
   </div>
-  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">06</div>
-</div></section>
-
-<!-- 7 TIMELINE -->
-<section class="slide"><div class="pad" style="padding-top:80px">
-  <div class="sec"><b>05-2</b>기술요소별 시험구현 (Prototype)</div>
-  <h2>시험구현 기록 — 성공 · 부분 · 실패를 모두 남겼습니다</h2>
-  <div class="tl" style="margin-top:28px">
-    <div class="row"><span class="dt">08.18</span><span class="pl">연구실</span><span class="wt"><b>센서 없이 개발하는 환경</b> — 녹화본(.xef)을 센서처럼 주입, Unity 가 실제 센서와 구분 못 함</span><span><span class="tag t-ok">SUCCESS</span></span></div>
-    <div class="row"><span class="dt">09.08</span><span class="pl">연구실</span><span class="wt"><b>키넥트 → 파티클</b> — 스켈레톤으로 파티클 반응</span><span><span class="tag t-ok">SUCCESS</span></span></div>
-    <div class="row"><span class="dt">09.16</span><span class="pl">연구실</span><span class="wt"><b>천장 수직 설치 대비</b> — 뎁스 덩어리로 사람 세기 (FLOORGATHER), 외부 PC 용 테스트 빌드</span><span><span class="tag t-ok">SUCCESS</span></span></div>
-    <div class="row"><span class="dt">09.17</span><span class="pl">스튜디오</span><span class="wt"><b>현장 키넥트 연결</b> — 센서 인식 끊김 → 원인: 마이크 드라이버 충돌</span><span><span class="tag t-fail">FAIL → 해결</span></span></div>
-    <div class="row"><span class="dt">09.22</span><span class="pl">스튜디오</span><span class="wt"><b>바닥 1면 인터랙션</b> (FLOORCAST) — 반응은 되지만 좌표 어긋남 → 네 점 보정 도입</span><span><span class="tag t-part">PARTIAL</span></span></div>
-    <div class="row"><span class="dt">09.23</span><span class="pl">스튜디오</span><span class="wt"><b>MadMapper 4면 워핑 · 블렌딩</b> 싱크</span><span><span class="tag t-ok">SUCCESS</span></span></div>
-    <div class="row"><span class="dt">09.30</span><span class="pl">스튜디오</span><span class="wt"><b>4면 인터랙션</b> (ROOMFLOW) — 바닥에서 벽 3면으로 이어지는 반응, 2명 동시 감지</span><span><span class="tag t-ok">SUCCESS</span></span></div>
-    <div class="row"><span class="dt">09.30</span><span class="pl">스튜디오</span><span class="wt"><b>싱크 테스트 · 발밑 표식</b> — 걸음을 따라가지만 정면 벽 가까이에서 감지 끊김, 투사 그림자</span><span><span class="tag t-part">PARTIAL</span></span></div>
-    <div class="row"><span class="dt">10.02</span><span class="pl">연구실</span><span class="wt"><b>4면 공통 뼈대</b> 분리 + 개미(ANTS) · 반딧불이(FIREFLY) 씬, 실시간 합성 사운드</span><span><span class="tag t-ok">빌드</span></span></div>
-    <div class="row"><span class="dt">10.05</span><span class="pl">연구실</span><span class="wt"><b>나비 · 사람</b> 씬 (BUTTERFLY · PEOPLE3D) — 셰이더 기반 4면, 걷는 방향 → 군중 흐름 −1.00 확인</span><span><span class="tag t-ok">빌드</span></span></div>
-    <div class="row"><span class="dt">10.06</span><span class="pl">연구실</span><span class="wt"><b>GPU 수면 파동</b> (BUTTERFLY_WATER) · 성운 반딧불이 (NEBULA_VEIL) · Blender 발광 나비</span><span><span class="tag t-ok">빌드</span></span></div>
-    <div class="row"><span class="dt">10.07</span><span class="pl">연구실</span><span class="wt"><b>스토리보드 14~16쪽 순서대로</b> — 개미 행진(ANTMARCH) → 터널(TUNNEL) → 반딧불이(FIREFLY_SIGNAL)</span><span><span class="tag t-ip">IN PROGRESS</span></span></div>
-    <div class="row"><span class="dt">10.08</span><span class="pl">연구실</span><span class="wt"><b>제스처 인터랙션</b> · 어두운 모드(사람 둘레만 빛남) · 깨어남 연출 — 마우스 대역으로 검증</span><span><span class="tag t-new">NEW</span></span></div>
-  </div>
   <div class="crumb">SNOOZE · LIMEN</div><div class="pno">07</div>
 </div></section>
 
-<!-- 8 PROTO 1: 4-FACE -->
+<!-- 8 TIMELINE -->
+<section class="slide"><div class="pad" style="padding-top:80px">
+  <div class="sec"><b>05-2</b>기술요소별 시험구현 (Prototype)</div>
+  <h2>시험구현 기록 — 성공 · 부분 · 실패를 모두 남겼습니다</h2>
+  <div class="tl" style="margin-top:24px">
+    <div class="row" style="padding:9px 0"><span class="dt">08.18</span><span class="pl">연구실</span><span class="wt"><b>센서 없이 개발하는 환경</b> — 녹화본(.xef)을 센서처럼 주입, Unity 가 실제 센서와 구분 못 함</span><span><span class="tag t-ok">SUCCESS</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">09.08</span><span class="pl">연구실</span><span class="wt"><b>키넥트 → 파티클</b> — 스켈레톤으로 파티클 반응</span><span><span class="tag t-ok">SUCCESS</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">09.17</span><span class="pl">스튜디오</span><span class="wt"><b>현장 키넥트 연결</b> — 센서 인식 끊김 → 원인: 마이크 드라이버 충돌</span><span><span class="tag t-fail">FAIL → 해결</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">09.22</span><span class="pl">스튜디오</span><span class="wt"><b>바닥 1면 인터랙션</b> — 반응은 되지만 좌표 어긋남 → 네 점 보정 도입</span><span><span class="tag t-part">PARTIAL</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">09.23</span><span class="pl">스튜디오</span><span class="wt"><b>MadMapper 4면 워핑 · 블렌딩</b> 싱크</span><span><span class="tag t-ok">SUCCESS</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">09.30</span><span class="pl">스튜디오</span><span class="wt"><b>4면 인터랙션</b> — 바닥에서 벽 3면으로 이어지는 반응, 2명 동시 감지</span><span><span class="tag t-ok">SUCCESS</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">09.30</span><span class="pl">스튜디오</span><span class="wt"><b>싱크 테스트 · 발밑 표식</b> — 걸음을 따라가지만 정면 벽 가까이에서 감지 끊김, 투사 그림자</span><span><span class="tag t-part">PARTIAL</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">10.02</span><span class="pl">연구실</span><span class="wt"><b>4면 공통 뼈대</b> 분리 + 개미 · 반딧불이 장면 첫 판, 실시간 합성 사운드</span><span><span class="tag t-ok">빌드</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">10.05</span><span class="pl">연구실</span><span class="wt"><b>나비 · 사람 장면</b> — 걷는 방향 → 군중 흐름 −1.00 확인, 나비 바닥 물 파동 (이후 폐기)</span><span><span class="tag t-ok">빌드</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">10.07</span><span class="pl">연구실</span><span class="wt"><b>스토리보드 순서대로</b> — 개미 행진 → 터널 → 반딧불이</span><span><span class="tag t-ok">빌드</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">10.08</span><span class="pl">연구실</span><span class="wt"><b>제스처 인터랙션</b> · 어두운 모드(사람 둘레만 빛남) — 마우스 대역으로 검증</span><span><span class="tag t-ok">SUCCESS</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">10.12</span><span class="pl">연구실</span><span class="wt"><b>가상 스켈레톤 테스트</b> — 25관절 가상 관객이 벽 다가가기 · 손짓 대본을 수행, 반딧불이 · 사람 장면 녹화</span><span><span class="tag t-new">NEW</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">10.12</span><span class="pl">연구실</span><span class="wt"><b>사람 장면 2판</b> — 흰 군중 · 색이 있는 나, 내 팔 동작을 벽 · 바닥 속 내가 따라 함</span><span><span class="tag t-new">NEW</span></span></div>
+    <div class="row" style="padding:9px 0"><span class="dt">10.12</span><span class="pl">팀</span><span class="wt"><b>장면 범위 결정</b> — 반딧불이 · 사람 확정, 개미 보류, 나비 폐기 · 감지는 키넥트만</span><span><span class="tag t-ip">결정</span></span></div>
+  </div>
+  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">08</div>
+</div></section>
+
+<!-- 9 PROTO 1: 4-FACE -->
 <section class="slide"><div class="pad">
   <div class="sec"><b>05-2</b>시험구현 ① · 4면 공통 구조</div>
   <h2>방을 전개도로 펼쳐 한 번만 계산하고, 네 면을 한 장으로 보냅니다</h2>
@@ -332,7 +387,7 @@ ul.dl li b{color:var(--ink)}
         <li><b>전개도 시뮬레이션</b> — 바닥을 가운데 두고 벽 3면을 펼친 평면에서 계산. 바닥↔벽이 붙어 있어 빛줄기가 모서리를 그대로 넘어감. 벽↔벽 모서리만 90° 회전으로 넘김</li>
         <li><b>카메라 4대 · 그림 1장</b> — 면마다 직교 카메라가 제 칸만 그림. 실측(정면 7.2×4m · 옆 4×4m · 바닥 7.2×4m)을 1m = 250px 로 동일하게</li>
         <li><b>잔상 누적</b> — 매 프레임 지우지 않고 곱셈으로 조금씩만 어둡게 → 점이 비단 같은 선으로. 밝기가 여기서 나옴</li>
-        <li><b>공통 뼈대 상속</b> — 새 장면은 필드 스크립트 하나만 만들면 센서 · Spout · 보정값 · 미리보기를 그대로 공유</li>
+        <li><b>공통 뼈대 상속</b> — 새 장면은 필드 스크립트 하나만 만들면 센서 · Spout · 보정값 · 미리보기를 그대로 공유. 반딧불이 · 사람 장면이 같은 뼈대 위에 있음</li>
       </ul>
       <div class="pipe">
         <div class="st"><b>Kinect v2</b><span>관절 · 뎁스</span></div><div class="ar">→</div>
@@ -342,29 +397,30 @@ ul.dl li b{color:var(--ink)}
       </div>
     </div>
   </div>
-  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">08</div>
-</div></section>
-
-<!-- 9 PROTO 2: POSITION -->
-<section class="slide"><div class="pad">
-  <div class="sec"><b>05-2</b>시험구현 ② · 위치 감지와 현장 보정</div>
-  <h2>센서 자리는 고정, 맞춤은 소프트웨어로 — 현장에서 5분 안에 다시 맞춥니다</h2>
-  <div class="grid4" style="margin-top:44px">
-    <div class="card"><div class="k">01 · 위치</div><div class="t">발목 관절 가운데</div><div class="d">발끝은 걸을 때 크게 흔들리고 척추는 몸을 기울이면 벗어남 → <b>두 발목의 가운데</b>. 한쪽만 잡히면 그쪽, 없으면 척추 밑동</div></div>
-    <div class="card"><div class="k">02 · 기울기</div><div class="t">바닥 평면 자동 측정</div><div class="d">키넥트가 프레임마다 주는 <b>바닥 평면</b>으로 센서 높이 · 앞뒤 기울기를 실시간 계산 → 설치 각도를 손으로 잴 필요 없음</div></div>
-    <div class="card"><div class="k">03 · 정합</div><div class="t">네 점 보정</div><div class="d">K → 바닥 귀퉁이에 사각형 표시 → 그 위에 서서 Space × 4. <b>호모그래피</b> 하나로 회전 · 사다리꼴 흡수, 값은 저장돼 다음 실행에도 유지</div></div>
-    <div class="card"><div class="k">04 · 미세 조정</div><div class="t">방향키 싱크</div><div class="d">빨간 점선 원(발밑 표식)을 보며 방향키로 감지 위치를 <b>1cm 단위</b> 이동, Shift 5배, Home 초기화. 격자(G)로 면 정렬</div></div>
-  </div>
-  <div class="grid2" style="margin-top:36px">
-    <div class="note"><div class="k">현장에서 확인된 것 (09.30)</div><div class="d" style="margin-top:6px">발밑 표식이 걸음을 따라 붙어 이동 · 2명 동시 감지 · 사람이 없으면 벽의 잔잔한 흐름만, 들어서면 발밑에서 4면으로 퍼짐</div></div>
-    <div class="note warn"><div class="k" style="color:var(--part)">남은 문제</div><div class="d" style="margin-top:6px">정면 벽 가까이에서 감지 끊김(센서 범위) · 몸이 바닥 투사를 가려 발 옆에 그림자 → 다음 장 "어려운 점"에서 해결 방안</div></div>
-  </div>
   <div class="crumb">SNOOZE · LIMEN</div><div class="pno">09</div>
 </div></section>
 
-<!-- 10 PROTO 3: GESTURE -->
+<!-- 10 PROTO 2: POSITION + HEADCOUNT -->
 <section class="slide"><div class="pad">
-  <div class="sec"><b>05-2</b>시험구현 ③ · 제스처 인터랙션 <span class="tag t-new" style="vertical-align:4px;margin-left:8px">NEW 10.08</span></div>
+  <div class="sec"><b>05-2</b>시험구현 ② · 위치 감지 · 현장 보정 · 인원 기준</div>
+  <h2>센서 자리는 고정, 맞춤은 소프트웨어로 — 현장에서 5분 안에 다시 맞춥니다</h2>
+  <div class="grid4" style="margin-top:36px">
+    <div class="card"><div class="k">01 · 위치</div><div class="t">발목 관절 가운데</div><div class="d">발끝은 걸을 때 크게 흔들리고 척추는 몸을 기울이면 벗어남 → <b>두 발목의 가운데</b>. 한쪽만 잡히면 그쪽, 없으면 척추 밑동</div></div>
+    <div class="card"><div class="k">02 · 기울기</div><div class="t">바닥 평면 자동 측정</div><div class="d">키넥트가 프레임마다 주는 <b>바닥 평면</b>으로 센서 높이 · 앞뒤 기울기를 실시간 계산 → 설치 각도를 손으로 잴 필요 없음</div></div>
+    <div class="card"><div class="k">03 · 정합</div><div class="t">네 점 보정</div><div class="d">바닥 귀퉁이에 사각형 표시 → 그 위에 서서 네 번 기록. <b>호모그래피</b> 하나로 회전 · 사다리꼴 흡수, 값은 저장돼 다음 실행에도 유지</div></div>
+    <div class="card"><div class="k">04 · 미세 조정</div><div class="t">방향키 싱크</div><div class="d">빨간 점선 원(발밑 표식)을 보며 방향키로 감지 위치를 <b>1cm 단위</b> 이동. 격자로 면 정렬</div></div>
+  </div>
+  <div class="ppl">
+    <div><div class="v">6<small>명</small></div><div class="l">감지 가능 인원</div><div class="d" style="margin-top:6px">Kinect v2 가 동시에 추적하는 최대 인원</div></div>
+    <div><div class="v">4<small>명</small></div><div class="l">인터랙션 최대 인원</div><div class="d" style="margin-top:6px">바닥 7.2×4m 공간에서 서로 가리지 않고 움직일 수 있는 상한. 5번째부터는 반응에서 제외하도록 적용 예정</div></div>
+    <div class="on"><div class="v">2<small>명</small></div><div class="l">연출 기준 인원</div><div class="d" style="margin-top:6px">4명이면 누가 어떤 반응을 일으켰는지 <b>직관적으로 보이지 않음</b> → 밝기 · 반응 크기 · 색을 2명 기준으로 맞춤</div></div>
+  </div>
+  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">10</div>
+</div></section>
+
+<!-- 11 PROTO 3: GESTURE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05-2</b>시험구현 ③ · 제스처 인터랙션</div>
   <h2>벽 가까이에서 손짓할 때만, 손 주변 반딧불이가 도망갔다 돌아옵니다</h2>
   <div class="triple">
     <div><img class="shot" src="img/veil_still.jpg" alt=""><div class="cap"><b>① 벽에 붙어 서 있기만</b> — 입자 이동 0</div></div>
@@ -374,98 +430,153 @@ ul.dl li b{color:var(--ink)}
   <div class="grid3" style="margin-top:30px">
     <div><div class="k">판정 방식</div><div class="d" style="margin-top:8px">손 · 팔꿈치 관절을 방 좌표로 바꾼 뒤 <b>척추 중간(SpineMid) 기준 상대속도 ≥ 1.4m/s</b> 일 때만 제스처. 걷기 · 다가가기는 몸 전체가 같이 움직여 상대속도 ≈ 0</div></div>
     <div><div class="k">반응 조건</div><div class="d" style="margin-top:8px">손이 벽에서 <b>1m 안</b>일 때만 (0.6m 부드러운 경계). 방 가운데에서 휘두르면 0. 바닥 입자는 움직이지 않음. 어두운 곳의 입자를 새로 켜지 않음</div></div>
-    <div><div class="k">검증 결과 (에디터)</div><div class="d" style="margin-top:8px">서 있기 0 · 가운데 휘두르기 0 · 벽 앞 손짓 → 해당 벽만 반응 · 바닥 0 · 3초 복귀. <b>실제 키넥트 스켈레톤으로는 아직 미검증</b> — 마우스 오른쪽 끌기로 대역 테스트</div></div>
+    <div><div class="k">검증 결과</div><div class="d" style="margin-top:8px">서 있기 0 · 가운데 휘두르기 0 · 벽 앞 손짓 → 해당 벽만 반응 · 바닥 0 · 3초 복귀. 마우스 대역(10.08) → <b>가상 스켈레톤(10.12)</b> 으로 확인. 실제 키넥트로는 다음 현장 테스트</div></div>
   </div>
-  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">10</div>
-</div></section>
-
-<!-- 11 DIFFICULTIES -->
-<section class="slide"><div class="pad" style="padding-top:80px">
-  <div class="sec"><b>05-3</b>구현에 어려운 점 정의 · 해결 방안</div>
-  <h2>현장과 개발 중에 부딪힌 문제 — 원인을 찾고 해결한 것 / 남은 것</h2>
-  <table style="margin-top:24px">
-    <thead><tr><th style="width:260px">문제</th><th>원인</th><th>해결 방안</th><th style="width:130px">상태</th></tr></thead>
-    <tbody>
-      <tr><td class="nm">감지 범위 부족</td><td>키넥트 1대가 덮는 바닥은 약 4.2×3.5m — 가로 7.2m 무대를 다 못 덮음, 정면 벽 가까이 끊김</td><td>천장 철골 <b>왼쪽 300cm · 앞 끝선 안쪽 50cm</b>에서 무대 안쪽을 사선 촬영. 부족하면 키넥트 2대 좌우 분할</td><td><span class="tag t-part">현장 확인</span></td></tr>
-      <tr><td class="nm">설치 각도 vs 스켈레톤</td><td>키넥트 사람 인식은 정면 자세로 학습됨 → 천장 수직 하향이면 스켈레톤이 아예 안 잡힘</td><td>제스처엔 사선 설치가 전제. 수직이 불가피하면 <b>뎁스 덩어리 추적</b>(자체 제작)으로 위치만 — 제스처는 포기</td><td><span class="tag t-part">현장 확인</span></td></tr>
-      <tr><td class="nm">관객이 바닥을 안 봄</td><td>시선이 벽 3면에 머물러 바닥 반응을 인지하지 못함 (사용자 테스트)</td><td>벽 1m 안 <b>손짓 제스처</b>에 벽 입자 반응 추가. 다가가기만으로는 무반응 → 통제가 아닌 관계</td><td><span class="tag t-ok">구현</span></td></tr>
-      <tr><td class="nm">프로젝터 대비 부족</td><td>4면 전체에 입자가 깔리면 빔프로 쏠 때 바닥이 회색으로 떠 대비가 약함</td><td><b>어두운 모드</b> — 사람 둘레와 다가간 벽만 빛나고 나머지는 꺼짐. 빈 방엔 숨 쉬는 반딧불이 3마리만</td><td><span class="tag t-ok">구현</span></td></tr>
-      <tr><td class="nm">빛이 점선처럼 보임</td><td>점 8만 개로는 22㎡ × 4면에 빛이 모자람. 빠른 입자는 프레임마다 점 크기보다 멀리 감</td><td>잔상 누적(곱셈 페이드, 16비트 텍스처) + 속도 방향으로 늘인 렌더 + 블룸 두 겹</td><td><span class="tag t-ok">해결</span></td></tr>
-      <tr><td class="nm">모서리 밝은 세로줄 · 면별 밀도 차</td><td>전개도 거리로 미는 힘이 모서리 양쪽에서 모서리를 향함 / 노이즈 값 분포가 면마다 달라 좌벽이 비어 보임</td><td>벽에서는 옆 방향 힘을 위로 돌림 · 경계 허용오차 / 면마다 분위수를 재서 문턱을 맞춤 (좌벽 0.477 → 고르게)</td><td><span class="tag t-ok">해결</span></td></tr>
-      <tr><td class="nm">연산 시간</td><td>4면 입자를 CPU 로 계산 — 프레임당 20ms</td><td>벡터 연산을 실수로 풀고 이동 · 계산 루프를 합쳐 <b>9ms</b>. 무거운 장면은 셰이더 · GPU 시뮬레이션으로</td><td><span class="tag t-ok">해결</span></td></tr>
-      <tr><td class="nm">빌드가 센서를 못 엶</td><td>키넥트 네이티브 DLL 이 Assets 밖이라 Unity 빌드에 안 들어감 / 센서 없어도 "초기화됨"으로 보고</td><td>빌드 스크립트가 DLL 17개 자동 복사 · 센서 판정은 <b>바디 프레임 시각이 실제로 증가하는지</b>로</td><td><span class="tag t-ok">해결</span></td></tr>
-    </tbody>
-  </table>
   <div class="crumb">SNOOZE · LIMEN</div><div class="pno">11</div>
 </div></section>
 
-<!-- 12 ALTERNATIVES -->
+<!-- 12 PROTO 4: VIRTUAL SKELETON -->
 <section class="slide"><div class="pad">
-  <div class="sec"><b>05-3</b>구현에 어려운 점 · 대체 기술과 스토리보드 수정</div>
-  <h2>막히면 바꿀 기술을 미리 정해 두고, 바꾸면 스토리보드도 같이 고칩니다</h2>
-  <table style="margin-top:40px">
-    <thead><tr><th style="width:260px">위험</th><th style="width:380px">1안 (현재)</th><th>대체 기술</th><th style="width:420px">스토리보드 수정</th></tr></thead>
-    <tbody>
-      <tr><td class="nm">사선 자리에서 팔 관절 불안정</td><td>Kinect v2 1대 · 천장 사선 · 스켈레톤 제스처</td><td>제스처 문턱 · 벽 거리 조정 → 안 되면 <b>위치 + 머무른 시간</b>으로 벽 반응 대체</td><td>"손짓"을 "벽 앞에 머물기"로 안내 문구 변경</td></tr>
-      <tr><td class="nm">감지 폭 부족</td><td>키넥트 1대</td><td>키넥트 2대 좌우 분할 (PC 당 1대 제약 → PC 2대 + 네트워크) · Orbbec 보조</td><td>없음 · 체험 구역 바닥 표시만 추가</td></tr>
-      <tr><td class="nm">시설 PC 실시간 불가</td><td>Unity 빌드 실시간 4면 출력</td><td>노트북 반입 · 또는 벽 3면 프리렌더 + 바닥만 실시간</td><td>벽 장면은 영상, 반응은 바닥 한정</td></tr>
-      <tr><td class="nm">프레임 저하</td><td>파티클 6.4만 · 프레임당 약 10ms</td><td>입자 수 축소 · 셰이더 / Compute Shader 로 이전</td><td>밀도 낮은 장면으로 교체 가능</td></tr>
-      <tr><td class="nm">장면 5 · 6 미구현</td><td>실시간 장면</td><td>생성형 영상 · 디자인 파트 프리렌더 재생</td><td>5 · 6 을 영상 장면으로 표기</td></tr>
-      <tr><td class="nm">분기 미결정 (4 · 5 · 6)</td><td>두 안 모두 시안 제작 (4-1 / 4-2 키 전환)</td><td>현장 테스트 후 한 안 선택</td><td>고른 안의 프레임만 남김</td></tr>
-    </tbody>
-  </table>
+  <div class="sec"><b>05-2</b>시험구현 ④ · 가상 스켈레톤 테스트 <span class="tag t-new" style="vertical-align:4px;margin-left:8px">NEW 10.12</span></div>
+  <h2>스튜디오에 가기 전에, 가상 관객이 정해진 동작을 대신 해 봅니다</h2>
+  <p class="lead">가지고 있던 키넥트 녹화본은 정면 근거리라 <b>벽에 다가가기 · 손짓</b>이 없었습니다. 그래서 25개 관절을 가진 가상 관객을 만들어 60초 대본을 수행시키고, 실제 키넥트와 같은 경로로 장면에 넣었습니다.</p>
+  <div class="grid4" style="margin-top:30px;gap:22px">
+    <div><img class="shot" src="img/rig_veil_13.jpg" alt=""><div class="cap"><b>반딧불이 · 정면 벽 앞 손 흔들기</b> — 정면 벽만 반응</div></div>
+    <div><img class="shot" src="img/rig_veil_28.jpg" alt=""><div class="cap"><b>반딧불이 · 좌벽 앞 손으로 벽 쓸기</b> — 좌벽이 밝아지고 비켜남</div></div>
+    <div><img class="shot" src="img/rig_p3d_15.jpg" alt=""><div class="cap"><b>사람 · 정면 벽 앞 손 흔들기</b> — 벽 · 바닥 속 내가 팔을 따라 듦</div></div>
+    <div><img class="shot" src="img/rig_p3d_27.jpg" alt=""><div class="cap"><b>사람 · 좌벽으로 이동</b> — 군중이 걷는 방향으로 흐름</div></div>
+  </div>
+  <div class="grid3" style="margin-top:28px">
+    <div><div class="k">60초 대본</div><div class="d" style="margin-top:8px">입장 → 가운데 → 정면 벽(손 흔들기 · 두 팔 휘젓기) → 좌벽(벽 쓸기) → 우벽(날갯짓) → 가운데 <b>느린 만세(문턱 아래 = 무반응이어야 함)</b> → 퇴장 → 빈 방</div></div>
+    <div><div class="k">실제 센서와 같은 경로</div><div class="d" style="margin-top:8px">관절 좌표를 방 좌표 → 센서 좌표로 되돌려 넣기 때문에, 장면 쪽 코드는 진짜 키넥트인지 가상인지 구분하지 않음</div></div>
+    <div><div class="k">현장에서 그대로 비교</div><div class="d" style="margin-top:8px">현장에서 실제 관객의 스켈레톤을 CSV 로 녹화해 같은 장면에 다시 재생 가능 → 연구실에서 현장 동작으로 튜닝</div></div>
+  </div>
   <div class="crumb">SNOOZE · LIMEN</div><div class="pno">12</div>
 </div></section>
 
-<!-- 13 DESIGN x TECH 1 -->
-<section class="slide"><div class="pad">
-  <div class="sec"><b>05-4</b>디자인 프로토타입 × 기술 통합 구현 (Unity) · 1</div>
-  <h2>스토리보드 장면을 4면 전개도 출력으로 옮긴 결과</h2>
-  <p class="lead">아래 이미지는 모두 <b>실제 출력 텍스처</b>입니다(위 줄 좌벽 · 정면 · 우벽 / 아래 바닥). 빨간 점선 원은 테스트용 관객 위치입니다.</p>
-  <div class="sc">
-    <div><img class="shot" src="img/ant_ring.jpg" alt=""><div class="nm"><b>1 개미 · ANTMARCH</b><span class="tag t-ok">빌드</span></div><div class="d">흰 점이 줄지어 정면으로 행진, 관객 자리는 돌아서 비켜 감 → 정면 가운데 흰 원으로 모여 다음 장면 터널의 소실점이 됨. 타임라인 6+14+12+12+3초</div></div>
-    <div><img class="shot" src="img/tunnel_warp.jpg" alt=""><div class="nm"><b>2 터널 · TUNNEL</b><span class="tag t-ip">에디터</span></div><div class="d">관객 눈높이에서 본 가상 복도를 4면에 투사 — 방 안 점은 제 벽에, 먼 점은 정면에 원근으로. 소용돌이 → 가속 → 흰빛 → 암전. 인터랙션 없음</div></div>
-    <div><img class="shot" src="img/firefly_breathe.jpg" alt=""><div class="nm"><b>3 반딧불이 · FIREFLY_SIGNAL</b><span class="tag t-ip">에디터</span></div><div class="d">암전에서 하나둘 켜짐 → 발밑 빛웅덩이 → 박자가 하나로 모여 초록 · 노랑 호흡 → 좌벽 한 점만 남음. 사람은 밝기에만 영향 (끌어당김 없음)</div></div>
-  </div>
+<!-- 13 DIFFICULTIES -->
+<section class="slide"><div class="pad" style="padding-top:80px">
+  <div class="sec"><b>05-3</b>구현에 어려운 점 정의 · 해결 방안</div>
+  <h2>현장과 개발 중에 부딪힌 문제 — 원인을 찾고 해결한 것 / 남은 것</h2>
+  <table style="margin-top:22px">
+    <thead><tr><th style="width:250px">문제</th><th>원인</th><th>해결 방안</th><th style="width:130px">상태</th></tr></thead>
+    <tbody>
+      <tr><td class="nm">감지 범위 부족</td><td>키넥트 1대가 덮는 바닥은 약 4.2×3.5m — 가로 7.2m 무대를 다 못 덮음, 정면 벽 가까이 끊김</td><td>천장 철골 <b>왼쪽 300cm · 앞 끝선 안쪽 50cm</b>에서 무대 안쪽을 사선 촬영. 부족하면 키넥트 2대 좌우 분할</td><td><span class="tag t-part">현장 확인</span></td></tr>
+      <tr><td class="nm">설치 각도 vs 스켈레톤</td><td>키넥트 사람 인식은 정면 자세로 학습됨 → 천장 수직 하향이면 스켈레톤이 아예 안 잡힘</td><td>제스처를 쓰므로 <b>사선 설치로 확정</b>. 각도는 현장에서 팔 관절이 안정적으로 잡히는 값으로</td><td><span class="tag t-part">현장 확인</span></td></tr>
+      <tr><td class="nm">관객이 바닥을 안 봄</td><td>시선이 벽 3면에 머물러 바닥 반응을 인지하지 못함 (사용자 테스트)</td><td>벽 1m 안 <b>손짓 제스처</b>에 벽 입자 반응 추가. 다가가기만으로는 무반응 → 통제가 아닌 관계</td><td><span class="tag t-ok">구현</span></td></tr>
+      <tr><td class="nm">인원이 많으면 반응이 안 읽힘</td><td>감지는 6명까지 되지만, 4명이 동시에 움직이면 누가 무엇을 일으켰는지 보이지 않음</td><td>인터랙션은 <b>최대 4명</b>으로 제한, 반응 크기 · 색은 <b>2명 기준</b>으로 조정. 사람 장면은 사람마다 다른 색</td><td><span class="tag t-ok">기준 확정</span></td></tr>
+      <tr><td class="nm">개미 장면 인터랙션 오인</td><td>개미가 관객을 피해 가는 반응을 관객이 의도와 다르게 받아들임</td><td>장면 <b>보류</b> — 인터랙션이 그 장면에 필요한지부터 재검토</td><td><span class="tag t-hold">보류</span></td></tr>
+      <tr><td class="nm">프로젝터 대비 부족</td><td>4면 전체에 입자가 깔리면 빔프로 쏠 때 바닥이 회색으로 떠 대비가 약함</td><td><b>어두운 모드</b> — 사람 둘레와 다가간 벽만 빛나고 나머지는 꺼짐</td><td><span class="tag t-ok">구현</span></td></tr>
+      <tr><td class="nm">면별 밀도 차</td><td>노이즈 값 분포가 면마다 달라 좌벽이 비어 보임</td><td>면마다 분위수를 재서 문턱을 맞춤 (좌벽 0.477 → 고르게)</td><td><span class="tag t-ok">해결</span></td></tr>
+      <tr><td class="nm">연산 시간</td><td>4면 입자를 CPU 로 계산 — 프레임당 20ms</td><td>벡터 연산을 풀고 루프를 합쳐 <b>9ms</b>. 무거운 장면은 셰이더로</td><td><span class="tag t-ok">해결</span></td></tr>
+      <tr><td class="nm">빌드가 센서를 못 엶</td><td>키넥트 네이티브 DLL 이 Unity 빌드에 안 들어감 / 센서 없어도 "초기화됨"으로 보고</td><td>빌드 스크립트가 DLL 17개 자동 복사 · 센서 판정은 <b>바디 프레임 시각이 실제로 증가하는지</b>로</td><td><span class="tag t-ok">해결</span></td></tr>
+    </tbody>
+  </table>
   <div class="crumb">SNOOZE · LIMEN</div><div class="pno">13</div>
 </div></section>
 
-<!-- 14 DESIGN x TECH 2 -->
+<!-- 14 ALTERNATIVES -->
 <section class="slide"><div class="pad">
-  <div class="sec"><b>05-4</b>디자인 프로토타입 × 기술 통합 구현 (Unity) · 2</div>
-  <h2>반응하는 장면 — 근접 밝기 · 물결 · 군중</h2>
-  <div class="sc" style="margin-top:40px">
-    <div><img class="shot" src="img/veil_awaken.jpg" alt=""><div class="nm"><b>3 반딧불이 성운 · NEBULA_VEIL</b><span class="tag t-ok">빌드</span></div><div class="d"><b>깨어남 연출</b>: 관객이 들어오고 20초 뒤, 관객 둘레에서 빛이 번져 약 14초 만에 방 전체가 깨어남. 방이 20초 비면 다시 어두워짐. 제스처 · 어두운 모드 적용 씬</div></div>
-    <div><img class="shot" src="img/water.jpg" alt=""><div class="nm"><b>4 나비 · BUTTERFLY_WATER</b><span class="tag t-ok">빌드</span></div><div class="d">바닥 = GPU 파동방정식 얕은 물. 0.3m 걸을 때마다 발밑 물결(4-1), 멈추고 6초면 거울 같은 수면. 벽 = 별 · 흰 꽃 · 빛을 따라가는 발광 나비. 1 / 2 키로 분기 비교</div></div>
-    <div><img class="shot" src="img/p3d_gather.jpg" alt=""><div class="nm"><b>7 사람 · PEOPLE3D</b><span class="tag t-ok">빌드</span></div><div class="d">벽 = 창문. 눈높이 1.7m 에서 본 광장의 3D 군중 56명. 관객이 왼쪽으로 걸으면 군중도 왼쪽으로(흐름 −1.00 확인), 가까운 벽으로 7명이 모임. 바닥 거울에 관객 자신이 비침</div></div>
-  </div>
+  <div class="sec"><b>05-3</b>구현에 어려운 점 · 대체 기술과 스토리보드 수정</div>
+  <h2>막히면 바꿀 방법을 미리 정해 두고, 바꾸면 스토리보드도 같이 고칩니다</h2>
+  <table style="margin-top:40px">
+    <thead><tr><th style="width:260px">위험</th><th style="width:380px">1안 (현재)</th><th>대체 방안</th><th style="width:420px">스토리보드 수정</th></tr></thead>
+    <tbody>
+      <tr><td class="nm">사선 자리에서 팔 관절 불안정</td><td>Kinect v2 1대 · 천장 사선 · 스켈레톤 제스처</td><td>제스처 문턱 · 벽 거리 조정 → 안 되면 <b>위치 + 머무른 시간</b>으로 벽 반응 대체</td><td>"손짓"을 "벽 앞에 머물기"로 안내 문구 변경</td></tr>
+      <tr><td class="nm">감지 폭 부족</td><td>키넥트 1대</td><td>키넥트 2대 좌우 분할 (PC 당 1대 제약 → PC 2대 + 네트워크)</td><td>없음 · 체험 구역 바닥 표시만 추가</td></tr>
+      <tr><td class="nm">입장 인원 초과</td><td>인터랙션 최대 4명</td><td>반응 계산은 4명까지만 · 입구에서 입장 인원 안내</td><td>체험 안내에 "2명씩 권장" 문구</td></tr>
+      <tr><td class="nm">시설 PC 실시간 불가</td><td>Unity 빌드 실시간 4면 출력</td><td>노트북 반입 · 또는 벽 3면 프리렌더 + 바닥만 실시간</td><td>벽 장면은 영상, 반응은 바닥 한정</td></tr>
+      <tr><td class="nm">프레임 저하</td><td>파티클 6.4만 · 프레임당 약 10ms / 3D 군중 투시</td><td>입자 수 · 군중 수 축소 · 셰이더로 이전</td><td>밀도 낮은 연출로 조정</td></tr>
+      <tr><td class="nm">개미 장면 보류</td><td>빌드 완성 · 인터랙션 오인</td><td>인터랙션 없는 자동 장면으로 쓰거나 제외</td><td>제외 시 해당 프레임 삭제 · 장면 순서 재정리</td></tr>
+    </tbody>
+  </table>
   <div class="crumb">SNOOZE · LIMEN</div><div class="pno">14</div>
 </div></section>
 
-<!-- 15 SYSTEM DIAGRAM -->
+<!-- 15 DESIGN x TECH 1 : FIREFLY -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05-4</b>디자인 프로토타입 × 기술 통합 구현 (Unity) · 확정 ① <span class="tag t-ok" style="vertical-align:4px;margin-left:8px">확정</span></div>
+  <h2>반딧불이 — 어두운 방에서, 내가 있는 곳만 빛납니다</h2>
+  <p class="lead">아래 이미지는 모두 <b>실제 출력 텍스처</b>입니다(위 줄 좌벽 · 정면 · 우벽 / 아래 바닥). 빨간 점선 원은 테스트용 관객 위치입니다.</p>
+  <div class="sc">
+    <div><img class="shot" src="img/ff_two.jpg" alt=""><div class="nm"><b>2명 — 각자의 빛</b></div><div class="d">관객마다 둘레의 반딧불이만 깨어남. 한 명은 방 가운데, 한 명은 좌벽 가까이 — 가까운 좌벽이 함께 밝아짐</div></div>
+    <div><img class="shot" src="img/ff_center.jpg" alt=""><div class="nm"><b>방 가운데 — 벽은 절반</b></div><div class="d">벽 밝기는 그 벽과의 거리로. 벽에 붙으면 최대, 방 가운데면 50%. 빈 방에는 숨 쉬는 반딧불이 3마리만</div></div>
+    <div><img class="shot" src="img/ff_near.jpg" alt=""><div class="nm"><b>벽 앞 — 손짓하면 비켜남</b></div><div class="d">다가가면 정면이 밝아지고, 손짓하면 손 주변 반딧불이가 도망갔다 3초 뒤 돌아옴. 끌어당기는 반응은 넣지 않음</div></div>
+  </div>
+  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">15</div>
+</div></section>
+
+<!-- 16 DESIGN x TECH 2 : PEOPLE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05-4</b>디자인 프로토타입 × 기술 통합 구현 (Unity) · 확정 ② <span class="tag t-ok" style="vertical-align:4px;margin-left:8px">확정</span></div>
+  <h2>사람 — 벽 너머의 군중 속에서, 나만 색을 가집니다</h2>
+  <p class="lead">벽 3면은 <b>창문</b>, 바닥은 <b>거울</b>입니다. 관객 눈높이(1.7m)에서 본 바깥 광장의 3D 군중을 벽마다 비대칭 원근으로 투사합니다.</p>
+  <div class="sc">
+    <div><img class="shot" src="img/pp_self.jpg" alt=""><div class="nm"><b>시작 — 나만 있음</b></div><div class="d">어둠 속에서 벽 · 바닥 거울에 <b>나</b>만 먼저 나타남. 군중은 흰빛, 나는 사람마다 다른 색(파랑 · 주황 · 분홍)</div></div>
+    <div><img class="shot" src="img/pp_filled.jpg" alt=""><div class="nm"><b>군중이 차오름</b></div><div class="d">좌 · 정면 · 우를 번갈아 점점 빠르게 군중이 늘어남. 관객이 걷는 방향으로 군중이 흐르고, 가까운 벽으로 몇 명이 모여듦</div></div>
+    <div><img class="shot" src="img/pp_wave.jpg" alt=""><div class="nm"><b>내 동작을 따라 함</b></div><div class="d">팔을 들면 벽 · 바닥 속 내가 같은 팔을 듦. 벽 속 나는 거울처럼 좌우 반전. 다리는 걷기 · 서기 동작 유지. 끝은 군중이 입자 → 작은 빛 → 검정</div></div>
+  </div>
+  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">16</div>
+</div></section>
+
+<!-- 17 HOLD / DROP -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05-4</b>디자인 프로토타입 × 기술 통합 구현 (Unity) · 보류 · 폐기 장면</div>
+  <h2>만들어 본 뒤 내려놓은 장면 — 결과물은 기록으로 남깁니다</h2>
+  <div class="grid2" style="margin-top:40px;gap:48px">
+    <div>
+      <img class="shot" src="img/ant_ring.jpg" alt="">
+      <div class="nm" style="display:flex;align-items:center;justify-content:space-between;margin-top:16px"><b style="font-size:24px">1 개미</b><span class="tag t-hold">보류</span></div>
+      <div class="d" style="margin-top:10px">흰 점이 좌벽 · 바닥 · 우벽에서 줄지어 정면으로 행진하고, 관객 자리는 돌아서 비켜 감 → 정면 가운데 흰 원으로 모임. 빌드까지 완성했지만 <b>관객이 인터랙션을 잘못 인식</b>해 보류. 장면에 인터랙션이 꼭 필요한지 재검토 중</div>
+    </div>
+    <div>
+      <img class="shot" src="img/water.jpg" alt="">
+      <div class="nm" style="display:flex;align-items:center;justify-content:space-between;margin-top:16px"><b style="font-size:24px">4 나비 (물 파동)</b><span class="tag t-drop">폐기</span></div>
+      <div class="d" style="margin-top:10px">바닥 = GPU 파동방정식으로 만든 얕은 물. 걸으면 발밑 물결, 멈추면 거울 같은 수면. 벽 = 별 · 흰 꽃 · 발광 나비. 빌드까지 만들었으나 <b>폐기</b> — 확정 2장면에 개발을 집중</div>
+    </div>
+  </div>
+  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">17</div>
+</div></section>
+
+<!-- 18 TOOLS -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05-4</b>개발 · 검증 도구</div>
+  <h2>스튜디오에 못 가는 날에도 개발이 멈추지 않도록 만든 도구들</h2>
+  <div class="grid3" style="margin-top:44px">
+    <div class="card"><div class="k">센서 없이</div><div class="t">녹화본 · 마우스 · 가상 관객</div><div class="d">키넥트 녹화본(.xef) 주입, 미리보기 위 마우스를 관객으로(오른쪽 끌기 = 손짓), <b>가상 스켈레톤 60초 대본</b>. 현장에선 실제 관객 스켈레톤을 녹화해 다시 재생</div></div>
+    <div class="card"><div class="k">자동 촬영</div><div class="t">배치 촬영 · 빌드 녹화</div><div class="d">에디터 화면 없이 씬을 돌려 정해진 시각 · 관객 위치에서 출력 텍스처를 저장 → <b>같은 조건의 앞뒤 비교</b>. 빌드는 다른 창에 가려져도 한 바퀴를 영상으로 녹화</div></div>
+    <div class="card"><div class="k">빌드 · 배포</div><div class="t">원클릭 빌드 + 스모크 테스트</div><div class="d">장면마다 빌드 메뉴 하나 — 키넥트 DLL 복사 · 안내문 · zip 까지. 빌드 후 15~18초 실행해 로그에 오류가 없는지 확인. 장면 빌드끼리 <b>보정값을 공유</b>해 현장에서 한 번만 맞춤</div></div>
+  </div>
+  <div class="grid2" style="margin-top:34px">
+    <div class="note"><div class="k">현장 운영 키</div><div class="d" style="margin-top:6px"><b>K</b> 네 점 보정 · <b>방향키</b> 싱크 · <b>G</b> 보정 격자 · <b>C</b> 발밑 표식 · <b>J</b> 가상 관객 · <b>F9</b> 스켈레톤 녹화 · <b>M</b> 음소거 · <b>B</b> 장면 처음부터</div></div>
+    <div class="note warn"><div class="k" style="color:var(--part)">전시 전 반드시 끌 것</div><div class="d" style="margin-top:6px">가짜 · 가상 관객 · 발밑 표식 · 격자 · 화면 글자 — 화면이 그대로 벽과 바닥에 찍힌다</div></div>
+  </div>
+  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">18</div>
+</div></section>
+
+<!-- 19 SYSTEM DIAGRAM -->
 <section class="slide"><div class="pad" style="padding-top:80px">
   <div class="sec"><b>05-5</b>시스템 구성도 (기술 및 장비 설치 도안)</div>
   <h2>센서 1대 → PC 1대 → 텍스처 1장 → MadMapper → 프로젝터 4대</h2>
-  <div class="legend" style="margin-top:16px"><span class="l1">핵심 처리</span><span class="l2">10.08 변경 · 추가</span><span class="l3">시설에 확인 필요</span></div>
+  <div class="legend" style="margin-top:16px"><span class="l1">핵심 처리</span><span class="l2">10월 변경 · 추가</span><span class="l3">시설에 확인 필요</span></div>
   <div class="sys">
     <div class="col">
       <h5>INPUT · 감지</h5>
-      <div class="node"><b>관객 (최대 4명)</b><span>바닥 7.2 × 4m 위를 걷고, 벽 앞에서 손짓</span></div>
+      <div class="node nw"><b>관객 <span class="chip">인원 기준</span></b><span>감지 최대 6명 · 인터랙션 최대 4명 · <b>기준 2명</b><br>바닥 7.2 × 4m 위를 걷고, 벽 앞에서 손짓</span></div>
       <div class="flowline"><i>↓</i> IR 뎁스 · 관절</div>
-      <div class="node nw"><b>Kinect v2 <span class="chip">사선</span></b><span>천장 철골 · 왼쪽 300cm · 앞 끝선 안쪽 50cm<br>무대 안쪽을 사선으로 촬영 (각도 현장 확정)<br>철골 높이 = 천장 − 40cm</span></div>
+      <div class="node nw"><b>Kinect v2 <span class="chip">사선</span></b><span>천장 철골 · 왼쪽 300cm · 앞 끝선 안쪽 50cm<br>무대 안쪽을 사선으로 촬영 (각도 현장 확정)<br>철골 높이 = 천장 − 40cm · <b>감지는 이 한 대뿐</b></span></div>
       <div class="node cf"><b>USB 3.0 액티브 연장</b><span>천장 → 전시 PC 거리 · 전원 어댑터 필수</span></div>
-      <div class="node"><b>예비</b><span>웹캠 + MediaPipe · 뎁스 덩어리 추적</span></div>
     </div>
     <div class="col">
       <h5>PROCESS · 전시 PC 1대 (Windows 11 · RTX 4060 급)</h5>
-      <div class="node hl"><b>Unity 빌드 · 씬 1개 = 4면 전부</b><span>LIMEN 장면 빌드 (현재 장면별 8개 → 통합 예정)</span></div>
+      <div class="node hl"><b>Unity 빌드 · 씬 1개 = 4면 전부</b><span>확정 2장면(반딧불이 · 사람) → 하나의 빌드 · 타임라인으로 통합 예정</span></div>
       <div class="grid2" style="gap:12px">
         <div class="node"><b>사람 추적</b><span>발목 → 바닥 좌표<br>네 점 보정 · 방향키 싱크</span></div>
         <div class="node nw"><b>제스처 판정 <span class="chip">NEW</span></b><span>손 · 팔꿈치 상대속도<br>≥ 1.4m/s · 벽 1m 안</span></div>
         <div class="node"><b>4면 시뮬레이션</b><span>전개도 한 번에 계산<br>위치 → 밝기 / 제스처 → 벽</span></div>
         <div class="node"><b>합성</b><span>잔상 · 블룸 두 겹<br>3800 × 2000 텍스처</span></div>
       </div>
-      <div class="flowline"><i>↓</i> Spout (GPU 공유, 이름 LIMEN_ROOM)</div>
+      <div class="flowline"><i>↓</i> Spout (GPU 공유)</div>
       <div class="grid2" style="gap:12px">
         <div class="node hl"><b>MadMapper</b><span>면마다 잘라 워핑 · 모서리 블렌딩</span></div>
         <div class="node"><b>사운드 · 운영 모니터</b><span>실시간 합성 4ch · 전개도 미리보기</span></div>
@@ -480,26 +591,10 @@ ul.dl li b{color:var(--ink)}
       <div class="node cf"><b>스피커 × 4 · 네 모서리</b><span>오디오 인터페이스 4ch 사양 확인</span></div>
     </div>
   </div>
-  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">15</div>
+  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">19</div>
 </div></section>
 
-<!-- 16 TOOLS -->
-<section class="slide"><div class="pad">
-  <div class="sec"><b>05-4</b>개발 · 검증 도구</div>
-  <h2>스튜디오에 못 가는 날에도 개발이 멈추지 않도록 만든 도구들</h2>
-  <div class="grid3" style="margin-top:44px">
-    <div class="card"><div class="k">센서 없이</div><div class="t">녹화본 주입 · 마우스 대역</div><div class="d">키넥트 녹화본(.xef)을 센서처럼 주입(T 키). 녹화본 2,476프레임 중 2,118프레임 감지 · 2명 동시 확인. <b>R 키</b>를 누르면 미리보기 위 마우스가 관객, 오른쪽 끌기가 손짓</div></div>
-    <div class="card"><div class="k">자동 촬영</div><div class="t">배치 촬영 하니스</div><div class="d">에디터 화면 없이 씬을 돌려 정해진 시각 · 정해진 관객 위치에서 출력 텍스처를 저장. 값을 바꿀 때마다 <b>같은 조건의 앞뒤 비교</b>가 가능 (이 문서의 장면 이미지 전부)</div></div>
-    <div class="card"><div class="k">빌드 · 배포</div><div class="t">원클릭 빌드 + 스모크 테스트</div><div class="d">장면마다 빌드 메뉴 하나 — 키넥트 DLL 복사 · 안내문 · zip 까지. 빌드 후 15~18초 실행해 로그에 오류가 없는지 확인. 장면 빌드끼리 <b>보정값을 공유</b>해 현장에서 한 번만 맞춤</div></div>
-  </div>
-  <div class="grid2" style="margin-top:34px">
-    <div class="note"><div class="k">현장 운영 키</div><div class="d" style="margin-top:6px"><b>K</b> 네 점 보정 · <b>방향키</b> 싱크 · <b>G</b> 보정 격자 · <b>C</b> 발밑 표식 · <b>P</b> 가짜 사람 · <b>M</b> 음소거 · <b>B</b> 장면 처음부터</div></div>
-    <div class="note warn"><div class="k" style="color:var(--part)">전시 전 반드시 끌 것</div><div class="d" style="margin-top:6px">가짜 사람(센서 없을 때 자동으로 서는 테스트 인물) · 발밑 표식 · 격자 — 화면이 그대로 바닥에 찍힌다</div></div>
-  </div>
-  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">16</div>
-</div></section>
-
-<!-- 17 NEXT -->
+<!-- 20 NEXT -->
 <section class="slide"><div class="pad">
   <div class="sec"><b>05-5</b>남은 검증과 일정</div>
   <h2>지금 확인된 것과 아직 확인하지 못한 것을 구분합니다</h2>
@@ -508,18 +603,18 @@ ul.dl li b{color:var(--ink)}
       <div class="k">아직 확인하지 못한 것 · 다음 현장 테스트</div>
       <ul class="dl" style="margin-top:12px">
         <li><b>사선 키넥트 자리에서 팔 관절이 안정적으로 잡히는지</b> — 제스처 인터랙션의 전제</li>
-        <li>실제 키넥트 스켈레톤으로 제스처 Play 테스트 (지금은 마우스 대역)</li>
-        <li>10월에 만든 장면 씬(개미 · 터널 · 반딧불이 · 나비 · 사람)의 <b>현장 투사와 실시간 프레임 속도</b></li>
-        <li>장면 7개를 <b>하나의 빌드 · 하나의 타임라인</b>으로 잇기 (지금은 장면별 빌드)</li>
-        <li>"타인의 흔적" — 이전 관객의 움직임이 바닥에 남는 기능 (5주차 웹 시뮬레이터 시안만 있음)</li>
-        <li>장면별 사운드 · 4채널 출력, 8시간 연속 운영</li>
+        <li>실제 키넥트 스켈레톤으로 제스처 테스트 (지금은 마우스 · 가상 관객)</li>
+        <li>반딧불이 · 사람 장면의 <b>현장 투사와 실시간 프레임 속도</b></li>
+        <li><b>2명</b>이 함께 체험할 때 서로의 반응이 구분되는지, 4명일 때 무너지지 않는지</li>
+        <li>확정 2장면을 <b>하나의 빌드 · 하나의 타임라인</b>으로 잇기 (지금은 장면별 빌드)</li>
+        <li>개미 장면 포함 여부 결정 · 장면별 사운드 · 4채널 출력, 8시간 연속 운영</li>
       </ul>
     </div>
     <div>
       <div class="k">일정 (검증 T · 결정 G)</div>
       <div class="tl" style="margin-top:12px">
         <div class="row" style="grid-template-columns:150px 1fr"><span class="dt">10.13</span><span class="wt"><b>중간보고</b> · 콘텐츠 프로토타입 1차 시연</span></div>
-        <div class="row" style="grid-template-columns:150px 1fr"><span class="dt">10.14–10.30</span><span class="wt">현장 제스처 검증 · 장면 통합 빌드 · 흔적 기능</span></div>
+        <div class="row" style="grid-template-columns:150px 1fr"><span class="dt">10.14–10.30</span><span class="wt">현장 제스처 검증 · 2명 기준 튜닝 · 2장면 통합 빌드</span></div>
         <div class="row" style="grid-template-columns:150px 1fr"><span class="dt">10.31</span><span class="wt"><b>T7 통합</b> — 4면 + 센서 + 사운드 30분 무중단</span></div>
         <div class="row" style="grid-template-columns:150px 1fr"><span class="dt">11.09–11.12</span><span class="wt">지연 최적화 — 입력 → 반응 100ms 이하</span></div>
         <div class="row" style="grid-template-columns:150px 1fr"><span class="dt">11.13</span><span class="wt"><b>T8 외부인 리허설</b> — 안내 없이 30초 안에 참여 70%</span></div>
@@ -528,8 +623,9 @@ ul.dl li b{color:var(--ink)}
       </div>
     </div>
   </div>
-  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">17</div>
+  <div class="crumb">SNOOZE · LIMEN</div><div class="pno">20</div>
 </div></section>
+
 
 </div>
 <script>

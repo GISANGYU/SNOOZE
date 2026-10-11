@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIMEN 디벨롭과 기술 연결</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#f9f9fa; --ink:#14171d; --sub:#505b6e; --mute:#8b93a1; --line:#dfe3e8;
+  --blue:#2495ff; --blue-d:#1a7fe0; --panel:#eef4fd; --cover:#111214;
+  --ok:#2495ff; --fail:#e5484d; --part:#f08c00; --new:#12a594; --drop:#7a818c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#2a2c30;font-family:Pretendard,"Pretendard Variable",-apple-system,"Malgun Gothic",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;word-break:keep-all}
+#deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.slide{position:absolute;width:1920px;height:1080px;background:var(--bg);transform-origin:center;display:none;overflow:hidden}
+.slide.on{display:block}
+.pad{position:absolute;inset:0;padding:110px 150px 90px}
+.pno{position:absolute;right:48px;bottom:32px;font-size:15px;color:var(--mute)}
+.sec{font-size:26px;font-weight:600;color:var(--blue);letter-spacing:-.2px}
+.sec b{margin-right:10px}
+h2{font-size:38px;font-weight:600;letter-spacing:-.8px;margin-top:40px}
+.lead{font-size:23px;color:var(--sub);margin-top:22px;letter-spacing:-.3px;line-height:1.6}
+.lead b{color:var(--ink);font-weight:600}
+
+/* cover */
+.cover{background:var(--cover);color:#e9ebee}
+.cover .top{position:absolute;top:52px;left:52px;right:78px;display:flex;justify-content:space-between;font-size:20px;color:#cfd3d9}
+.cover .tt{position:absolute;left:52px;top:400px}
+.cover .tt p{font-size:26px;color:#d6d9de;font-weight:500}
+.cover .tt h1{font-size:56px;color:var(--blue);font-weight:700;letter-spacing:-1.5px;margin-top:18px}
+.cover .tt .sub2{font-size:22px;color:#9aa1ab;margin-top:22px;line-height:1.6}
+.cover .foot{position:absolute;left:52px;right:78px;bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;font-size:20px;color:#cfd3d9}
+.cover .foot .l span{margin-right:52px}
+.cover .crew{display:flex;gap:32px;align-items:flex-end;line-height:1.65}
+
+/* index */
+.idx{margin-top:90px;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line)}
+.idx div{padding:34px 30px 34px 0;border-right:1px solid var(--line);margin-right:30px}
+.idx div:last-child{border-right:0;margin-right:0}
+.idx .n{font-size:22px;color:var(--blue);font-weight:600}
+.idx h3{font-size:27px;font-weight:600;margin:10px 0 22px;letter-spacing:-.5px;line-height:1.35}
+.idx li{list-style:none;font-size:19px;color:var(--sub);line-height:1.9}
+.mine{display:inline-block;margin-top:70px;font-size:19px;color:var(--sub);background:var(--panel);padding:14px 22px;border-radius:6px}
+.mine b{color:var(--blue);font-weight:600}
+
+/* generic */
+.panel{background:var(--panel);border-radius:8px}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:44px}
+.cols4{display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
+.k{font-size:21px;color:var(--blue);font-weight:600}
+.k i{font-style:normal;margin-right:8px}
+.t{font-size:26px;font-weight:600;margin:10px 0 14px;letter-spacing:-.4px}
+.d{font-size:19px;color:var(--sub);line-height:1.75}
+.d b{color:var(--ink);font-weight:600}
+.note{border-left:4px solid var(--blue);background:var(--panel);padding:20px 26px;margin-top:26px}
+.note .k{font-size:19px}
+.note .d{margin-top:8px}
+.shot{width:100%;display:block;border-radius:6px;background:#000}
+.cap{font-size:17px;color:var(--mute);margin-top:12px;line-height:1.55}
+.cap b{color:var(--ink);font-weight:600}
+
+/* flow */
+.flow{padding:34px 44px}
+.flow .row{display:flex;align-items:center;gap:18px}
+.flow .lab{width:190px;font-size:21px;color:var(--blue);font-weight:600;flex:none}
+.flow .step{flex:1;text-align:center;background:#fff;border-radius:6px;padding:16px 10px}
+.flow .step b{display:block;font-size:21px;font-weight:600}
+.flow .step span{display:block;font-size:16px;color:var(--sub);margin-top:6px;line-height:1.45}
+.flow .step.hl{outline:2px solid var(--blue)}
+.flow .ar{color:var(--blue);font-size:24px;flex:none}
+.flow .row+.row{margin-top:24px;padding-top:24px;border-top:1px solid #d6e2f3}
+
+/* timeline */
+.tl{margin-top:80px;position:relative}
+.tl .bar{position:absolute;left:0;right:0;top:15px;height:2px;background:var(--line)}
+.tl .items{display:grid;grid-template-columns:repeat(5,1fr);gap:34px;position:relative}
+.tl .dot{width:32px;height:32px;border-radius:50%;background:var(--bg);border:3px solid var(--blue);margin-bottom:26px}
+.tl .now .dot{background:var(--blue)}
+.tl .date{font-size:19px;color:var(--mute)}
+.tl h4{font-size:25px;font-weight:600;margin:8px 0 14px;letter-spacing:-.4px;line-height:1.35}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:700;letter-spacing:1px;padding:6px 14px;border-radius:30px;color:#fff;background:var(--ok);white-space:nowrap}
+.badge.fail{background:var(--fail)} .badge.part{background:var(--part)} .badge.new{background:var(--new)} .badge.drop{background:var(--drop)} .badge.none{background:#aab1bd}
+
+/* video slide */
+.vwrap{position:absolute;left:150px;top:330px;width:1040px;height:585px;border-radius:8px;overflow:hidden;background:#0d0f12}
+.vwrap video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.vph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#7d8694;gap:14px;font-size:19px;text-align:center;line-height:1.6}
+.vph .play{width:84px;height:84px;border-radius:50%;border:2px solid #4a5260;display:flex;align-items:center;justify-content:center}
+.vph .play:after{content:"";border-left:24px solid #7d8694;border-top:15px solid transparent;border-bottom:15px solid transparent;margin-left:6px}
+.vph code{font-family:inherit;color:#aab2be;font-size:17px}
+.vcap{position:absolute;left:150px;top:938px;width:1040px;display:flex;justify-content:space-between;font-size:18px;color:var(--sub)}
+.yt{color:var(--blue);text-decoration:none}.yt:hover{text-decoration:underline}
+.side{position:absolute;left:1250px;right:150px;top:330px}
+.side .meta{display:flex;gap:14px;align-items:center;margin-bottom:30px}
+.side .meta span:not(.badge){font-size:18px;color:var(--mute)}
+.blk{padding:20px 0;border-top:1px solid var(--line)}
+.blk:first-of-type{border-top:0;padding-top:0}
+.blk .k{font-size:18px}
+.blk .d{margin-top:8px;font-size:19px;color:var(--ink);line-height:1.7}
+.blk .d em{font-style:normal;color:var(--blue);font-weight:600}
+
+/* table */
+table{width:100%;border-collapse:collapse;margin-top:50px;font-size:19px}
+th{font-size:18px;color:var(--blue);font-weight:600;text-align:left;padding:0 18px 16px;border-bottom:2px solid var(--ink)}
+td{padding:20px 18px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6;color:var(--sub)}
+td:first-child{color:var(--ink);font-weight:600}
+td b{color:var(--ink);font-weight:600}
+td em{font-style:normal;color:var(--blue);font-weight:600}
+
+/* scenes 7 */
+.scn{display:grid;grid-template-columns:repeat(7,1fr);gap:18px;margin-top:56px}
+.scn>div{position:relative}
+.scn img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;display:block;background:#000}
+.scn .n{font-size:17px;color:var(--mute);margin-top:14px}
+.scn b{display:block;font-size:22px;font-weight:600;margin:4px 0 10px;letter-spacing:-.3px}
+.scn .badge{font-size:13px;padding:4px 10px}
+.scn .x{font-size:16px;color:var(--sub);line-height:1.55;margin-top:10px}
+.scn .main img{outline:4px solid var(--blue);outline-offset:3px}
+.scn .dim img{opacity:.45;filter:grayscale(.6)}
+
+/* concept */
+.quote{margin-top:70px;font-size:52px;font-weight:700;letter-spacing:-1.5px;line-height:1.35}
+.quote em{font-style:normal;color:var(--blue)}
+.stages{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-top:80px;border-top:2px solid var(--ink)}
+.stages>div{padding:26px 22px 0 0}
+.stages .n{font-size:17px;color:var(--blue);font-weight:700}
+.stages b{display:block;font-size:26px;font-weight:600;margin:8px 0 10px}
+.stages .d{font-size:17px}
+.stages .on b{color:var(--blue)}
+
+/* scene pair */
+.pair{display:grid;grid-template-columns:.62fr 1fr;gap:40px;margin-top:44px;align-items:start}
+.pair .lbl{font-size:16px;color:var(--mute);margin-bottom:10px;font-weight:600;letter-spacing:.5px}
+.mean{margin-top:34px;display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+.mean>div{border-top:2px solid var(--blue);padding-top:16px}
+.mean .f{font-size:16px;color:var(--mute)}
+.mean .m{font-size:22px;font-weight:600;margin-top:6px;line-height:1.45;letter-spacing:-.3px}
+.mean .d{font-size:17px;margin-top:8px}
+
+/* triple */
+.triple{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:40px}
+
+/* numbers */
+.num{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:70px}
+.num>div{border-radius:10px;padding:40px 40px 36px;background:#fff;border:1px solid var(--line)}
+.num>div.on{background:var(--panel);border:2px solid var(--blue)}
+.num .v{font-size:110px;font-weight:800;color:var(--blue);letter-spacing:-4px;line-height:1}
+.num .v small{font-size:36px;margin-left:6px;letter-spacing:0}
+.num .l{font-size:26px;font-weight:600;margin-top:18px}
+.num .d{margin-top:12px}
+
+/* hardware list */
+.hw{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;margin-top:44px;align-items:start}
+.item{display:grid;grid-template-columns:200px 1fr auto;gap:18px;padding:18px 0;border-top:1px solid var(--line);align-items:start}
+.item:first-child{border-top:2px solid var(--ink)}
+.item b{font-size:21px;font-weight:600}
+.item .d{font-size:17px}
+.item .badge{font-size:13px;padding:4px 10px}
+
+/* stack */
+.stack{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.layer{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:16px 0;border-top:1px solid var(--line)}
+.layer:first-child{border-top:2px solid var(--ink)}
+.layer .k{font-size:17px;padding-top:3px}
+.layer b{font-size:21px;font-weight:600;display:block}
+.layer .d{font-size:17px;margin-top:4px}
+
+/* coord */
+.coord{display:flex;align-items:stretch;gap:0;margin-top:50px}
+.coord .c{flex:1;background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 24px}
+.coord .c .k{font-size:17px}
+.coord .c b{display:block;font-size:24px;font-weight:600;margin:8px 0 10px}
+.coord .c .d{font-size:17px}
+.coord .ar{display:flex;flex-direction:column;justify-content:center;align-items:center;width:120px;flex:none;color:var(--blue);font-size:15px;font-weight:600;text-align:center;line-height:1.4}
+.coord .ar:before{content:"→";font-size:30px;margin-bottom:4px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:22px;margin-top:60px}
+.steps>div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 22px;position:relative}
+.steps .n{font-size:40px;font-weight:800;color:var(--blue);line-height:1}
+.steps b{display:block;font-size:22px;font-weight:600;margin:14px 0 10px}
+.steps .d{font-size:17px}
+
+/* schedule */
+.sch{margin-top:30px}
+.sch .r{display:grid;grid-template-columns:170px 1fr;gap:20px;padding:15px 0;border-bottom:1px solid var(--line);font-size:20px;color:var(--sub)}
+.sch .r span:first-child{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.sch .r b{color:var(--ink);font-weight:600}
+ul.dl{list-style:none}
+ul.dl li{font-size:20px;color:var(--sub);line-height:1.65;padding-left:20px;position:relative;margin-top:10px}
+ul.dl li::before{content:"";position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:var(--blue)}
+ul.dl li b{color:var(--ink);font-weight:600}
+
+.eod{background:var(--cover)}
+.eod h1{position:absolute;left:52px;top:500px;font-size:56px;color:var(--blue);font-weight:700}
+
+/* nav */
+#nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;color:#c9ced6;font-size:14px;z-index:5;background:rgba(0,0,0,.45);padding:6px 12px;border-radius:20px}
+#nav button{background:none;border:0;color:#fff;font-size:18px;cursor:pointer;padding:2px 8px}
+
+@media print{
+  @page{size:1920px 1080px;margin:0}
+  html,body{background:#fff}
+  #deck{position:static;display:block}
+  .slide{display:block!important;position:relative;transform:none!important;page-break-after:always;break-after:page}
+  #nav{display:none}
+}
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- 01 COVER -->
+<section class="slide cover">
+  <div class="top"><span>CAPSTONE DESIGN · WEEK 07</span><span>Digital Media Design</span></div>
+  <div class="tt">
+    <p>직무수행능력평가 1 · 프로젝트 디자인 &amp; 개발 전략</p>
+    <h1>LIMEN 디벨롭 과정 &amp; 기술 연결</h1>
+    <div class="sub2">무엇을 표현하려 하는가 · 어떤 인터랙션으로 · 어떤 소프트웨어와 하드웨어로 · 그것들을 어떻게 잇는가</div>
+  </div>
+  <div class="foot">
+    <div class="l"><span>Date_ 2026.10.13</span><span>Prof_심한수 교수님</span><span>Team_ SNOOZE</span></div>
+    <div class="crew">
+      <div>[기획]<br>A_22561083_이채연(팀장)</div>
+      <div>[프로그래밍]<br>D_22561061_유기상</div>
+      <div>[디자인]<br>B_22261052_배정훈<br>C_22261063_심혜민<br>C_22461106_조가연<br>C_22461014_김노은<br>C_22261029_김현기</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 INDEX -->
+<section class="slide"><div class="pad">
+  <div class="sec">Index</div>
+  <div class="idx">
+    <div><div class="n">01</div><h3>디벨롭 과정</h3><ul><li>어디서 시작해 어디까지</li><li>무엇이 왜 바뀌었나</li><li>현장 테스트</li><li>장면 선택</li></ul></div>
+    <div><div class="n">02</div><h3>표현하고 싶은 것</h3><ul><li>LIMEN 의 자각</li><li>통제가 아닌 관계</li><li>반딧불이 · 사람</li></ul></div>
+    <div><div class="n">03</div><h3>인터랙션 기술</h3><ul><li>관객 행동 → 반응</li><li>제스처 판정</li><li>인원 기준</li><li>구현 영상</li></ul></div>
+    <div><div class="n">04</div><h3>소프트웨어 ·<br>하드웨어</h3><ul><li>장비 구성 · 설치</li><li>소프트웨어 스택</li><li>센서 없이 개발하기</li></ul></div>
+    <div><div class="n">05</div><h3>연결 구조 · 일정</h3><ul><li>전체 신호 흐름</li><li>좌표를 잇는 법</li><li>현장 세팅 순서</li><li>남은 검증 · 일정</li></ul></div>
+  </div>
+  <div class="mine"><b>담당</b>&nbsp;&nbsp;D_22561061_유기상 · 인터랙션 개발 / 개발 전략</div>
+  <div class="pno">02</div>
+</div></section>
+
+<!-- 03 DEVELOP TIMELINE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>01.</b>디벨롭 과정</div>
+  <h2>어디서 시작해 어디까지 왔나</h2>
+  <p class="lead">공간이 바뀌고, 테스트에서 관객의 반응을 보며 인터랙션과 장면을 계속 좁혀 왔습니다.</p>
+  <div class="tl"><div class="bar"></div><div class="items">
+    <div><div class="dot"></div><div class="date">08월 · 연구실</div><h4>강의실 3면 기획</h4><div class="d">정면 키넥트로 관객의 <b>실루엣 · 손</b>을 읽어 입자가 반응하는 초기 테스트들</div></div>
+    <div><div class="dot"></div><div class="date">09.19 · 장소 변경</div><h4>호라이즌 스튜디오 4면</h4><div class="d">벽 3 + 바닥 1. 벽은 흐르는 세계, <b>바닥만 위치</b>에 반응하는 4면 통합형</div></div>
+    <div><div class="dot"></div><div class="date">09.22 – 09.30 · 현장</div><h4>현장 테스트</h4><div class="d">바닥 반응 · 4면 워핑 · <b>2명 동시 감지</b> 성공. 좌표 어긋남은 네 점 보정으로 해결</div></div>
+    <div><div class="dot"></div><div class="date">10.08 · 사용자 테스트</div><h4>벽도 반응하게</h4><div class="d">관객은 벽만 보고 바닥을 보지 않았다 → <b>위치 + 손짓 제스처</b>로 벽 반응 추가</div></div>
+    <div class="now"><div class="dot"></div><div class="date">10.12 · 결정</div><h4>2장면 집중</h4><div class="d">7장면 중 <b>반딧불이 · 사람</b>을 Unity 메인으로. 감지는 키넥트 한 대로만</div></div>
+  </div></div>
+  <div class="panel" style="margin-top:80px;padding:28px 40px;display:flex;gap:60px;align-items:center">
+    <div class="k" style="flex:none">지금 상태</div>
+    <div class="d" style="color:var(--ink)">두 장면 모두 실행 파일까지 만들었고, 가상 관객으로 인터랙션을 확인했습니다. 다음은 <b style="color:var(--blue)">현장에서 실제 키넥트로 제스처를 검증</b>하는 단계입니다.</div>
+  </div>
+  <div class="pno">03</div>
+</div></section>
+
+<!-- 04 WHAT CHANGED -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>01.</b>디벨롭 과정</div>
+  <h2>무엇이, 왜 바뀌었나</h2>
+  <table>
+    <tr><th style="width:15%">구분</th><th style="width:25%">처음</th><th style="width:25%">지금</th><th>바뀐 이유</th></tr>
+    <tr><td>공간</td><td>강의실 · 벽 3면</td><td><em>COSS 호라이즌 스튜디오 · 벽 3 + 바닥 1</em></td><td>시설 프로젝터와 공간을 확보. 바닥이 생기며 관객이 서는 자리 자체가 화면이 됨</td></tr>
+    <tr><td>감지</td><td>정면 실루엣 · 손</td><td><em>위치 + 제스처 (스켈레톤)</em></td><td>위치만으로는 바닥에서만 반응해 관객이 알아채지 못함 → 시선이 머무는 벽에도 반응</td></tr>
+    <tr><td>반응하는 면</td><td>바닥만</td><td><em>바닥 + 다가간 벽</em></td><td>단, 다가가기만으로는 벽이 움직이지 않고 손짓에만 짧게 반응 — 관계의 강도로 제한</td></tr>
+    <tr><td>장면</td><td>7장면 중 4장면 반응</td><td><em>Unity 메인 2장면 (반딧불이 · 사람)</em></td><td>개미는 관객이 인터랙션을 잘못 인식해 보류, 나비(물 파동)는 폐기. 반응이 분명한 장면에 집중</td></tr>
+    <tr><td>인원</td><td>정하지 않음</td><td><em>감지 6 · 인터랙션 최대 4 · 기준 2명</em></td><td>4명이면 누가 무엇을 일으켰는지 보이지 않음 → 연출은 2명 기준</td></tr>
+    <tr><td>도구</td><td>TouchDesigner + Unity 병행</td><td><em>Kinect v2 + Unity 하나로</em></td><td>4면을 한 장(3800×2000)으로 출력하기 위해 Unity 로 통일. 예비 감지 시스템은 두지 않음</td></tr>
+  </table>
+  <div class="pno">04</div>
+</div></section>
+
+<!-- 05 VIDEO 0930 -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>01.</b>디벨롭 과정</div>
+  <h2>TEST &nbsp;4면 인터랙션 첫 현장 테스트</h2>
+  <p class="lead">바닥에 선 관객을 감지해 바닥에서 벽 3면으로 빛이 이어지는 구조를 스튜디오에서 처음 확인했습니다.</p>
+</div>
+  <div class="vwrap" data-src="videos/0930_4면인터랙션_첫테스트.mp4"></div>
+  <div class="vcap"><span>09.30 · 호라이즌 스튜디오 · Kinect v2 + Unity + MadMapper</span><a class="yt" href="https://youtu.be/STNkf8scYjI" target="_blank">▶ youtu.be/STNkf8scYjI</a></div>
+  <div class="side">
+    <div class="meta"><span class="badge">SUCCESS</span><span>2026.09.30</span></div>
+    <div class="blk"><div class="k">목표</div><div class="d">센서 → Unity → MadMapper → 4면 투사까지 한 번에 연결</div></div>
+    <div class="blk"><div class="k">결과</div><div class="d">관객이 들어서면 발밑에서 <em>4면으로 퍼지는 반응</em>, 2명 동시 감지</div></div>
+    <div class="blk"><div class="k">남은 문제</div><div class="d">정면 벽 가까이에서 감지 끊김, 몸이 바닥 투사를 가려 생기는 그림자</div></div>
+    <div class="blk"><div class="k">이후</div><div class="d">관객 시선이 벽에 머문다는 점을 확인 → <em>벽 반응 · 제스처</em> 도입</div></div>
+  </div>
+  <div class="pno">05</div>
+</section>
+
+<!-- 06 SCENE SELECTION -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>01.</b>디벨롭 과정</div>
+  <h2>7장면 중 Unity 로 구현할 장면을 2개로 정했습니다</h2>
+  <p class="lead">스토리보드의 7장면은 그대로 흐르고, 그중 <b>관객 반응이 핵심인 반딧불이 · 사람</b>을 실시간 인터랙션으로 만듭니다.</p>
+  <div class="scn">
+    <div class="dim"><img src="img/sb_1436.jpg" alt=""><div class="n">1</div><b>개미</b><span class="badge part">보류</span><div class="x">관객이 인터랙션을 잘못 인식. 인터랙션이 필요한지 재검토</div></div>
+    <div class="dim"><img src="img/sb_1440.jpg" alt=""><div class="n">2</div><b>터널</b><span class="badge none">메인 아님</span><div class="x">인터랙션 없는 전환 장면</div></div>
+    <div class="main"><img src="img/sb_1441.jpg" alt=""><div class="n">3</div><b>반딧불이</b><span class="badge">확정</span><div class="x">내 주변만 밝아짐 · 벽 앞 손짓</div></div>
+    <div class="dim"><img src="img/sb_1443.jpg" alt=""><div class="n">4</div><b>나비</b><span class="badge drop">폐기</span><div class="x">바닥 물 파동까지 구현했으나 폐기</div></div>
+    <div class="dim"><img src="img/sb_1452.jpg" alt=""><div class="n">5</div><b>크리스탈 동굴 · 거미</b><span class="badge none">메인 아님</span><div class="x">인터랙션 없는 착시 장면</div></div>
+    <div class="dim"><img src="img/sb_1468.jpg" alt=""><div class="n">6</div><b>기억 회랑</b><span class="badge none">메인 아님</span><div class="x">인터랙션 없는 전환 장면</div></div>
+    <div class="main"><img src="img/sb_1474.jpg" alt=""><div class="n">7</div><b>사람</b><span class="badge">확정</span><div class="x">군중의 흐름 · 거울 속 나</div></div>
+  </div>
+  <div class="pno">06</div>
+</div></section>
+
+<!-- 07 CONCEPT -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>02.</b>표현하고 싶은 것</div>
+  <div class="quote">LIMEN 은 <em>타인의 기준이 내 선택에 들어와 있음을</em><br>알아차리는 <em>자각의 순간</em>입니다.</div>
+  <p class="lead" style="margin-top:34px">LIMEN 은 라틴어로 '문턱'. 꿈과 자각몽을 메타포로, 관객이 같은 공간 안에서 <b>인식만 바뀌는 경험</b>을 만듭니다. 공간을 나누지 않는 이유도 여기에 있습니다 — 변화의 원인이 "공간이 바뀌어서"가 아니라 "내가 알아차려서"여야 하기 때문입니다.</p>
+  <div class="stages">
+    <div><div class="n">01</div><b>진입</b><div class="d">이미 흐르고 있는 세계에 들어선다</div></div>
+    <div><div class="n">02</div><b>관찰</b><div class="d">벽 3면의 흐름을 바라본다</div></div>
+    <div class="on"><div class="n">03</div><b>선택</b><div class="d">걷고, 다가가고, 손을 뻗는다</div></div>
+    <div class="on"><div class="n">04</div><b>발견</b><div class="d">세계가 내 움직임에 답한다는 것을 안다</div></div>
+    <div class="on"><div class="n">05</div><b>관계</b><div class="d">나의 움직임도 흐름의 일부가 된다</div></div>
+    <div><div class="n">06</div><b>자각</b><div class="d">흐름이 사라진 자리에 내가 남는다</div></div>
+  </div>
+  <div class="pno">07</div>
+</div></section>
+
+<!-- 08 RELATION -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>02.</b>표현하고 싶은 것</div>
+  <h2>세계를 통제하는 것이 아니라, 세계와 관계를 맺는 것</h2>
+  <p class="lead">모든 것이 내 뜻대로 반응하면 관객은 "내가 세계를 조종한다"고 느낍니다. LIMEN 은 <b>반응의 크기와 조건을 일부러 제한</b>해, 내가 세계에 영향을 주고 세계도 나에게 영향을 주는 관계로 읽히게 합니다.</p>
+  <div class="cols3" style="margin-top:70px">
+    <div><div class="k"><i>01</i>다가가는 것만으로는</div><div class="t">벽은 움직이지 않는다</div><div class="d">벽 앞에 서면 그 벽이 조금 밝아질 뿐. 입자를 움직이는 건 <b>의도적인 손짓</b>뿐입니다</div></div>
+    <div><div class="k"><i>02</i>반응은 짧게</div><div class="t">곧 제자리로 돌아온다</div><div class="d">손짓에 비켜난 반딧불이는 <b>3초 안에 제자리</b>로. 세계는 나 때문에 망가지지 않고 계속 흐릅니다</div></div>
+    <div><div class="k"><i>03</i>내 둘레만</div><div class="t">세계 전체를 바꾸지 않는다</div><div class="d">빛은 <b>내가 있는 자리 주변</b>에서만 깨어납니다. 다른 관객의 자리에는 그 사람의 빛이 있습니다</div></div>
+  </div>
+  <div class="note" style="margin-top:70px"><div class="k">그래서 인터랙션 기술의 기준이 정해졌습니다</div><div class="d">걷기 · 다가가기는 반응하지 않고 손짓만 골라내는 <b>제스처 판정</b>, 반응이 일어나는 <b>거리 조건(벽 1m)</b>, 관객이 서로의 반응을 구분할 수 있는 <b>인원 기준(2명)</b> — 모두 이 원칙에서 나왔습니다.</div></div>
+  <div class="pno">08</div>
+</div></section>
+
+<!-- 09 FIREFLY -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>02.</b>표현하고 싶은 것 · 확정 장면 ①</div>
+  <h2>반딧불이 — 각자의 신호가 하나의 리듬으로</h2>
+  <div class="pair">
+    <div><div class="lbl">스토리보드</div><img class="shot" src="img/sb_1441.jpg" alt=""></div>
+    <div><div class="lbl">Unity 구현 · 4면 출력 (위 줄 좌벽 · 정면 · 우벽 / 아래 바닥)</div><img class="shot" src="img/ff_two.jpg" alt=""><div class="cap"><b>2명이 들어선 순간</b> — 각자의 둘레에서만 빛이 깨어나고, 좌벽에 가까운 사람 쪽 벽이 함께 밝아짐</div></div>
+  </div>
+  <div class="mean">
+    <div><div class="f">3-01 · 각자 깜빡이는 빛</div><div class="m">서로 다른 신호가 공존한다</div><div class="d">어두운 방, 숨 쉬는 반딧불이 몇 마리만</div></div>
+    <div><div class="f">3-02 · 내 주변만 밝아짐</div><div class="m">내 존재가 주변의 신호를 강화한다</div><div class="d">관객이 선 자리 둘레만 빛남 · 벽에 다가가면 그 벽이 밝아짐</div></div>
+    <div><div class="f">3-04 · 하나의 호흡</div><div class="m">여러 존재가 하나의 리듬을 이룬다</div><div class="d">두 사람의 빛이 같은 공간에서 함께 흐름</div></div>
+  </div>
+  <div class="pno">09</div>
+</div></section>
+
+<!-- 10 PEOPLE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>02.</b>표현하고 싶은 것 · 확정 장면 ②</div>
+  <h2>사람 — 흐름을 따르는 동시에 흐름을 만든다</h2>
+  <div class="pair">
+    <div><div class="lbl">스토리보드</div><img class="shot" src="img/sb_1474.jpg" alt=""></div>
+    <div><div class="lbl">Unity 구현 · 벽 = 창문, 바닥 = 거울</div><img class="shot" src="img/pp_filled.jpg" alt=""><div class="cap"><b>군중이 3면을 채운 순간</b> — 흰빛 군중 속에서 관객 자신(거울 속 나)만 색을 가짐</div></div>
+  </div>
+  <div class="mean">
+    <div><div class="f">7-02 · 사람들이 3면을 채움</div><div class="m">인간의 움직임도 하나의 군집이 된다</div><div class="d">관객 눈높이에서 본 바깥 광장의 3D 군중</div></div>
+    <div><div class="f">7-03 · 내 움직임에 방향을 바꿈</div><div class="m">나도 흐름을 바꾸는 주체가 된다</div><div class="d">내가 걷는 방향으로 군중이 흐르고, 가까운 벽으로 모임</div></div>
+    <div><div class="f">7-END07 · 완전한 검정</div><div class="m">흐름이 사라진 자리에 관객이 남는다</div><div class="d">군중이 입자 → 작은 빛 → 검정으로 사라짐</div></div>
+  </div>
+  <div class="pno">10</div>
+</div></section>
+
+<!-- 11 INTERACTION MAP -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>인터랙션 기술</div>
+  <h2>관객의 행동 하나하나가 무엇으로 읽히고, 무엇으로 돌아오나</h2>
+  <table>
+    <tr><th style="width:17%">관객 행동</th><th style="width:27%">감지 방법 (Kinect v2 관절)</th><th style="width:28%">반딧불이</th><th>사람</th></tr>
+    <tr><td>들어와 선다</td><td>두 발목 관절의 가운데 → <b>바닥 좌표</b></td><td>발밑 둘레의 빛이 깨어남</td><td>벽 · 바닥 거울에 <b>내 모습</b>이 색으로 나타남</td></tr>
+    <tr><td>걷는다</td><td>좌표 변화 → <b>걷는 속도 · 방향</b></td><td>빛이 나를 따라 옮겨 감</td><td>군중이 <b>같은 방향</b>으로 흐름</td></tr>
+    <tr><td>벽에 다가간다</td><td>가장 가까운 벽까지의 <b>거리</b></td><td>그 벽이 밝아짐 (붙으면 100%, 방 가운데면 50%)</td><td>가까운 벽 쪽으로 군중이 모여듦</td></tr>
+    <tr><td>벽 앞에서 손짓</td><td>몸통 기준 <b>손 · 팔꿈치 상대속도</b> + 벽 1m 안</td><td>손 주변 반딧불이가 비켜났다 3초 뒤 복귀</td><td>—</td></tr>
+    <tr><td>팔을 움직인다</td><td>어깨 → 팔꿈치 → 손목 <b>방향</b></td><td>—</td><td>벽 · 바닥 속 내가 <b>같은 팔 동작</b> (벽 속은 거울처럼 좌우 반전)</td></tr>
+  </table>
+  <div class="pno">11</div>
+</div></section>
+
+<!-- 12 GESTURE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>인터랙션 기술</div>
+  <h2>제스처 판정 — 걷기는 빼고, 손짓만 골라냅니다</h2>
+  <div class="triple">
+    <div><img class="shot" src="img/veil_still.jpg" alt=""><div class="cap"><b>① 벽에 붙어 서 있기만</b> — 입자 이동 0</div></div>
+    <div><img class="shot" src="img/veil_flee.jpg" alt=""><div class="cap"><b>② 벽 앞에서 손짓</b> — 그 벽 입자만 최대 0.6m 비켜남</div></div>
+    <div><img class="shot" src="img/veil_back.jpg" alt=""><div class="cap"><b>③ 3초 뒤</b> — 용수철처럼 제자리 복귀</div></div>
+  </div>
+  <div class="cols3" style="margin-top:50px">
+    <div><div class="k"><i>01</i>상대속도</div><div class="d" style="margin-top:10px"><b>손 속도 − 몸통(척추) 속도.</b> 걷거나 다가갈 땐 몸 전체가 같이 움직여 거의 0, 팔을 휘두를 때만 커집니다. 1.4m/s 를 넘으면 제스처</div></div>
+    <div><div class="k"><i>02</i>거리 조건</div><div class="d" style="margin-top:10px">손이 <b>벽에서 1m 안</b>일 때만 그 벽이 반응합니다. 방 가운데에서 휘두르면 반응 0, 바닥 입자는 움직이지 않음</div></div>
+    <div><div class="k"><i>03</i>강도 제한</div><div class="d" style="margin-top:10px">최대 0.6m 만 비켜나고, 어두운 곳의 입자를 새로 켜지 않습니다. 통제가 아니라 <b>관계</b>로 읽히는 크기</div></div>
+  </div>
+  <div class="pno">12</div>
+</div></section>
+
+<!-- 13 HEADCOUNT -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>인터랙션 기술</div>
+  <h2>감지는 6명까지, 인터랙션은 4명까지, 연출은 2명 기준</h2>
+  <div class="num">
+    <div><div class="v">6<small>명</small></div><div class="l">감지 가능 인원</div><div class="d">Kinect v2 가 동시에 관절을 추적할 수 있는 최대 인원</div></div>
+    <div><div class="v">4<small>명</small></div><div class="l">인터랙션 최대 인원</div><div class="d">바닥 7.2 × 4m 에서 서로 가리지 않고 움직일 수 있는 상한. 그 이상은 반응에서 제외하도록 적용 예정</div></div>
+    <div class="on"><div class="v">2<small>명</small></div><div class="l">연출 기준 인원</div><div class="d">4명이 동시에 움직이면 누가 어떤 반응을 일으켰는지 <b>직관적으로 보이지 않습니다</b>. 빛의 크기 · 밝기 · 색을 2명일 때 가장 잘 읽히도록 맞춥니다</div></div>
+  </div>
+  <div class="note" style="margin-top:60px"><div class="k">인원 기준이 연출에 들어간 곳</div><div class="d">반딧불이 — 사람마다 둘레의 빛이 따로 깨어남 · 사람 — 관객마다 다른 색(파랑 · 주황 · 분홍)으로 거울 속 나를 구분 · 입장 안내 — "2명씩 권장"</div></div>
+  <div class="pno">13</div>
+</div></section>
+
+<!-- 14 VIDEO FIREFLY -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>인터랙션 기술 · 구현 영상</div>
+  <h2>반딧불이 &nbsp;가상 관객 인터랙션 테스트</h2>
+  <p class="lead">25개 관절을 가진 가상 관객이 정해진 60초 동작을 수행하고, 실제 키넥트와 같은 경로로 장면에 들어갑니다.</p>
+</div>
+  <div class="vwrap" data-src="videos/1012_반딧불이_가상관객.mp4"></div>
+  <div class="vcap"><span>10.12 · Unity 빌드 · 4면 출력 화면 녹화</span><span>60초</span></div>
+  <div class="side">
+    <div class="meta"><span class="badge new">NEW</span><span>2026.10.12</span></div>
+    <div class="blk"><div class="k">대본</div><div class="d">입장 → 가운데 → 정면 벽 손 흔들기 · 두 팔 휘젓기 → 좌벽 쓸기 → 우벽 날갯짓 → 가운데 느린 만세 → 퇴장</div></div>
+    <div class="blk"><div class="k">확인한 것</div><div class="d">서 있을 때 · 가운데에서 휘두를 때 <em>반응 0</em>, 벽 앞 손짓에만 <em>그 벽만</em> 반응, 느린 만세는 문턱 아래</div></div>
+    <div class="blk"><div class="k">왜 가상 관객인가</div><div class="d">가진 녹화본은 정면 근거리라 벽 다가가기 · 손짓이 없었음</div></div>
+  </div>
+  <div class="pno">14</div>
+</section>
+
+<!-- 15 VIDEO PEOPLE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>인터랙션 기술 · 구현 영상</div>
+  <h2>사람 &nbsp;가상 관객 인터랙션 테스트</h2>
+  <p class="lead">같은 동작 대본으로, 군중의 흐름과 거울 속 내가 팔 동작을 따라 하는지 확인했습니다.</p>
+</div>
+  <div class="vwrap" data-src="videos/1012_사람_가상관객.mp4"></div>
+  <div class="vcap"><span>10.12 · Unity 빌드 · 4면 출력 화면 녹화</span><span>78초</span></div>
+  <div class="side">
+    <div class="meta"><span class="badge new">NEW</span><span>2026.10.12</span></div>
+    <div class="blk"><div class="k">등장</div><div class="d">어둠 → <em>나만</em> 나타남 → 좌 · 정면 · 우를 번갈아 군중이 점점 빠르게 늘어남</div></div>
+    <div class="blk"><div class="k">확인한 것</div><div class="d">걷는 방향으로 <em>군중이 흐름</em>, 팔을 들면 벽 · 바닥 속 내가 <em>같은 팔</em>을 듦</div></div>
+    <div class="blk"><div class="k">남은 것</div><div class="d">실제 키넥트에서 팔 방향이 맞는지 · 군중 수에 따른 프레임 속도</div></div>
+  </div>
+  <div class="pno">15</div>
+</section>
+
+<!-- 16 HARDWARE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04.</b>소프트웨어 · 하드웨어</div>
+  <h2>하드웨어 — 센서 1대, PC 1대, 프로젝터 4대</h2>
+  <div class="hw">
+    <div><img class="shot" src="img/ceiling3d.jpg" alt=""><div class="cap"><b>호라이즌 스튜디오 천장 설치도</b> — P1~P4 시설 프로젝터, K 키넥트는 천장 철골에서 무대 안쪽을 사선으로</div></div>
+    <div>
+      <div class="item"><b>Kinect v2</b><div class="d">IR 뎁스 512×424 · 25관절 · 최대 6명. 어두운 전시장에서도 안정적. 천장 철골 왼쪽 300cm · 앞 끝선 안쪽 50cm, <b>사선</b> (수직이면 관절이 잡히지 않음)</div><span class="badge">확보</span></div>
+      <div class="item"><b>전시 PC</b><div class="d">RTX 4060 (8GB) · RAM 32GB · Windows 11. 키넥트 1대는 PC 1대에만 연결 가능</div><span class="badge">확보</span></div>
+      <div class="item"><b>프로젝터 × 4</b><div class="d">P1 바닥 · P2 정면 · P3 좌벽 · P4 우벽. 시설 고정이라 위치 · 각도 변경 불가</div><span class="badge part">시설</span></div>
+      <div class="item"><b>스피커 × 4</b><div class="d">네 모서리. 4채널 오디오 인터페이스 사양 확인 필요</div><span class="badge part">확인</span></div>
+      <div class="item"><b>USB 3.0 액티브 연장</b><div class="d">천장 키넥트 → PC 거리. 전원 어댑터 필수</div><span class="badge part">확인</span></div>
+    </div>
+  </div>
+  <div class="pno">16</div>
+</div></section>
+
+<!-- 17 SPACE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04.</b>소프트웨어 · 하드웨어</div>
+  <h2>실측한 공간 위에 장비를 놓았습니다</h2>
+  <div class="hw" style="grid-template-columns:1.35fr 1fr">
+    <div><img class="shot" src="img/plan.jpg" alt=""><div class="cap"><b>전개도 · 천장 평면도</b> — 무대 7.2 × 4m, 벽 높이 4m. 정면 7.2 × 4m, 옆벽 4 × 4m, 바닥 7.2 × 4m</div></div>
+    <div><img class="shot" src="img/studio.jpg" alt=""><div class="cap"><b>스튜디오 천장 철골 · 4면 워핑 격자</b> — 현장에서 MadMapper 로 면마다 격자를 맞춘 모습</div></div>
+  </div>
+  <div class="pno">17</div>
+</div></section>
+
+<!-- 18 SOFTWARE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04.</b>소프트웨어 · 하드웨어</div>
+  <h2>소프트웨어 — Unity 하나에서 감지부터 출력까지</h2>
+  <div class="stack">
+    <div>
+      <div class="layer"><div class="k">센서 연결</div><div><b>Kinect for Windows SDK 2.0</b><div class="d">관절 25개 · 뎁스 · 바닥 평면을 프레임마다 제공</div></div></div>
+      <div class="layer"><div class="k">Unity 연결</div><div><b>Kinect v2 Examples (Unity 에셋)</b><div class="d">센서 데이터를 Unity 로. 사람 장면의 3D 인물 · 걷기 동작도 여기서</div></div></div>
+      <div class="layer"><div class="k">인터랙션 · 렌더</div><div><b>Unity 2022.3 (직접 제작)</b><div class="d">위치 · 제스처 판정, 4면 전개도 시뮬레이션, 입자 · 셰이더 · 3D 군중 투시, 실시간 합성 사운드</div></div></div>
+      <div class="layer"><div class="k">출력 연결</div><div><b>KlakSpout</b><div class="d">완성된 4면 이미지를 복사 없이 GPU 에서 바로 넘김</div></div></div>
+      <div class="layer"><div class="k">맵핑</div><div><b>MadMapper</b><div class="d">면마다 잘라 4대 프로젝터로 워핑 · 모서리 블렌딩</div></div></div>
+    </div>
+    <div><img class="shot" src="img/atlas.jpg" alt=""><div class="cap"><b>4면을 한 장에 — 3800 × 2000</b><br>위 줄 좌벽 · 정면 · 우벽, 아래 가운데 바닥. 방을 전개도로 펼쳐 한 번에 계산하므로 빛이 모서리를 끊김 없이 넘어갑니다. 1m = 250px 로 네 면 밀도가 같습니다.</div></div>
+  </div>
+  <div class="pno">18</div>
+</div></section>
+
+<!-- 19 DEV TOOLS -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04.</b>소프트웨어 · 하드웨어</div>
+  <h2>스튜디오에 못 가는 날에도 개발이 멈추지 않도록</h2>
+  <p class="lead">현장 사용 시간이 한정돼 있어, 센서 없이도 같은 조건을 재현하는 도구를 함께 만들었습니다.</p>
+  <div class="cols3" style="margin-top:60px">
+    <div><div class="k"><i>01</i>가상 관객</div><div class="t">정해진 동작을 대신 수행</div><div class="d">25관절 가상 관객이 60초 대본을 수행. <b>실제 키넥트와 같은 경로</b>로 들어가 장면 코드는 둘을 구분하지 않음. 현장에선 실제 관객 동작을 녹화해 다시 재생</div></div>
+    <div><div class="k"><i>02</i>자동 촬영 · 녹화</div><div class="t">같은 조건의 앞뒤 비교</div><div class="d">정해진 시각 · 관객 위치에서 출력 화면을 저장해 값을 바꿀 때마다 비교. 실행 파일은 한 바퀴를 <b>영상으로 녹화</b></div></div>
+    <div><div class="k"><i>03</i>원클릭 빌드</div><div class="t">현장에 바로 가져가는 실행 파일</div><div class="d">센서 드라이버 파일 복사 · 안내문까지 한 번에. 실행 후 오류 검사. 장면끼리 <b>보정값을 공유</b>해 현장에서 한 번만 맞춤</div></div>
+  </div>
+  <div class="pno">19</div>
+</div></section>
+
+<!-- 20 CONNECTION -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05.</b>연결 구조</div>
+  <h2>관객의 움직임이 벽과 바닥의 빛이 되기까지</h2>
+  <div class="panel flow" style="margin-top:50px">
+    <div class="row">
+      <div class="lab">① 감지</div>
+      <div class="step"><b>관객</b><span>최대 4명 · 기준 2명</span></div><div class="ar">→</div>
+      <div class="step hl"><b>Kinect v2</b><span>천장 사선 · IR 뎁스 · 25관절</span></div><div class="ar">→</div>
+      <div class="step"><b>USB 3.0 연장</b><span>액티브 · 전원 포함</span></div><div class="ar">→</div>
+      <div class="step"><b>전시 PC</b><span>Kinect SDK 2.0</span></div>
+    </div>
+    <div class="row">
+      <div class="lab">② 처리 · Unity</div>
+      <div class="step"><b>방 좌표 변환</b><span>바닥 평면 · 네 점 보정</span></div><div class="ar">→</div>
+      <div class="step hl"><b>위치 · 제스처 판정</b><span>밝기 / 손짓 · 팔 방향</span></div><div class="ar">→</div>
+      <div class="step"><b>4면 시뮬레이션</b><span>전개도 한 번에 계산</span></div><div class="ar">→</div>
+      <div class="step"><b>합성</b><span>3800 × 2000 한 장</span></div>
+    </div>
+    <div class="row">
+      <div class="lab">③ 출력</div>
+      <div class="step"><b>Spout</b><span>GPU 텍스처 공유</span></div><div class="ar">→</div>
+      <div class="step hl"><b>MadMapper</b><span>면별 자르기 · 워핑 · 블렌딩</span></div><div class="ar">→</div>
+      <div class="step"><b>프로젝터 × 4</b><span>P1 바닥 · P2 정면 · P3 좌 · P4 우</span></div><div class="ar">+</div>
+      <div class="step"><b>스피커 × 4</b><span>실시간 합성 사운드</span></div>
+    </div>
+  </div>
+  <div class="cols3" style="margin-top:50px">
+    <div><div class="k">한 대의 PC 안에서</div><div class="d" style="margin-top:8px">감지 · 계산 · 출력이 모두 같은 PC 에서 이루어져 네트워크 지연이 없습니다</div></div>
+    <div><div class="k">목표 지연</div><div class="d" style="margin-top:8px">관객의 움직임 → 빛의 반응까지 <b>100ms 이하</b></div></div>
+    <div><div class="k">센서가 끊겨도</div><div class="d" style="margin-top:8px">장면은 계속 흐르고, 사람이 없을 때의 상태(어두운 방 · 빈 광장)로 돌아갑니다</div></div>
+  </div>
+  <div class="pno">20</div>
+</div></section>
+
+<!-- 21 COORDINATES -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05.</b>연결 구조</div>
+  <h2>센서 · 방 · 화면 · 투사면 — 네 개의 좌표를 하나로 잇습니다</h2>
+  <p class="lead">관객이 실제로 선 자리와 빛이 나타나는 자리가 어긋나지 않게, 좌표를 단계마다 맞춥니다. 프로젝터는 움직일 수 없으므로 <b>맞춤은 전부 소프트웨어</b>에서 합니다.</p>
+  <div class="coord">
+    <div class="c"><div class="k">센서 좌표</div><b>키넥트 기준 (m)</b><div class="d">관절의 위치가 센서에서 몇 m 떨어져 있는지</div></div>
+    <div class="ar">바닥 평면<br>자동 기울기</div>
+    <div class="c"><div class="k">방 좌표</div><b>바닥 7.2 × 4m · 벽 4m</b><div class="d">무대 위 어디에 서 있는지, 어느 벽에서 몇 m 인지</div></div>
+    <div class="ar">네 점 보정<br>방향키 싱크</div>
+    <div class="c"><div class="k">화면 좌표</div><b>전개도 1m = 250px</b><div class="d">4면 한 장(3800 × 2000) 위의 픽셀</div></div>
+    <div class="ar">MadMapper<br>워핑</div>
+    <div class="c"><div class="k">투사면</div><b>프로젝터 4대</b><div class="d">실제 벽 · 바닥에 비친 빛</div></div>
+  </div>
+  <div class="cols4" style="margin-top:60px">
+    <div><div class="k"><i>01</i>바닥 평면</div><div class="d" style="margin-top:8px">키넥트가 주는 바닥 정보로 센서 높이 · 기울기를 매 프레임 계산. 설치 각도를 손으로 잴 필요 없음</div></div>
+    <div><div class="k"><i>02</i>네 점 보정</div><div class="d" style="margin-top:8px">바닥 네 귀퉁이에 차례로 서서 기록. 회전 · 사다리꼴 어긋남을 한 번에 흡수, 값은 저장됨</div></div>
+    <div><div class="k"><i>03</i>방향키 싱크</div><div class="d" style="margin-top:8px">발밑 표식을 보며 1cm 단위로 미세 조정</div></div>
+    <div><div class="k"><i>04</i>워핑 · 블렌딩</div><div class="d" style="margin-top:8px">면마다 격자를 맞추고 겹치는 모서리 밝기를 조정</div></div>
+  </div>
+  <div class="pno">21</div>
+</div></section>
+
+<!-- 22 SETUP ROUTINE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05.</b>연결 구조</div>
+  <h2>현장 세팅 순서 — 개장 전에 다시 맞추는 루틴</h2>
+  <p class="lead">현장 테스트에서 겪은 문제를 순서로 정리했습니다. 처음 한 번 맞춘 뒤에는 <b>5분 안에 재정합</b>하는 것이 목표입니다.</p>
+  <div class="steps">
+    <div><div class="n">1</div><b>센서 인식</b><div class="d">키넥트 연결 확인. 마이크 장치 충돌(09.17 실패 원인) 해제</div></div>
+    <div><div class="n">2</div><b>맵핑 불러오기</b><div class="d">MadMapper 4면 워핑 · 블렌딩 설정 불러오기</div></div>
+    <div><div class="n">3</div><b>네 점 보정</b><div class="d">바닥 네 귀퉁이에 서서 기록 (저장값이 있으면 확인만)</div></div>
+    <div><div class="n">4</div><b>싱크 확인</b><div class="d">발밑 표식이 걸음을 따라오는지, 방향키로 미세 조정</div></div>
+    <div><div class="n">5</div><b>2명 리허설</b><div class="d">두 사람이 걷기 · 벽 다가가기 · 손짓으로 반응 확인</div></div>
+    <div><div class="n">6</div><b>표식 끄기</b><div class="d">발밑 표식 · 격자 · 테스트 관객을 반드시 끄고 개장</div></div>
+  </div>
+  <div class="pno">22</div>
+</div></section>
+
+<!-- 23 NEXT -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05.</b>남은 검증 · 일정</div>
+  <h2>확인된 것과 아직 확인하지 못한 것</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:70px;margin-top:50px">
+    <div>
+      <div class="k">다음 현장 테스트에서 확인할 것</div>
+      <ul class="dl" style="margin-top:8px">
+        <li><b>사선 키넥트 자리에서 팔 관절이 안정적으로 잡히는지</b> — 제스처의 전제</li>
+        <li>실제 관객으로 제스처 · 팔 따라하기 확인 (지금은 가상 관객)</li>
+        <li>2명이 함께 체험할 때 서로의 반응이 구분되는지</li>
+        <li>두 장면의 현장 투사 밝기와 실시간 프레임 속도</li>
+        <li>두 장면을 <b>하나의 실행 파일 · 하나의 흐름</b>으로 잇기</li>
+        <li>개미 장면 포함 여부 결정 · 4채널 사운드 · 8시간 연속 운영</li>
+      </ul>
+    </div>
+    <div>
+      <div class="k">일정</div>
+      <div class="sch">
+        <div class="r"><span>10.13</span><span><b>중간보고</b> · 프로토타입 1차 시연</span></div>
+        <div class="r"><span>10.14 – 10.30</span><span>현장 제스처 검증 · 2명 기준 튜닝 · 2장면 통합</span></div>
+        <div class="r"><span>10.31</span><span><b>통합 테스트</b> — 4면 + 센서 + 사운드 30분 무중단</span></div>
+        <div class="r"><span>11.09 – 11.12</span><span>반응 지연 100ms 이하로 최적화</span></div>
+        <div class="r"><span>11.13</span><span><b>외부인 리허설</b> — 안내 없이 30초 안에 참여</span></div>
+        <div class="r"><span>11.15</span><span><b>콘텐츠 잠금</b> · 11.16–17 8시간 내구 검증</span></div>
+        <div class="r"><span>11.20 – 11.22</span><span><b>전시</b> · COSS 호라이즌 스튜디오</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="pno">23</div>
+</div></section>
+
+<!-- 24 EOD -->
+<section class="slide eod"><h1>E.O.D</h1></section>
+
+</div>
+<div id="nav"><button id="prev">‹</button><span id="cnt"></span><button id="next">›</button></div>
+
+<script>
+const S=[...document.querySelectorAll('.slide')];let i=0;
+try{i=Math.min(+(location.hash.slice(1)||1)-1,S.length-1)||0}catch(e){}
+// 영상 칸: videos/ 폴더에 같은 이름의 파일을 넣으면 자동으로 재생된다
+document.querySelectorAll('.vwrap').forEach(w=>{
+  const src=w.dataset.src, name=src.split('/').pop();
+  w.innerHTML='<div class="vph"><div class="play"></div><div>영상 삽입 자리</div><code>'+name+'</code></div>';
+  const v=document.createElement('video');v.src=src;v.muted=true;v.loop=true;v.playsInline=true;v.controls=true;v.preload='metadata';
+  v.addEventListener('loadeddata',()=>{w.innerHTML='';w.appendChild(v);if(w.closest('.slide').classList.contains('on'))v.play().catch(()=>{})});
+});
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);S.forEach(e=>e.style.transform='scale('+s+')')}
+function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((e,k)=>{e.classList.toggle('on',k===i);e.querySelectorAll('video').forEach(v=>k===i?v.play().catch(()=>{}):v.pause())});
+  document.getElementById('cnt').textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1))}
+addEventListener('resize',fit);
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))go(i+1);if(['ArrowLeft','PageUp'].includes(e.key))go(i-1)});
+document.getElementById('prev').onclick=()=>go(i-1);document.getElementById('next').onclick=()=>go(i+1);
+fit();go(i);
+</script>
+</body>
+</html>
