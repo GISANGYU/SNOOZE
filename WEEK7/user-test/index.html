@@ -37,8 +37,8 @@ h2{font-size:38px;font-weight:600;letter-spacing:-.8px;margin-top:40px}
 
 /* index */
 .idx{margin-top:90px;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line)}
-.idx div{padding:34px 30px 34px 0;border-right:1px solid var(--line);margin-right:30px}
-.idx div:last-child{border-right:0;margin-right:0}
+.idx>div{padding:34px 30px 34px 0;border-right:1px solid var(--line);margin-right:30px}
+.idx>div:last-child{border-right:0;margin-right:0}
 .idx .n{font-size:22px;color:var(--blue);font-weight:600}
 .idx h3{font-size:27px;font-weight:600;margin:10px 0 22px;letter-spacing:-.5px;line-height:1.35}
 .idx li{list-style:none;font-size:19px;color:var(--sub);line-height:1.9}
@@ -231,6 +231,14 @@ a.vph{text-decoration:none}
 a.vph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
 a.vph .play{position:relative;background:rgba(0,0,0,.45);border-color:#fff}
 a.vph .play:after{border-left-color:#fff}
+
+/* flow strip */
+.flowstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:16px;margin-top:44px}
+.flowstrip img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:6px;display:block;background:#000}
+.flowstrip .tm{font-size:15px;color:var(--mute);margin-top:12px;font-variant-numeric:tabular-nums}
+.flowstrip b{display:block;font-size:21px;font-weight:600;margin:4px 0 8px;letter-spacing:-.3px}
+.flowstrip .badge{font-size:12px;padding:3px 9px}
+.flowstrip .d{font-size:15px;margin-top:8px;line-height:1.55}
 </style>
 </head>
 <body>
@@ -257,12 +265,13 @@ a.vph .play:after{border-left-color:#fff}
 <!-- 02 INDEX -->
 <section class="slide"><div class="pad">
   <div class="sec">Index</div>
-  <div class="idx">
+  <div class="idx" style="grid-template-columns:repeat(6,1fr)">
     <div><div class="n">01</div><h3>1차 사용자 테스트</h3><ul><li>테스트 구성</li><li>현장 영상</li><li>관찰한 장면</li></ul></div>
     <div><div class="n">02</div><h3>왜 알아채지<br>못했나</h3><ul><li>인지 실패의 다섯 가지 원인</li></ul></div>
     <div><div class="n">03</div><h3>수정 방향</h3><ul><li>관객의 움직임을 기준으로</li><li>분석 → 수정 대응표</li></ul></div>
     <div><div class="n">04</div><h3>반딧불이 장면</h3><ul><li>의도</li><li>테스트 영상</li><li>인터랙션 · 소리</li></ul></div>
-    <div><div class="n">05</div><h3>사람 장면 ·<br>다음 테스트</h3><ul><li>의도 · 영상</li><li>연출</li><li>전후 비교 · 검증 계획</li></ul></div>
+    <div><div class="n">05</div><h3>사람 장면</h3><ul><li>의도 · 영상</li><li>연출</li></ul></div>
+    <div><div class="n">06</div><h3>전체 영상 흐름 ·<br>다음 테스트</h3><ul><li>스토리보드 러프씬</li><li>전후 비교</li><li>검증 계획</li></ul></div>
   </div>
   <div class="mine"><b>담당</b>&nbsp;&nbsp;D_22561061_유기상 · 인터랙션 개발</div>
   <div class="pno">02</div>
@@ -420,9 +429,47 @@ a.vph .play:after{border-left-color:#fff}
   <div class="pno">11</div>
 </div></section>
 
+<!-- FLOW VIDEO -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>06.</b>전체 영상 흐름</div>
+  <h2>스토리보드 러프씬 — 개미부터 사람까지</h2>
+  <p class="lead">지금까지 만든 장면을 스토리보드 순서로 이어 붙인 <b>러프 편집본</b>입니다. 관객이 처음부터 끝까지 겪을 흐름을 공간에서 확인했습니다. (나비 장면 제외)</p>
+</div>
+  <div class="vwrap" data-yt="sVX4AlrpYDk"></div>
+  <div class="vcap"><span>10.12 · 호라이즌 스튜디오 · 러프 편집 80초 (소리 없음)</span><a class="yt" href="https://youtu.be/sVX4AlrpYDk" target="_blank">▶ youtu.be/sVX4AlrpYDk</a></div>
+  <div class="side">
+    <div class="meta"><span class="badge part">ROUGH</span><span>2026.10.12</span></div>
+    <div class="blk"><div class="k">흐름</div><div class="d">개미 → 반딧불이 → 크리스탈 동굴 · 거미 → 동굴 터널 → 기억 회랑 → 사람 → <em>하나의 빛</em></div></div>
+    <div class="blk"><div class="k">반응하는 장면</div><div class="d"><em>반딧불이 · 사람</em> 두 장면 — 흐름의 앞뒤에서 관객이 직접 참여</div></div>
+    <div class="blk"><div class="k">편집</div><div class="d">장면마다 핵심 구간만 잘라 압축. 실제 전시의 장면 길이 · 전환 · 사운드는 확정 전</div></div>
+  </div>
+  <div class="pno">12</div>
+</section>
+
+<!-- FLOW TIMELINE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>06.</b>전체 영상 흐름</div>
+  <h2>흐름을 따라가는 세계에서, 그 안의 '나'를 알아차리기까지</h2>
+  <div class="flowstrip">
+    <div><img src="img/flow_9s.jpg" alt=""><div class="tm">0:00 – 0:13</div><b>개미</b><span class="badge none">영상</span><div class="d">흰 점들이 줄지어 행진하다 정면의 고리로 모여든다. 누가 정했는지 모를 길을 따라가는 세계</div></div>
+    <div><img src="img/flow_23s.jpg" alt=""><div class="tm">0:13 – 0:25</div><b>반딧불이</b><span class="badge">인터랙션</span><div class="d">어둠 속 관객 둘레만 빛나고, 걸음과 손짓을 따라 방 전체가 깨어난다</div></div>
+    <div><img src="img/flow_40s.jpg" alt=""><div class="tm">0:26 – 0:45</div><b>크리스탈 동굴 · 거미</b><span class="badge part">러프</span><div class="d">공간을 가르는 선 → 결정 사이로 거대한 거미가 드러난다. 아직 재질 없는 화이트 모델 단계</div></div>
+    <div><img src="img/flow_50s.jpg" alt=""><div class="tm">0:46 – 0:54</div><b>동굴 터널</b><span class="badge none">영상</span><div class="d">보랏빛 결정의 통로를 지나 암전. 다음 세계로 건너가는 길</div></div>
+    <div><img src="img/flow_57s.jpg" alt=""><div class="tm">0:55 – 1:01</div><b>기억 회랑</b><span class="badge none">영상</span><div class="d">수많은 장면의 패널이 양옆을 채운 회랑, 빛의 줄기로 빨려 들어간다</div></div>
+    <div><img src="img/flow_66s.jpg" alt=""><div class="tm">1:02 – 1:11</div><b>사람</b><span class="badge">인터랙션</span><div class="d">두 관객의 몸짓이 벽 속 빛 실루엣으로 비친다. 군중 속에서 나를 발견하는 순간</div></div>
+    <div><img src="img/flow_75s.jpg" alt=""><div class="tm">1:12 – 1:20</div><b>하나의 빛</b><span class="badge none">엔딩</span><div class="d">흩어진 빛 입자가 방사형으로 모여 작은 빛 하나로 수렴하며 끝난다</div></div>
+  </div>
+  <div class="cols3" style="margin-top:44px">
+    <div><div class="k">확인한 것</div><div class="d" style="margin-top:8px">두 인터랙션 장면이 <b>영상 장면 사이에서 끊기지 않고</b> 이어짐. 사람 장면은 <b>2명 기준</b>으로 두 관객의 반응이 구분되어 보임</div></div>
+    <div><div class="k">흐름의 구조</div><div class="d" style="margin-top:8px">따라가는 세계(개미) → <b>나로 인해 깨어남</b>(반딧불이) → 숨은 구조 · 통로 · 기억 → <b>군중 속의 나</b>(사람) → 하나의 빛</div></div>
+    <div><div class="k">다음 과제</div><div class="d" style="margin-top:8px">장면별 실제 길이와 전환 확정 · 거미 장면 재질 입히기 · 전체 사운드 · <b>하나의 실행 흐름</b>으로 잇기</div></div>
+  </div>
+  <div class="pno">13</div>
+</div></section>
+
 <!-- 12 BEFORE / AFTER -->
 <section class="slide"><div class="pad">
-  <div class="sec"><b>05.</b>전후 비교</div>
+  <div class="sec"><b>06.</b>전후 비교</div>
   <h2>10.07 → 10.12, 무엇이 달라졌나</h2>
   <table>
     <tr><th style="width:16%">구분</th><th style="width:30%">10.07 1차 테스트</th><th>10.12 수정</th></tr>
@@ -432,13 +479,14 @@ a.vph .play:after{border-left-color:#fff}
     <tr><td>머무는 관객</td><td>변화 없음</td><td><em>20초 뒤 깨어남</em> · 물결과 소리</td></tr>
     <tr><td>몸짓</td><td>반응 없음</td><td>반딧불이: <em>손짓에 응답</em> · 사람: <em>실루엣 그대로 복사</em></td></tr>
     <tr><td>'나'를 찾기</td><td>—</td><td><em>무채색 군중 vs 선명한 색의 나</em> · 실제 키 × 1.7</td></tr>
+    <tr><td>전체 흐름</td><td>장면별 따로 확인</td><td><em>개미 → 반딧불이 → 동굴 · 거미 → 터널 → 기억 회랑 → 사람</em> 러프 편집으로 이어서 확인</td></tr>
   </table>
-  <div class="pno">12</div>
+  <div class="pno">14</div>
 </div></section>
 
 <!-- 13 NEXT TEST -->
 <section class="slide"><div class="pad">
-  <div class="sec"><b>05.</b>다음 테스트</div>
+  <div class="sec"><b>06.</b>다음 테스트</div>
   <h2>다음 테스트는 데이터로 확인한다</h2>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:70px;margin-top:50px">
     <div>
@@ -461,7 +509,7 @@ a.vph .play:after{border-left-color:#fff}
       </ul>
     </div>
   </div>
-  <div class="pno">13</div>
+  <div class="pno">15</div>
 </div></section>
 
 <!-- 14 EOD -->
