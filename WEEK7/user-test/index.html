@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIMEN 사용자 테스트</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#f9f9fa; --ink:#14171d; --sub:#505b6e; --mute:#8b93a1; --line:#dfe3e8;
+  --blue:#2495ff; --blue-d:#1a7fe0; --panel:#eef4fd; --cover:#111214;
+  --ok:#2495ff; --fail:#e5484d; --part:#f08c00; --new:#12a594; --drop:#7a818c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#2a2c30;font-family:Pretendard,"Pretendard Variable",-apple-system,"Malgun Gothic",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;word-break:keep-all}
+#deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.slide{position:absolute;width:1920px;height:1080px;background:var(--bg);transform-origin:center;display:none;overflow:hidden}
+.slide.on{display:block}
+.pad{position:absolute;inset:0;padding:110px 150px 90px}
+.pno{position:absolute;right:48px;bottom:32px;font-size:15px;color:var(--mute)}
+.sec{font-size:26px;font-weight:600;color:var(--blue);letter-spacing:-.2px}
+.sec b{margin-right:10px}
+h2{font-size:38px;font-weight:600;letter-spacing:-.8px;margin-top:40px}
+.lead{font-size:23px;color:var(--sub);margin-top:22px;letter-spacing:-.3px;line-height:1.6}
+.lead b{color:var(--ink);font-weight:600}
+
+/* cover */
+.cover{background:var(--cover);color:#e9ebee}
+.cover .top{position:absolute;top:52px;left:52px;right:78px;display:flex;justify-content:space-between;font-size:20px;color:#cfd3d9}
+.cover .tt{position:absolute;left:52px;top:400px}
+.cover .tt p{font-size:26px;color:#d6d9de;font-weight:500}
+.cover .tt h1{font-size:56px;color:var(--blue);font-weight:700;letter-spacing:-1.5px;margin-top:18px}
+.cover .tt .sub2{font-size:22px;color:#9aa1ab;margin-top:22px;line-height:1.6}
+.cover .foot{position:absolute;left:52px;right:78px;bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;font-size:20px;color:#cfd3d9}
+.cover .foot .l span{margin-right:52px}
+.cover .crew{display:flex;gap:32px;align-items:flex-end;line-height:1.65}
+
+/* index */
+.idx{margin-top:90px;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line)}
+.idx div{padding:34px 30px 34px 0;border-right:1px solid var(--line);margin-right:30px}
+.idx div:last-child{border-right:0;margin-right:0}
+.idx .n{font-size:22px;color:var(--blue);font-weight:600}
+.idx h3{font-size:27px;font-weight:600;margin:10px 0 22px;letter-spacing:-.5px;line-height:1.35}
+.idx li{list-style:none;font-size:19px;color:var(--sub);line-height:1.9}
+.mine{display:inline-block;margin-top:70px;font-size:19px;color:var(--sub);background:var(--panel);padding:14px 22px;border-radius:6px}
+.mine b{color:var(--blue);font-weight:600}
+
+/* generic */
+.panel{background:var(--panel);border-radius:8px}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:44px}
+.cols4{display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
+.k{font-size:21px;color:var(--blue);font-weight:600}
+.k i{font-style:normal;margin-right:8px}
+.t{font-size:26px;font-weight:600;margin:10px 0 14px;letter-spacing:-.4px}
+.d{font-size:19px;color:var(--sub);line-height:1.75}
+.d b{color:var(--ink);font-weight:600}
+.note{border-left:4px solid var(--blue);background:var(--panel);padding:20px 26px;margin-top:26px}
+.note .k{font-size:19px}
+.note .d{margin-top:8px}
+.shot{width:100%;display:block;border-radius:6px;background:#000}
+.cap{font-size:17px;color:var(--mute);margin-top:12px;line-height:1.55}
+.cap b{color:var(--ink);font-weight:600}
+
+/* flow */
+.flow{padding:34px 44px}
+.flow .row{display:flex;align-items:center;gap:18px}
+.flow .lab{width:190px;font-size:21px;color:var(--blue);font-weight:600;flex:none}
+.flow .step{flex:1;text-align:center;background:#fff;border-radius:6px;padding:16px 10px}
+.flow .step b{display:block;font-size:21px;font-weight:600}
+.flow .step span{display:block;font-size:16px;color:var(--sub);margin-top:6px;line-height:1.45}
+.flow .step.hl{outline:2px solid var(--blue)}
+.flow .ar{color:var(--blue);font-size:24px;flex:none}
+.flow .row+.row{margin-top:24px;padding-top:24px;border-top:1px solid #d6e2f3}
+
+/* timeline */
+.tl{margin-top:80px;position:relative}
+.tl .bar{position:absolute;left:0;right:0;top:15px;height:2px;background:var(--line)}
+.tl .items{display:grid;grid-template-columns:repeat(5,1fr);gap:34px;position:relative}
+.tl .dot{width:32px;height:32px;border-radius:50%;background:var(--bg);border:3px solid var(--blue);margin-bottom:26px}
+.tl .now .dot{background:var(--blue)}
+.tl .date{font-size:19px;color:var(--mute)}
+.tl h4{font-size:25px;font-weight:600;margin:8px 0 14px;letter-spacing:-.4px;line-height:1.35}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:700;letter-spacing:1px;padding:6px 14px;border-radius:30px;color:#fff;background:var(--ok);white-space:nowrap}
+.badge.fail{background:var(--fail)} .badge.part{background:var(--part)} .badge.new{background:var(--new)} .badge.drop{background:var(--drop)} .badge.none{background:#aab1bd}
+
+/* video slide */
+.vwrap{position:absolute;left:150px;top:330px;width:1040px;height:585px;border-radius:8px;overflow:hidden;background:#0d0f12}
+.vwrap video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.vph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#7d8694;gap:14px;font-size:19px;text-align:center;line-height:1.6}
+.vph .play{width:84px;height:84px;border-radius:50%;border:2px solid #4a5260;display:flex;align-items:center;justify-content:center}
+.vph .play:after{content:"";border-left:24px solid #7d8694;border-top:15px solid transparent;border-bottom:15px solid transparent;margin-left:6px}
+.vph code{font-family:inherit;color:#aab2be;font-size:17px}
+.vcap{position:absolute;left:150px;top:938px;width:1040px;display:flex;justify-content:space-between;font-size:18px;color:var(--sub)}
+.yt{color:var(--blue);text-decoration:none}.yt:hover{text-decoration:underline}
+.side{position:absolute;left:1250px;right:150px;top:330px}
+.side .meta{display:flex;gap:14px;align-items:center;margin-bottom:30px}
+.side .meta span:not(.badge){font-size:18px;color:var(--mute)}
+.blk{padding:20px 0;border-top:1px solid var(--line)}
+.blk:first-of-type{border-top:0;padding-top:0}
+.blk .k{font-size:18px}
+.blk .d{margin-top:8px;font-size:19px;color:var(--ink);line-height:1.7}
+.blk .d em{font-style:normal;color:var(--blue);font-weight:600}
+
+/* table */
+table{width:100%;border-collapse:collapse;margin-top:50px;font-size:19px}
+th{font-size:18px;color:var(--blue);font-weight:600;text-align:left;padding:0 18px 16px;border-bottom:2px solid var(--ink)}
+td{padding:20px 18px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6;color:var(--sub)}
+td:first-child{color:var(--ink);font-weight:600}
+td b{color:var(--ink);font-weight:600}
+td em{font-style:normal;color:var(--blue);font-weight:600}
+
+/* scenes 7 */
+.scn{display:grid;grid-template-columns:repeat(7,1fr);gap:18px;margin-top:56px}
+.scn>div{position:relative}
+.scn img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;display:block;background:#000}
+.scn .n{font-size:17px;color:var(--mute);margin-top:14px}
+.scn b{display:block;font-size:22px;font-weight:600;margin:4px 0 10px;letter-spacing:-.3px}
+.scn .badge{font-size:13px;padding:4px 10px}
+.scn .x{font-size:16px;color:var(--sub);line-height:1.55;margin-top:10px}
+.scn .main img{outline:4px solid var(--blue);outline-offset:3px}
+.scn .dim img{opacity:.45;filter:grayscale(.6)}
+
+/* concept */
+.quote{margin-top:70px;font-size:52px;font-weight:700;letter-spacing:-1.5px;line-height:1.35}
+.quote em{font-style:normal;color:var(--blue)}
+.stages{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-top:80px;border-top:2px solid var(--ink)}
+.stages>div{padding:26px 22px 0 0}
+.stages .n{font-size:17px;color:var(--blue);font-weight:700}
+.stages b{display:block;font-size:26px;font-weight:600;margin:8px 0 10px}
+.stages .d{font-size:17px}
+.stages .on b{color:var(--blue)}
+
+/* scene pair */
+.pair{display:grid;grid-template-columns:.62fr 1fr;gap:40px;margin-top:44px;align-items:start}
+.pair .lbl{font-size:16px;color:var(--mute);margin-bottom:10px;font-weight:600;letter-spacing:.5px}
+.mean{margin-top:34px;display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+.mean>div{border-top:2px solid var(--blue);padding-top:16px}
+.mean .f{font-size:16px;color:var(--mute)}
+.mean .m{font-size:22px;font-weight:600;margin-top:6px;line-height:1.45;letter-spacing:-.3px}
+.mean .d{font-size:17px;margin-top:8px}
+
+/* triple */
+.triple{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:40px}
+
+/* numbers */
+.num{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:70px}
+.num>div{border-radius:10px;padding:40px 40px 36px;background:#fff;border:1px solid var(--line)}
+.num>div.on{background:var(--panel);border:2px solid var(--blue)}
+.num .v{font-size:110px;font-weight:800;color:var(--blue);letter-spacing:-4px;line-height:1}
+.num .v small{font-size:36px;margin-left:6px;letter-spacing:0}
+.num .l{font-size:26px;font-weight:600;margin-top:18px}
+.num .d{margin-top:12px}
+
+/* hardware list */
+.hw{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;margin-top:44px;align-items:start}
+.item{display:grid;grid-template-columns:200px 1fr auto;gap:18px;padding:18px 0;border-top:1px solid var(--line);align-items:start}
+.item:first-child{border-top:2px solid var(--ink)}
+.item b{font-size:21px;font-weight:600}
+.item .d{font-size:17px}
+.item .badge{font-size:13px;padding:4px 10px}
+
+/* stack */
+.stack{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.layer{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:16px 0;border-top:1px solid var(--line)}
+.layer:first-child{border-top:2px solid var(--ink)}
+.layer .k{font-size:17px;padding-top:3px}
+.layer b{font-size:21px;font-weight:600;display:block}
+.layer .d{font-size:17px;margin-top:4px}
+
+/* coord */
+.coord{display:flex;align-items:stretch;gap:0;margin-top:50px}
+.coord .c{flex:1;background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 24px}
+.coord .c .k{font-size:17px}
+.coord .c b{display:block;font-size:24px;font-weight:600;margin:8px 0 10px}
+.coord .c .d{font-size:17px}
+.coord .ar{display:flex;flex-direction:column;justify-content:center;align-items:center;width:120px;flex:none;color:var(--blue);font-size:15px;font-weight:600;text-align:center;line-height:1.4}
+.coord .ar:before{content:"→";font-size:30px;margin-bottom:4px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:22px;margin-top:60px}
+.steps>div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 22px;position:relative}
+.steps .n{font-size:40px;font-weight:800;color:var(--blue);line-height:1}
+.steps b{display:block;font-size:22px;font-weight:600;margin:14px 0 10px}
+.steps .d{font-size:17px}
+
+/* schedule */
+.sch{margin-top:30px}
+.sch .r{display:grid;grid-template-columns:170px 1fr;gap:20px;padding:15px 0;border-bottom:1px solid var(--line);font-size:20px;color:var(--sub)}
+.sch .r span:first-child{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.sch .r b{color:var(--ink);font-weight:600}
+ul.dl{list-style:none}
+ul.dl li{font-size:20px;color:var(--sub);line-height:1.65;padding-left:20px;position:relative;margin-top:10px}
+ul.dl li::before{content:"";position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:var(--blue)}
+ul.dl li b{color:var(--ink);font-weight:600}
+
+.eod{background:var(--cover)}
+.eod h1{position:absolute;left:52px;top:500px;font-size:56px;color:var(--blue);font-weight:700}
+
+/* nav */
+#nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;color:#c9ced6;font-size:14px;z-index:5;background:rgba(0,0,0,.45);padding:6px 12px;border-radius:20px}
+#nav button{background:none;border:0;color:#fff;font-size:18px;cursor:pointer;padding:2px 8px}
+
+@media print{
+  @page{size:1920px 1080px;margin:0}
+  html,body{background:#fff}
+  #deck{position:static;display:block}
+  .slide{display:block!important;position:relative;transform:none!important;page-break-after:always;break-after:page}
+  #nav{display:none}
+}
+
+/* why 5 */
+.why{display:grid;grid-template-columns:repeat(5,1fr);gap:26px;margin-top:56px}
+.why>div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:28px 26px}
+.why .n{font-size:40px;font-weight:800;color:var(--blue);line-height:1}
+.why>div>b{display:block;font-size:24px;font-weight:600;margin:16px 0 12px;letter-spacing:-.4px}
+.why .d{font-size:18px}
+.why .d b{color:var(--ink);font-weight:600}
+/* firefly detail */
+.pair2{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;margin-top:40px;align-items:start}
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fx .it{padding:16px 0;border-top:1px solid var(--line)}
+.fx .it:first-child{border-top:2px solid var(--ink)}
+.fx .it>b{font-size:22px;font-weight:600}
+.fx .it .d b{color:var(--ink);font-weight:600}
+.fx .it .d{font-size:17px;margin-top:6px}
+.tag{display:inline-block;font-size:14px;font-weight:700;color:var(--blue);background:var(--panel);border-radius:4px;padding:3px 9px;margin-right:12px;vertical-align:3px}
+/* youtube */
+.vwrap iframe{width:100%;height:100%;border:0;display:block}
+a.vph{text-decoration:none}
+a.vph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+a.vph .play{position:relative;background:rgba(0,0,0,.45);border-color:#fff}
+a.vph .play:after{border-left-color:#fff}
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- 01 COVER -->
+<section class="slide cover">
+  <div class="top"><span>CAPSTONE DESIGN · WEEK 07</span><span>Digital Media Design</span></div>
+  <div class="tt">
+    <p>사용자 테스트 &amp; 인터랙션 수정</p>
+    <h1>관객은 왜 알아채지 못했나, 그래서 무엇을 바꿨나</h1>
+    <div class="sub2">10.07 1차 사용자 테스트 → 인지 실패 분석 → 10.12 반딧불이 · 사람 장면 수정 테스트</div>
+  </div>
+  <div class="foot">
+    <div class="l"><span>Date_ 2026.10.13</span><span>Prof_심한수 교수님</span><span>Team_ SNOOZE</span></div>
+    <div class="crew">
+      <div>[기획]<br>A_22561083_이채연(팀장)</div>
+      <div>[프로그래밍]<br>D_22561061_유기상</div>
+      <div>[디자인]<br>B_22261052_배정훈<br>C_22261063_심혜민<br>C_22461106_조가연<br>C_22461014_김노은<br>C_22261029_김현기</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 INDEX -->
+<section class="slide"><div class="pad">
+  <div class="sec">Index</div>
+  <div class="idx">
+    <div><div class="n">01</div><h3>1차 사용자 테스트</h3><ul><li>테스트 구성</li><li>현장 영상</li><li>관찰한 장면</li></ul></div>
+    <div><div class="n">02</div><h3>왜 알아채지<br>못했나</h3><ul><li>인지 실패의 다섯 가지 원인</li></ul></div>
+    <div><div class="n">03</div><h3>수정 방향</h3><ul><li>관객의 움직임을 기준으로</li><li>분석 → 수정 대응표</li></ul></div>
+    <div><div class="n">04</div><h3>반딧불이 장면</h3><ul><li>의도</li><li>테스트 영상</li><li>인터랙션 · 소리</li></ul></div>
+    <div><div class="n">05</div><h3>사람 장면 ·<br>다음 테스트</h3><ul><li>의도 · 영상</li><li>연출</li><li>전후 비교 · 검증 계획</li></ul></div>
+  </div>
+  <div class="mine"><b>담당</b>&nbsp;&nbsp;D_22561061_유기상 · 인터랙션 개발</div>
+  <div class="pno">02</div>
+</div></section>
+
+<!-- 03 TEST SETUP + VIDEO -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>01.</b>1차 사용자 테스트</div>
+  <h2>TEST &nbsp;관객은 바닥의 반응을 알아채지 못했다</h2>
+  <p class="lead">천장 키넥트가 관객의 <b>바닥 위치만</b> 감지하고, <b>바닥에만</b> 반응을 주던 버전으로 실제 관객 체험을 진행했습니다.</p>
+</div>
+  <div class="vwrap" data-yt="Kj66jqm3fuQ"></div>
+  <div class="vcap"><span>10.07 (수) · COSS 호라이즌 스튜디오 · 벽 3 + 바닥 1</span><a class="yt" href="https://youtu.be/Kj66jqm3fuQ" target="_blank">▶ youtu.be/Kj66jqm3fuQ</a></div>
+  <div class="side">
+    <div class="meta"><span class="badge fail">FAIL</span><span>2026.10.07</span></div>
+    <div class="blk"><div class="k">감지</div><div class="d">천장 키넥트 · 관객의 <em>바닥 좌표</em>만</div></div>
+    <div class="blk"><div class="k">반응</div><div class="d">발밑의 빛 소용돌이 · 빛 웅덩이 — <em>바닥만</em> 반응, 벽 3면은 흐르는 영상</div></div>
+    <div class="blk"><div class="k">결과</div><div class="d">관객은 체험 내내 정면 벽을 바라봤고, 자기 움직임으로 무언가 바뀐다는 것을 <em>인지하지 못함</em></div></div>
+  </div>
+  <div class="pno">03</div>
+</section>
+
+<!-- 04 OBSERVED -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>01.</b>1차 사용자 테스트</div>
+  <h2>영상에서 관찰한 관객의 모습</h2>
+  <div class="cols4" style="margin-top:50px">
+    <div><img class="shot" src="img/test_8s.jpg" alt=""><div class="cap"><b>정면만 바라봄</b><br>가운데에 서서 눈높이로 정면 벽을 감상. 고개를 숙이지 않음</div></div>
+    <div><img class="shot" src="img/test_52s.jpg" alt=""><div class="cap"><b>반응이 내 그림자 속에</b><br>발밑 소용돌이의 중심이 관객 몸이 만든 그림자에 가려짐</div></div>
+    <div><img class="shot" src="img/test_168s.jpg" alt=""><div class="cap"><b>제자리에 멈춤</b><br>대부분 걷지 않고 서서 봄 — 위치가 그대로라 반응도 그대로</div></div>
+    <div><img class="shot" src="img/test_184s.jpg" alt=""><div class="cap"><b>팔을 벌려 확인</b><br>후반부, 관객이 몸짓으로 반응을 확인하려 함</div></div>
+  </div>
+  <div class="note"><div class="k">관찰 요약</div><div class="d">관객의 시선은 <b>벽</b>에, 반응은 <b>발밑</b>에 있었습니다. 그리고 관객은 걷기보다 <b>몸짓</b>으로 공간에 말을 걸었습니다.</div></div>
+  <div class="pno">04</div>
+</div></section>
+
+<!-- 05 WHY -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>02.</b>왜 알아채지 못했나</div>
+  <h2>인지 실패의 다섯 가지 원인</h2>
+  <div class="why">
+    <div><div class="n">①</div><b>시선 밖의 반응</b><div class="d">관객은 정면 벽을 눈높이로 봤고, 반응은 <b>발밑</b>에서 일어남. 고개를 숙이지 않으면 보이지 않는 자리</div></div>
+    <div><div class="n">②</div><b>그림자에 가려진 반응</b><div class="d">빛 웅덩이가 정확히 발밑에 생겨, <b>관객의 몸이 투사 빛을 가림</b>. 가장 중요한 중심부가 그림자 속에</div></div>
+    <div><div class="n">③</div><b>보는 곳은 반응하지 않음</b><div class="d">선 · 고리 · 성운 · 나비 등 주요 장면은 모두 벽에. 그러나 <b>벽은 관객에게 반응하지 않았음</b></div></div>
+    <div><div class="n">④</div><b>멈추면 변화도 없음</b><div class="d">관객은 거의 제자리에서 감상. <b>위치가 바뀔 때만</b> 달라지는 반응은 '변화'로 보이지 않음</div></div>
+    <div><div class="n">⑤</div><b>관객이 기대한 건 몸짓</b><div class="d">관객은 팔을 벌려 반응을 확인하려 함. <b>걷는 위치보다 몸짓</b>으로 소통하려 한다는 신호</div></div>
+  </div>
+  <div class="note"><div class="k">핵심</div><div class="d">반응이 약했던 것이 아니라, <b>관객이 보고 · 하는 것과 반응이 일어나는 곳이 어긋나 있었다</b>.</div></div>
+  <div class="pno">05</div>
+</div></section>
+
+<!-- 06 DIRECTION TABLE -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>03.</b>수정 방향</div>
+  <h2>관객의 움직임을 기준으로 다시 설계한다</h2>
+  <table>
+    <tr><th style="width:20%">분석</th><th style="width:36%">수정 방향</th><th>장면에 적용</th></tr>
+    <tr><td>① 시선 밖의 반응</td><td><em>시선이 있는 곳에 반응을 둔다</em> — 벽도 반응</td><td>반딧불이: 다가간 벽이 밝아짐 · 물결이 벽을 타고 오름<br>사람: '나'를 세 벽 모두에</td></tr>
+    <tr><td>② 그림자에 가림</td><td><em>몸 바깥으로 퍼지는 반응</em></td><td>반딧불이: 발밑에서 방 끝까지 퍼지는 동심원 물결</td></tr>
+    <tr><td>③ 보는 곳은 무반응</td><td><em>벽이 관객에게 응답</em> — 단, 통제가 아닌 관계의 강도로</td><td>반딧불이: 벽 가까이 손짓할 때만 짧게 반응<br>사람: 벽 속 '나'가 내 몸 그대로 움직임</td></tr>
+    <tr><td>④ 멈추면 변화 없음</td><td><em>머무는 것도 행동</em>이 되게 · 첫 반응은 즉시 · 분명하게</td><td>반딧불이: 머물면 깨어남 · 어둠 속 관객 둘레만 밝음<br>사람: 무채색 군중 속 '나'만 선명한 색</td></tr>
+    <tr><td>⑤ 몸짓을 기대</td><td><em>위치 대신 몸짓을 읽는다</em> — 키넥트 스켈레톤</td><td>반딧불이: 몸통 대비 손의 속도로 손짓 판정<br>사람: 바디 인덱스로 실제 실루엣 복사</td></tr>
+  </table>
+  <div class="pno">06</div>
+</div></section>
+
+<!-- 07 FIREFLY VIDEO -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04.</b>반딧불이 장면</div>
+  <h2>나로 인해 깨어나는 세계</h2>
+  <p class="lead">어둠 속, 관객이 선 자리에서만 반딧불이가 빛납니다. 세계는 관객을 <b>따르지 않고 응답</b>합니다.</p>
+</div>
+  <div class="vwrap" data-yt="xsow95fyhWw"></div>
+  <div class="vcap"><span>10.12 · 수정 인터랙션 테스트</span><a class="yt" href="https://youtu.be/xsow95fyhWw" target="_blank">▶ youtu.be/xsow95fyhWw</a></div>
+  <div class="side">
+    <div class="meta"><span class="badge new">REVISED</span><span>2026.10.12</span></div>
+    <div class="blk"><div class="k">의도</div><div class="d">어둠 속 세계가 <em>나의 존재로 깨어나는</em> 순간. 빛을 움직이는 '통제'가 아니라, 다가가고 머물수록 깊어지는 <em>관계</em></div></div>
+    <div class="blk"><div class="k">감지</div><div class="d">Kinect v2 스켈레톤 — 위치(밝기) + 손 움직임(제스처)</div></div>
+    <div class="blk"><div class="k">테스트 반영</div><div class="d">반응을 <em>시선 안(벽)</em>으로, <em>그림자 밖(퍼지는 물결)</em>으로</div></div>
+  </div>
+  <div class="pno">07</div>
+</section>
+
+<!-- 08 FIREFLY INTERACTION -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04.</b>반딧불이 장면</div>
+  <h2>인터랙션 — 따라오는 빛 · 응답하는 벽 · 퍼지는 물결</h2>
+  <div class="pair2">
+    <div>
+      <img class="shot" src="img/firefly_12s.jpg" alt="">
+      <div class="cap"><b>나를 따라오는 빛</b> — 관객 둘레만 밝고 나머지는 어둠. 정면 벽 앞에 서면 정면 벽이 밝아짐</div>
+      <div class="dual" style="margin-top:22px"><img class="shot" src="img/firefly_27s.jpg" alt=""><img class="shot" src="img/firefly_31s.jpg" alt=""></div>
+      <div class="cap"><b>깨어남 물결</b> — 발밑에서 시작해 바닥 → 벽으로 번짐. 물마루가 지나가는 동안만 연보라로 변했다 돌아옴</div>
+    </div>
+    <div class="fx">
+      <div class="it"><span class="tag">① ④</span><b>나를 따라오는 빛</b><div class="d">관객 둘레만 반딧불이가 빛나고 따라감. 반응 범위를 <b>1.25m → 0.7m</b>로 좁혀 '내 빛'이 바로 읽히게. 깜빡임 없이 밝기는 위치로만</div></div>
+      <div class="it"><span class="tag">①</span><b>다가가면 밝아지는 벽</b><div class="d">가운데에 서면 벽은 <b>50%</b>, 벽 1.2m 안으로 다가가면 <b>100%</b></div></div>
+      <div class="it"><span class="tag">③ ⑤</span><b>손짓에 응답</b><div class="d">손이 벽 1m 안 + 몸통 대비 손 속도가 빠를 때만, 손 주변 반딧불이가 피했다 2~3초 뒤 돌아옴. 걷기 · 다가가기 · 방 가운데 휘두르기엔 무반응</div></div>
+      <div class="it"><span class="tag">② ④</span><b>깨어남 물결</b><div class="d">머문 지 <b>20초</b> 뒤 발밑에서 동심원 물결 3겹이 일렁이며 퍼져 약 14초 만에 방 전체가 깨어남. 지나가는 입자를 바깥으로 밀었다 돌려놓음</div></div>
+      <div class="it"><span class="tag">④</span><b>다음 관객을 위해</b><div class="d">방이 20초 비면 다시 어두워지고, 다음 관객이 들어오면 처음부터</div></div>
+    </div>
+  </div>
+  <div class="pno">08</div>
+</div></section>
+
+<!-- 09 FIREFLY SOUND -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>04.</b>반딧불이 장면</div>
+  <h2>소리도 물결을 따라간다</h2>
+  <p class="lead">파일 없이 실시간으로 합성하는 소리라, 물결의 위치와 정확히 맞물립니다. 장면이 지켜야 할 <b>평온함</b>을 지키기 위해 맥놀이 · 음 미끄러짐 · 저음 드론은 쓰지 않았습니다.</p>
+  <div class="panel flow" style="margin-top:56px">
+    <div class="row">
+      <div class="lab">시간 흐름</div>
+      <div class="step"><b>평소</b><span>잔잔한 화음 · 귀뚜라미 · 풀소리</span></div><div class="ar">→</div>
+      <div class="step"><b>물결 4초 전</b><span>음악이 서서히 차오름<br>높은 반짝임 음이 깔림</span></div><div class="ar">→</div>
+      <div class="step hl"><b>물결 시작</b><span>바람이 한 번 지나감<br>화음이 으뜸화음으로 돌아옴</span></div><div class="ar">→</div>
+      <div class="step hl"><b>퍼지는 동안</b><span>물결이 1m 넓어질 때마다<br>종소리가 한 음씩 높아짐</span></div><div class="ar">→</div>
+      <div class="step"><b>깨어난 뒤</b><span>반짝임은 사라지고<br>음악만 조금 크게 남음</span></div>
+    </div>
+  </div>
+  <div class="cols3" style="margin-top:50px">
+    <div><div class="k">측정</div><div class="d" style="margin-top:8px">평소 대비 물결 구간 <b>약 5dB</b> 완만한 상승 — 갑자기 튀지 않게</div></div>
+    <div><div class="k">뺀 것</div><div class="d" style="margin-top:8px">물결 시작의 '굴러 올라가는 종 화음'은 팀 검토에서 <b>과하다</b>는 판단으로 제거</div></div>
+    <div><div class="k">연결</div><div class="d" style="margin-top:8px">소리가 위치를 알려 줘, 시선이 다른 벽에 있어도 <b>물결이 퍼지는 것을 귀로</b> 알아챔</div></div>
+  </div>
+  <div class="pno">09</div>
+</div></section>
+
+<!-- 10 PEOPLE VIDEO -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05.</b>사람 장면</div>
+  <h2>군중 속에서 나를 발견하다</h2>
+  <p class="lead">세 벽은 창문, 그 너머 광장에 수많은 사람이 걷고 있습니다. 그 속에 <b>관객 자신</b>이 서 있고, 바닥은 거울이 됩니다.</p>
+</div>
+  <div class="vwrap" data-yt="yfxHK3Sylhc"></div>
+  <div class="vcap"><span>10.12 · 수정 인터랙션 테스트</span><a class="yt" href="https://youtu.be/yfxHK3Sylhc" target="_blank">▶ youtu.be/yfxHK3Sylhc</a></div>
+  <div class="side">
+    <div class="meta"><span class="badge new">REVISED</span><span>2026.10.12</span></div>
+    <div class="blk"><div class="k">의도</div><div class="d">타인 속에 섞여 걷던 내가 <em>그 안의 '나'를 알아차리는</em> 순간 — LIMEN 의 자각</div></div>
+    <div class="blk"><div class="k">감지</div><div class="d">Kinect v2 스켈레톤 · 바디 인덱스(사람별 실루엣 픽셀)</div></div>
+    <div class="blk"><div class="k">테스트 반영</div><div class="d">관객이 보는 <em>세 벽 모두에 '나'</em>를, 그 '나'가 <em>내 몸짓 그대로</em></div></div>
+  </div>
+  <div class="pno">10</div>
+</section>
+
+<!-- 11 PEOPLE DETAIL -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05.</b>사람 장면</div>
+  <h2>연출 — 대비로 나를 찾고, 내 몸 그대로 비춘다</h2>
+  <div class="triple">
+    <div><img class="shot" src="img/people_gray.jpg" alt=""><div class="k" style="margin-top:20px">④ 군중과 나의 대비</div><div class="d" style="margin-top:8px">군중은 흰빛 → <b>무채색</b>. 사람마다 윗옷 · 아래옷 명도를 다섯 단계에서 따로, 채도는 20% 더 뺌. 투명한 몸 안에 빛 알갱이가 남음. '나'만 <b>파랑 · 주황 · 분홍</b>으로 1.35배 밝고 1.5배 선명하게</div></div>
+    <div><img class="shot" src="img/people_sil4.jpg" alt=""><div class="k" style="margin-top:20px">⑤ 내 몸 그대로의 나</div><div class="d" style="margin-top:8px">3D 모델이 아니라 키넥트 바디 인덱스의 <b>실제 실루엣</b>을 매 프레임 복사. 팔 · 옷 · 가방 윤곽까지 그 사람 그대로. 키는 실루엣으로 재서 <b>실제 키 × 1.7</b></div></div>
+    <div><img class="shot" src="img/people_floorline.jpg" alt=""><div class="k" style="margin-top:20px">① 벽과 바닥이 이어지는 거울</div><div class="d" style="margin-top:8px">벽 속 모든 인물의 발이 <b>벽과 바닥이 만나는 선</b>에 닿도록 다시 배치. 벽 속의 나와 바닥에 비친 내가 '서 있는 내가 비친 모습'으로 이어짐</div></div>
+  </div>
+  <div class="pno">11</div>
+</div></section>
+
+<!-- 12 BEFORE / AFTER -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05.</b>전후 비교</div>
+  <h2>10.07 → 10.12, 무엇이 달라졌나</h2>
+  <table>
+    <tr><th style="width:16%">구분</th><th style="width:30%">10.07 1차 테스트</th><th>10.12 수정</th></tr>
+    <tr><td>감지</td><td>바닥 위치만</td><td><em>위치 + 스켈레톤 제스처 + 실루엣</em></td></tr>
+    <tr><td>반응하는 면</td><td>바닥만</td><td><em>바닥 + 다가간 벽 + 세 벽의 '나'</em></td></tr>
+    <tr><td>반응의 모양</td><td>발밑 한 점 (그림자에 가림)</td><td><em>몸 바깥으로 퍼지는 물결 · 벽을 타고 오름</em></td></tr>
+    <tr><td>머무는 관객</td><td>변화 없음</td><td><em>20초 뒤 깨어남</em> · 물결과 소리</td></tr>
+    <tr><td>몸짓</td><td>반응 없음</td><td>반딧불이: <em>손짓에 응답</em> · 사람: <em>실루엣 그대로 복사</em></td></tr>
+    <tr><td>'나'를 찾기</td><td>—</td><td><em>무채색 군중 vs 선명한 색의 나</em> · 실제 키 × 1.7</td></tr>
+  </table>
+  <div class="pno">12</div>
+</div></section>
+
+<!-- 13 NEXT TEST -->
+<section class="slide"><div class="pad">
+  <div class="sec"><b>05.</b>다음 테스트</div>
+  <h2>다음 테스트는 데이터로 확인한다</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:70px;margin-top:50px">
+    <div>
+      <div class="k">관객의 움직임을 녹화해 분석</div>
+      <ul class="dl" style="margin-top:8px">
+        <li>테스트 중 관객의 <b>스켈레톤(25관절)을 그대로 녹화</b> — 실행 파일에 녹화 · 재생 기능 포함</li>
+        <li><b>머문 위치 · 이동 거리 · 바라본 방향</b> — 어디서 얼마나 서 있었나</li>
+        <li><b>팔을 움직인 빈도와 세기</b> — 제스처 판정 기준값을 실제 관객에 맞춰 조정</li>
+        <li>같은 녹화를 개발실에서 다시 재생해, 수정 전후를 <b>같은 움직임</b>으로 비교</li>
+      </ul>
+    </div>
+    <div>
+      <div class="k">함께 기록할 지표</div>
+      <ul class="dl" style="margin-top:8px">
+        <li><b>처음 반응을 알아챈 시점</b> — 안내 없이 30초 안이 목표</li>
+        <li><b>벽 · 바닥을 본 시간</b>의 비율 (영상으로 측정)</li>
+        <li>손짓을 '내가 일으켰다'고 느꼈는지 — 체험 후 짧은 인터뷰</li>
+        <li>2명이 함께일 때 <b>서로의 반응이 구분되는지</b></li>
+        <li>실제 설치 방향(입구 쪽 · 뒷모습)에서 실루엣 좌우와 팔 관절이 맞는지</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pno">13</div>
+</div></section>
+
+<!-- 14 EOD -->
+<section class="slide eod"><h1>E.O.D</h1></section>
+
+</div>
+<div id="nav"><button id="prev">‹</button><span id="cnt"></span><button id="next">›</button></div>
+
+<script>
+const S=[...document.querySelectorAll('.slide')];let i=0;
+try{i=Math.min(+(location.hash.slice(1)||1)-1,S.length-1)||0}catch(e){}
+// 영상 칸: 유튜브 ID 를 data-yt 에 넣는다. 그 장으로 넘어갈 때만 불러와 처음 화면이 무겁지 않게 한다.
+document.querySelectorAll('.vwrap[data-yt]').forEach(w=>{
+  const id=w.dataset.yt;
+  w.innerHTML='<a class="vph" href="https://youtu.be/'+id+'" target="_blank"><img src="https://i.ytimg.com/vi/'+id+'/hqdefault.jpg" alt=""><div class="play"></div></a>';
+});
+// 로컬 파일(file://)로 열면 유튜브가 재생을 막는다(오류 153) — 그땐 썸네일을 누르면 유튜브로 연다.
+function load(sl){if(location.protocol==='file:')return;sl.querySelectorAll('.vwrap[data-yt]').forEach(w=>{if(w.dataset.on)return;w.dataset.on=1;
+  w.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+w.dataset.yt+'?rel=0&modestbranding=1" title="YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';})}
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);S.forEach(e=>e.style.transform='scale('+s+')')}
+function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((e,k)=>e.classList.toggle('on',k===i));load(S[i]);
+  document.getElementById('cnt').textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1))}
+addEventListener('resize',fit);
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))go(i+1);if(['ArrowLeft','PageUp'].includes(e.key))go(i-1)});
+document.getElementById('prev').onclick=()=>go(i-1);document.getElementById('next').onclick=()=>go(i+1);
+fit();go(i);
+</script>
+</body>
+</html>
