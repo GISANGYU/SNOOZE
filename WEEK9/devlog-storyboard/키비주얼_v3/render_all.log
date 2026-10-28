@@ -1,0 +1,135 @@
+00:00.594  cycles           | WARNING HIPEW initialization failed: Error opening HIP dynamic library
+V3_GPU [('NVIDIA GeForce RTX 4060 Laptop GPU', 'CUDA', True), ('13th Gen Intel Core i7-13620H', 'CPU', False), ('NVIDIA GeForce RTX 4060 Laptop GPU', 'OPTIX', True)]
+C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\render_3d.py:27: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m=bpy.data.materials.new(name);m.diffuse_color=rgba(col)[:3]+(alpha,);m.use_nodes=True
+V3_BUILD S01
+C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\render_3d.py:303: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  world=bpy.data.worlds.new(sid+' studio world');world.use_nodes=True;world.node_tree.nodes['Background'].inputs[0].default_value=(.11,.14,.18,1);world.node_tree.nodes['Background'].inputs[1].default_value=.32;SC.world=world
+V3_RENDER S01
+00:08.250  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S01.png'
+V3_DONE S01
+V3_BUILD S02
+V3_RENDER S02
+00:16.172  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S02.png'
+V3_DONE S02
+V3_BUILD S03
+V3_RENDER S03
+00:25.016  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S03.png'
+V3_DONE S03
+V3_BUILD S04
+V3_RENDER S04
+00:33.922  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S04.png'
+V3_DONE S04
+V3_BUILD S05
+V3_RENDER S05
+00:42.906  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S05.png'
+V3_DONE S05
+V3_BUILD S06
+V3_RENDER S06
+00:52.609  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S06.png'
+V3_DONE S06
+V3_BUILD S06L
+V3_RENDER S06L
+01:01.438  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S06L.png'
+V3_DONE S06L
+V3_BUILD S07
+V3_RENDER S07
+01:10.719  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S07.png'
+V3_DONE S07
+V3_BUILD S08
+V3_RENDER S08
+01:19.656  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S08.png'
+V3_DONE S08
+V3_BUILD S09
+V3_RENDER S09
+01:29.000  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S09.png'
+V3_DONE S09
+V3_BUILD S09L
+V3_RENDER S09L
+01:37.656  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S09L.png'
+V3_DONE S09L
+V3_BUILD S10
+V3_RENDER S10
+01:46.938  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S10.png'
+V3_DONE S10
+V3_BUILD S11
+V3_RENDER S11
+01:56.672  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S11.png'
+V3_DONE S11
+V3_BUILD S12
+V3_RENDER S12
+02:06.953  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S12.png'
+V3_DONE S12
+V3_BUILD S12L
+V3_RENDER S12L
+02:16.313  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S12L.png'
+V3_DONE S12L
+V3_BUILD S13
+V3_RENDER S13
+02:25.594  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S13.png'
+V3_DONE S13
+V3_BUILD S14
+V3_RENDER S14
+02:34.797  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S14.png'
+V3_DONE S14
+V3_BUILD S15
+V3_RENDER S15
+02:43.938  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S15.png'
+V3_DONE S15
+V3_BUILD S16
+V3_RENDER S16
+02:52.859  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S16.png'
+V3_DONE S16
+V3_BUILD S17
+V3_RENDER S17
+03:01.547  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S17.png'
+V3_DONE S17
+V3_BUILD S18
+V3_RENDER S18
+03:10.328  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S18.png'
+V3_DONE S18
+V3_BUILD S19
+V3_RENDER S19
+03:19.078  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S19.png'
+V3_DONE S19
+V3_BUILD S20
+V3_RENDER S20
+03:27.828  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S20.png'
+V3_DONE S20
+V3_BUILD S21
+V3_RENDER S21
+03:36.875  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S21.png'
+V3_DONE S21
+V3_BUILD S22
+V3_RENDER S22
+03:46.281  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S22.png'
+V3_DONE S22
+V3_BUILD S23
+V3_RENDER S23
+03:56.031  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S23.png'
+V3_DONE S23
+V3_BUILD S24
+V3_RENDER S24
+04:05.031  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S24.png'
+V3_DONE S24
+V3_BUILD S25
+V3_RENDER S25
+04:13.563  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S25.png'
+V3_DONE S25
+V3_BUILD S26
+V3_RENDER S26
+04:26.844  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S26.png'
+V3_DONE S26
+V3_BUILD S27
+V3_RENDER S27
+05:07.453  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S27.png'
+V3_DONE S27
+V3_BUILD S28
+V3_RENDER S28
+05:46.375  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S28.png'
+V3_DONE S28
+Info: Saved as "LIMEN_개발로그_콘티_v3.blend"
+V3_COMPLETE
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

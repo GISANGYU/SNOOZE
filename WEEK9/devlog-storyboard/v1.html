@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>개발로그 영상 콘티</title>
+<style>
+:root{
+  --bg:#0a0b0d; --panel:#131519; --panel2:#0f1114; --line:#24282e; --ink:#eef0f3; --sub:#aab0ba; --mute:#6b727d;
+  --blue:#3d8bff; --red:#ff3b30; --green:#33e07a; --amber:#ffb340;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.7 "Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+.mono{font-family:"JetBrains Mono","Consolas",monospace}
+header.top{position:sticky;top:0;z-index:10;background:rgba(10,11,13,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .in{max-width:1400px;margin:0 auto;padding:10px 24px;display:flex;gap:8px;align-items:center;overflow-x:auto;white-space:nowrap}
+header.top b{margin-right:10px;font-size:14px}
+header.top a{color:var(--sub);text-decoration:none;font-size:13px;padding:4px 10px;border:1px solid var(--line);border-radius:99px}
+header.top a:hover{color:var(--ink);border-color:var(--mute)}
+main{max-width:1400px;margin:0 auto;padding:40px 24px 120px}
+.intro h1{font-size:30px;margin:0 0 8px;letter-spacing:-.5px}
+.intro p{color:var(--sub);margin:4px 0;max-width:820px}
+.bar{display:flex;height:34px;margin:28px 0 8px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.bar a{display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--sub);text-decoration:none;border-right:1px solid var(--line);background:var(--panel)}
+.bar a:last-child{border-right:0}
+.bar a:hover{background:#1b1e23;color:var(--ink)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--mute);margin-bottom:12px}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.tag.g{background:rgba(61,139,255,.15);color:var(--blue)}
+.tag.l{background:rgba(255,179,64,.15);color:var(--amber)}
+.tag.c{background:rgba(51,224,122,.13);color:var(--green)}
+.chap{margin:80px 0 18px;display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.chap h2{margin:0;font-size:22px;letter-spacing:-.3px}
+.chap span{color:var(--mute);font-size:14px}
+.scene{margin:0 0 44px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.row{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr)}
+.img{position:relative;background:#000;align-self:start}
+.img img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;cursor:zoom-in}
+.img .badge{position:absolute;left:12px;top:12px;font:700 14px "JetBrains Mono","Consolas",monospace;background:rgba(0,0,0,.65);padding:3px 9px;border-radius:6px}
+.img .mock{position:absolute;right:12px;top:12px;font-size:12px;font-weight:700;background:rgba(255,179,64,.9);color:#000;padding:3px 9px;border-radius:6px}
+.desc{padding:20px 22px;border-left:1px solid var(--line)}
+.desc .hd{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.desc .hd .t{color:var(--mute);font-size:13px}
+.desc h3{margin:8px 0 14px;font-size:19px;letter-spacing:-.3px}
+.desc h4{margin:16px 0 4px;font-size:12px;color:var(--mute);letter-spacing:.06em;font-weight:700}
+.desc ul{margin:0;padding-left:18px;color:var(--sub)}
+.desc li{margin:2px 0}
+.desc .ov{color:var(--sub)}
+.desc .ov b{color:var(--ink);font-weight:600}
+.desc .next{margin-top:16px;padding-top:12px;border-top:1px dashed var(--line);color:var(--sub);font-size:14px}
+.desc .next b{color:var(--ink)}
+.script{border-top:1px solid var(--line);background:var(--panel2);padding:16px 22px;display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:baseline}
+.script .k{font-size:12px;color:var(--mute);font-weight:700;letter-spacing:.06em}
+.script .k span{display:block;font:500 12px "JetBrains Mono","Consolas",monospace;margin-top:2px}
+.script p{margin:0;font-size:18px;line-height:1.7}
+.script p.rest{color:var(--mute);font-size:15px}
+.full{margin-top:90px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:28px 32px}
+.full h2{margin:0 0 6px;font-size:22px}
+.full .sub{color:var(--mute);font-size:14px;margin:0 0 20px}
+.full .ln{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:9px 0;border-top:1px solid var(--line)}
+.full .ln .tm{color:var(--mute);font:13px "JetBrains Mono","Consolas",monospace;padding-top:3px}
+.full .ln p{margin:0;font-size:17px}
+.full .ln.cue p{color:var(--mute);font-size:14px}
+.full h3{margin:26px 0 6px;font-size:14px;color:var(--sub)}
+.warn{margin-top:40px;border-left:3px solid var(--amber);background:var(--panel);border-radius:8px;padding:16px 20px;color:var(--sub);font-size:14px}
+.warn b{color:var(--ink)}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out}
+#lb img{max-width:96vw;max-height:94vh}
+@media (max-width:900px){
+  .row{grid-template-columns:1fr}
+  .desc{border-left:0;border-top:1px solid var(--line)}
+  .script{grid-template-columns:1fr;gap:4px}
+  main{padding:24px 16px 80px} header.top .in{padding:10px 16px}
+  .full{padding:20px 16px} .full .ln{grid-template-columns:1fr;gap:2px}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="in" id="nav"><b>개발로그 콘티</b></div></header>
+<main>
+  <section class="intro">
+    <h1>개발로그 영상 콘티 · 1분 30초</h1>
+    <p>Codex가 만든 키비주얼 28장(<span class="mono">키비주얼_20261029</span>)을 시간 순서로 놓았습니다. 정지 이미지이므로 오른쪽에 <b>어떻게 움직이고 어떻게 연출할지</b>를 적었고, 장면 아래에는 그 장면 동안 발표자가 말할 <b>대본</b>을 붙였습니다. 페이지 맨 아래에 대본 전체를 이어서 모아 두었습니다.</p>
+    <p>영상 속 글자는 최소화하고, "화면 글자" 칸에 적은 것만 편집 단계에서 얹습니다. 이미지를 누르면 크게 볼 수 있습니다.</p>
+    <div class="bar" id="bar"></div>
+    <div class="legend"><span><span class="tag g">그래픽</span> 모션그래픽으로 제작</span><span><span class="tag l">실물</span> 촬영본으로 교체</span><span><span class="tag c">합성</span> 촬영본 + 분할·도장·테두리 그래픽</span></div>
+  </section>
+  <div id="scenes"></div>
+  <section class="full" id="script-all">
+    <h2>전체 대본</h2>
+    <p class="sub">약 1분 30초. 발표자가 영상에 맞춰 읽습니다. 말이 밀리면 장이 끝나는 장면(S06·S10·S12·S19·S25)에서 영상을 잠깐 멈췄다 넘깁니다.</p>
+    <div id="full"></div>
+  </section>
+  <div class="warn">
+    <b>발표 전 확인</b><br>
+    · 1대에서 2대로 늘어난 것은 프로젝터가 아니라 키넥트입니다. 프로젝터는 처음부터 4대였습니다.<br>
+    · 40.5% → 73.4%는 시야로 계산한 바닥 면적이고(가림 미반영), 실제 추적 성공률이 아닙니다.<br>
+    · 걷기 보정 수치는 가상 센서 자체 시험 결과입니다. 숫자를 띄운다면 "자체 시험"을 함께 적습니다.<br>
+    · 대본은 "만들었다·정리했다"처럼 완성된 결과로 말합니다. 최대 2명 제한은 구현해 빌드에 반영했습니다. 다만 실제 장비 수치(인식률 몇 %, 현장 오류 0건 등)는 아직 재지 않았으니 숫자로 장담하지 않습니다(10-29 기준).<br>
+    · 세이프존의 유지 시간은 센서가 그 자리를 가림 없이 볼 때만 흐릅니다. "3초 뒤 무조건 지운다"고 말하지 않습니다.<br>
+    · S06·S27은 개념도입니다. 최종 워핑·블렌딩 완료의 증거로 쓰지 않습니다. S28의 반딧불이 여운을 "작품 첫 장면"이라고 부르지 않습니다(본편 첫 장면은 개미).<br>
+    · S13~S19 목업은 실제 촬영본(L1~L4)으로 바꾼 뒤, 그 촬영이 보여주는 범위 안에서만 설명합니다.
+  </div>
+</main>
+<div id="lb"><img alt=""></div>
+
+<script>
+const DIR = '키비주얼_20261029/';
+const CH = [
+  {k:'0', name:'오프닝', range:'0:00–0:05'},
+  {k:'1', name:'4면 맵핑', range:'0:05–0:20'},
+  {k:'2', name:'키넥트 1대 → 2대', range:'0:20–0:32'},
+  {k:'3', name:'새 문제: 가려짐', range:'0:32–0:42'},
+  {k:'4', name:'시도와 실패', range:'0:42–1:02'},
+  {k:'5', name:'해결 세 가지', range:'1:02–1:20'},
+  {k:'6', name:'최종 구조', range:'1:20–1:30'}
+];
+const TAG = {g:['g','그래픽'], l:['l','실물'], c:['c','합성']};
+const S = [
+{id:'S01',f:'S01.png',ch:'0',t:'0:00',d:3,ty:'g',title:'커서 하나',
+ flow:['완전한 검정에서 1초 동안 커서만 두 번 깜빡입니다.','커서 아래로 로그 줄(가는 점선)이 한 줄씩 타이핑되듯 왼쪽에서 오른쪽으로 그려집니다.'],
+ dir:['카메라는 고정. 화면 대부분을 비워 두어 발표장의 시선을 모읍니다.','소리: 낮은 앰비언스 위에 작은 키보드 클릭 3~4번.'],
+ ov:'(선택) LIMEN', next:'로그 줄이 늘어나며 위로 쏟아지기 시작',
+ sc:'LIMEN의 개발 기록입니다.'},
+{id:'S02',f:'S02.png',ch:'0',t:'0:03',d:2,ty:'g',title:'로그가 바닥선이 됨',
+ flow:['수많은 로그 줄이 세로 빛줄기가 되어 빠르게 떨어지며 아래쪽 가로선에 모입니다.','빛줄기가 모일수록 가로선 가운데가 밝아지고, 마지막 순간 빛줄기가 모두 사라져 선 하나만 남습니다.'],
+ dir:['속도는 처음 빠르고 끝에서 멈추는 감속 곡선.','가로선 가운데 번쩍임에 맞춰 짧은 "틱" 효과음.'],
+ ov:'없음', next:'<b>매치 컷</b> — 이 가로선이 그대로 방의 앞쪽 바닥 모서리가 됨',
+ sc:''},
+{id:'S03',f:'S03.png',ch:'1',t:'0:05',d:5,ty:'g',title:'벽이 세워지는 방',
+ flow:['S02의 가로선이 바닥 앞 모서리가 되고, 바닥 사각형과 격자가 안쪽으로 그려집니다.','정면 벽, 왼쪽 벽, 오른쪽 벽이 차례로 경첩처럼 일어서서 이 이미지 상태가 됩니다(이미지는 다 세워진 끝 상태).','벽이 다 서면 바깥쪽 치수 눈금이 짧게 그려집니다.'],
+ dir:['카메라는 위쪽 비스듬한 각도에서 천천히 오른쪽으로 10° 정도 돕니다.','뒤쪽은 벽이 없는 입구임을 보여주기 위해 회전이 입구 쪽을 살짝 드러내며 끝납니다.'],
+ ov:'(선택) 치수 7.2m · 4m — 숫자는 작게, 1초만', next:'벽이 바닥 쪽으로 다시 접히며 카메라가 정수리 시점으로',
+ sc:'우리 공간은 정면과 양옆 벽, 그리고 바닥, 이렇게 네 면입니다.'},
+{id:'S04',f:'S04.png',ch:'1',t:'0:10',d:4,ty:'g',title:'전개도 한 장',
+ flow:['세 벽이 바깥으로 눕듯 펼쳐지며 바닥과 한 평면이 됩니다(가운데 바닥, 위 정면, 양옆 좌우 벽).','펼쳐진 직후 비어 있던 네 판에 성운이 한꺼번에 차오르고, 반딧불이 점이 판의 경계(점선)를 넘어 흘러갑니다.'],
+ dir:['이음매를 넘어가는 반딧불이 몇 개를 일부러 천천히 움직여 "한 장"이라는 점을 보여줍니다.','점선 경첩은 성운이 찬 뒤 서서히 흐려집니다.'],
+ ov:'없음', next:'전개도가 왼쪽으로 줄어들며 작은 정사각형이 됨',
+ sc:'이 네 면을 따로 만들지 않고, 하나의 장면을 한 장으로 펼쳤습니다.'},
+{id:'S05',f:'S05.png',ch:'1',t:'0:14',d:3,ty:'g',title:'한 장이 프로젝터 4대로',
+ flow:['왼쪽 정사각형에서 파란 빛점이 흘러나와 원 → 둥근 사각형 → 마름모 노드를 차례로 통과합니다.','마름모를 지나며 선이 네 갈래로 갈라지고, 빛점이 각 프로젝터에 닿는 순간 프로젝터에서 작은 빛 원뿔이 켜집니다.'],
+ dir:['노드 세 개는 Unity · Spout · MadMapper를 뜻합니다. 글자 없이 발표자가 짚어 줍니다.','네 프로젝터가 켜지는 순간을 완전히 같은 프레임으로 맞춥니다(다음 장면의 싱크 표현과 연결).'],
+ ov:'(선택) 노드 아래 작은 글자 Unity · Spout · MadMapper', next:'네 빛 원뿔이 화면을 채우며 방 안 시점으로 이어짐',
+ sc:'이 한 장을 맵핑 프로그램이 나눠 프로젝터 네 대로 보냅니다.'},
+{id:'S06',f:'S06.png',ch:'1',t:'0:17',d:3,ty:'g',title:'네 면이 같은 순간에',
+ flow:['입구에서 눈높이로 방 안을 봅니다. 처음엔 어둡다가 천장 프로젝터 4대가 동시에 켜지며 네 면이 한 번에 밝아집니다.','성운이 벽에서 바닥으로 모서리를 넘어 끊김 없이 흐르고, 1초 간격으로 네 면이 함께 두 번 더 번쩍입니다.'],
+ dir:['카메라가 입구에서 방 안으로 천천히 한 걸음 들어갑니다.','"같은 순간"을 보여주는 번쩍임은 소리(낮은 펄스)와 정확히 맞춥니다.','실제 4면 투사 촬영본(L5)이 있으면 이 장면에 겹치거나 바꿔 씁니다.'],
+ ov:'(선택) 네 면 구석에 같은 프레임 번호가 동시에 넘어감', next:'카메라가 천장으로 솟아올라 정수리 평면도로',
+ sc:'그래서 네 면은 언제나 같은 순간을 비춥니다.'},
+{id:'S07',f:'S07.png',ch:'2',t:'0:20',d:4,ty:'g',title:'센서 한 대의 시야',
+ flow:['방 평면도 왼쪽 아래 입구 모서리에 키넥트 아이콘이 나타납니다.','파란 부채꼴이 와이퍼처럼 펼쳐지며 바닥을 칠하고, 끝까지 펼쳐진 뒤 칠해지지 않은 넓은 검은 영역이 남습니다.'],
+ dir:['부채꼴이 다 펼쳐진 순간 숫자를 띄웁니다.','검은 영역에 사선 해칭이 서서히 떠올라 "못 보는 곳"을 강조합니다.'],
+ ov:'<b>40.5%</b> (바닥 면적 계산값)', next:'평면도에서 사람 쪽으로 살짝 기울며 확대',
+ sc:'관객을 읽는 건 키넥트입니다. 그런데 한 대로는 바닥의 절반도 보지 못했고,'},
+{id:'S08',f:'S08.png',ch:'2',t:'0:24',d:3,ty:'g',title:'뒷모습 오류',
+ flow:['흰 뼈대 사람이 센서를 등지고 서 있다가, 뒤돌아선 순간 좌우가 뒤바뀐 빨간 복제 뼈대가 옆으로 튀어나옵니다.','관절이 짧게 떨리며 빨간 잔상을 남기고, 가로 글리치가 두세 번 지나갑니다.'],
+ dir:['글리치는 짧게(0.2초씩). 이 장의 빨강은 여기서 처음 등장합니다.','소리: 디지털 끊김 2번.'],
+ ov:'없음', next:'평면도로 돌아가며 두 번째 센서가 켜짐',
+ sc:'등을 돌린 관객은 좌우가 뒤집혀 놓쳤습니다.'},
+{id:'S09',f:'S09.png',ch:'2',t:'0:27',d:4,ty:'g',title:'두 번째 센서',
+ flow:['S07 평면도로 돌아와 오른쪽 아래 입구 모서리에 두 번째 키넥트가 켜지고, 부채꼴이 펼쳐집니다.','두 부채꼴이 가운데서 겹치며 더 밝아지고, 방 아래쪽에 PC 두 대가 나타나 선 하나로 이어집니다.'],
+ dir:['숫자는 40.5%에서 73.4%로 올라가는 카운터로 보여줍니다.','PC를 잇는 선은 빛점 하나가 왼쪽에서 오른쪽으로 달리며 그려집니다(랜선 직결).'],
+ ov:'<b>40.5% → 73.4%</b>', next:'평면도가 기울어지며 입체로',
+ sc:'그래서 키넥트를 두 대로 늘리고, 컴퓨터 두 대를 랜선으로 직접 연결했습니다.'},
+{id:'S10',f:'S10.png',ch:'2',t:'0:31',d:1,ty:'g',title:'전환: 위에서 눈높이로',
+ flow:['평면도가 앞으로 기울어지며 벽이 세워지고, 부채꼴이 바닥에서 솟은 반투명 입체 시야가 됩니다.'],
+ dir:['1초짜리 빠른 틸트. 기울어지는 방향으로 모션 블러.','이미지는 기울기 중간 상태입니다.'],
+ ov:'없음', next:'카메라가 센서 바로 뒤 눈높이에 멈춤',
+ sc:''},
+{id:'S11',f:'S11.png',ch:'3',t:'0:32',d:4,ty:'g',title:'뒷사람이 사라짐',
+ flow:['센서 바로 뒤 시점. 앞에 점구름 사람 하나, 그 뒤에 또 한 사람이 일직선으로 섭니다.','뒷사람이 앞사람 뒤로 들어가는 순간부터 몸이 입자로 부서져 오른쪽 위로 흩날리며 사라집니다.'],
+ dir:['조용한 장면. 소리를 거의 빼서 "사라짐"을 강조합니다.','실제 가려짐 촬영본(L6)이 있으면 화면 구석에 작게 같이 보여줄 수 있습니다.'],
+ ov:'없음', next:'<b>하드 컷 + 빨간 글리치</b>',
+ sc:'그러자 새로운 문제가 생겼습니다. 앞사람에 가려진 관객이 사라졌고,'},
+{id:'S12',f:'S12.png',ch:'3',t:'0:36',d:6,ty:'g',title:'없는 사람이 생김',
+ flow:['두 사람이어야 할 자리에 빨간 복제 실루엣이 하나씩 붙어 넷이 됩니다.','복제 실루엣이 깜빡이며 위치를 바꾸고, 가로 글리치 띠가 점점 굵어져 화면 전체를 찢습니다.'],
+ dir:['인원 카운터를 2 → 3 → 4로 올려 오작동을 보여줍니다.','장의 끝이므로 마지막 1초는 글리치가 최대인 상태로 멈춰도 됩니다(발표자 말 맞추기용).'],
+ ov:'<b>2 → 3 → 4</b> (인원 카운터)', next:'글리치가 화면 노이즈로 번지며 몽타주 시작',
+ sc:'반대로 한 사람이 둘로 잡혀, 없는 사람이 생겨났습니다.'},
+{id:'S13',f:'S13_mock.png',ch:'4',t:'0:42',d:5,ty:'l',mock:'L1 · L2 촬영본',title:'코드와 현장의 주마등',
+ flow:['코드 짜는 손·모니터 불빛 컷과 현장 테스트 컷이 번갈아 지나갑니다.','컷 길이를 0.6초에서 0.2초까지 점점 줄여 속도감을 올립니다.'],
+ dir:['이미지처럼 대각선 경계로 두 화면이 미끄러지는 와이프를 2~3번 섞습니다.','소리: 박자가 점점 빨라지는 리듬. 마지막 컷에서 리듬이 딱 끊깁니다.'],
+ ov:'없음', next:'마지막 컷이 십자로 갈라지며 4분할',
+ sc:'이 문제를 풀기 위해 코드를 고치고, 현장에서 다시 테스트하기를 반복했습니다.'},
+{id:'S14',f:'S14_mock.png',ch:'4',t:'0:47',d:3,ty:'c',mock:'L3 실패 클립',title:'4분할',
+ flow:['화면이 2×2로 갈라지며 네 칸에서 각각 다른 실패 클립이 재생됩니다.','① 점구름이 사람과 어긋나는 보정 ② 개미 장면에서 관객이 알아채지 못함 ③ 가만히 서 있는 관객 ④ 세 명이 엉킨 뼈대'],
+ dir:['칸 순서(왼위 → 오위 → 왼아래 → 오아래)대로 0.3초씩 테두리가 밝아져 발표자가 짚을 칸을 안내합니다.','칸 사이 검은 틈과 얇은 흰 테두리는 그래픽으로 얹습니다.'],
+ ov:'없음 (발표자가 칸을 짚으며 설명)', next:'칸마다 회색으로 바래며 도장',
+ sc:'가려진 사람을 보정하는 방법, 개미 장면에서 관객이 반응을 알아채는지, 가만히 서 있는 관객, 세 명이 함께 들어온 경우까지.'},
+{id:'S15',f:'S15_mock.png',ch:'4',t:'0:50',d:4,ty:'c',mock:'L3 + 도장 그래픽',title:'FAIL 도장',
+ flow:['네 칸이 순서대로 색이 빠지며 회색이 되고, 그 순간 빨간 FAIL 도장이 위에서 눌리듯 찍힙니다.','도장은 살짝 크게 나타났다가 제자리로 줄어들며 잉크가 번집니다.'],
+ dir:['도장마다 "쾅" 효과음. 간격 0.8초.','도장 각도는 칸마다 다르게.'],
+ ov:'<b>FAIL</b> 도장', next:'칸이 다시 쪼개짐',
+ sc:'대부분 실패였습니다.'},
+{id:'S16',f:'S16_mock.png',ch:'4',t:'0:54',d:2,ty:'c',mock:'L3 + 도장 그래픽',title:'9분할',
+ flow:['3×3으로 쪼개지며 새로 생긴 칸들에 다른 실패 클립이 들어오고, 도장이 0.3초 간격으로 빠르게 찍힙니다.'],
+ dir:['도장 소리가 더 촘촘해지고 작아집니다.','일부 칸은 아직 색이 남아 있다가 도장과 함께 회색이 됩니다.'],
+ ov:'<b>FAIL</b> 도장', next:'다시 4×4로 쪼개짐',
+ sc:'시도는 계속 늘어났고,'},
+{id:'S17',f:'S17_mock.png',ch:'4',t:'0:56',d:2,ty:'c',mock:'L3 + 도장 그래픽',title:'16분할',
+ flow:['4×4로 쪼개지며 거의 모든 칸이 회색 + FAIL이 됩니다.','색이 남은 두 칸 가운데 왼쪽 위 칸에 마지막 도장이 찍히고, 2행 3열 칸 하나만 색이 남습니다.'],
+ dir:['도장 소리가 거의 연속음이 될 만큼 빽빽하다가 마지막 도장 뒤 완전한 정적.'],
+ ov:'<b>FAIL</b> 도장', next:'정적 속에서 남은 한 칸에 초록 테두리',
+ sc:''},
+{id:'S18',f:'S18_mock.png',ch:'4',t:'0:58',d:2,ty:'c',mock:'L4 성공 클립',title:'단 하나의 SUCCESS',
+ flow:['남은 2행 3열 칸의 테두리가 초록으로 한 바퀴 그려지고, 초록 SUCCESS 도장이 찍힙니다.','회색 칸들은 그대로 멈춰 있고, 초록 칸 안의 영상만 움직입니다.'],
+ dir:['반 박자 정적 → 테두리 그리기 → 도장. 도장 소리는 FAIL보다 맑고 높은 소리로.','초록은 영상 전체에서 여기서 처음 나옵니다.'],
+ ov:'<b>SUCCESS</b> 도장', next:'초록 칸으로 줌 인',
+ sc:'그 끝에 하나가 통했습니다.'},
+{id:'S19',f:'S19_mock.png',ch:'4',t:'1:00',d:2,ty:'c',mock:'L4 성공 클립',title:'SUCCESS 칸으로 줌 인',
+ flow:['카메라가 초록 칸으로 밀고 들어가고, 주변 회색 칸들은 방사형 블러와 함께 화면 밖으로 밀려납니다.','칸 안에서 두 사람이 걷고, 바닥 빛이 각자를 정확히 따라갑니다.'],
+ dir:['줌이 끝나면 초록 칸이 화면을 꽉 채웁니다.','장의 끝이므로 0.5초 정도 머물러 숨을 고릅니다.'],
+ ov:'없음', next:'<b>매치 컷</b> — 칸 속 사람이 점구름 사람으로 바뀜',
+ sc:''},
+{id:'S20',f:'S20.png',ch:'5',t:'1:02',d:3,ty:'g',title:'보정 전: 어긋난 두 사람',
+ flow:['양쪽 키넥트가 본 같은 사람이 흰 점구름과 파란 점구름으로 따로 나타납니다. 둘은 옆으로 밀려 있고 방향도 틀어져 있습니다.','바닥에 걸어간 점선 경로가 그려지기 시작합니다.'],
+ dir:['두 점구름이 함께 걷는 동작을 반복하며 어긋남이 눈에 보이게 합니다.','카메라는 오른쪽으로 천천히 흐릅니다.'],
+ ov:'(선택) 94cm · 25° 어긋남 — 넣는다면 "가상 센서 자체 시험" 같이 표기', next:'두 점구름이 미끄러지듯 하나로',
+ sc:'먼저, 두 키넥트가 본 같은 사람을 겹쳐 좌표를 맞췄습니다.'},
+{id:'S21',f:'S21.png',ch:'5',t:'1:05',d:3,ty:'g',title:'보정 후: 한 사람으로',
+ flow:['점선 경로가 한 바퀴 이어지는 동안 파란 점구름이 조금씩 움직여 흰 점구름과 겹치고, 겹친 순간 한 몸이 되어 하얗게 빛납니다.','점선 경로는 서서히 사라집니다.'],
+ dir:['겹치는 순간 부드러운 "딩" 소리.','파란 센서 시야도 흰 시야와 정렬되는 느낌으로 살짝 움직입니다.'],
+ ov:'(선택) 0.2cm — "가상 센서 자체 시험" 같이 표기', next:'카메라가 천장으로 솟아 평면도로',
+ sc:'한 사람이 방을 걸어 다니기만 하면 자동으로 맞춰집니다.'},
+{id:'S22',f:'S22.png',ch:'5',t:'1:08',d:3,ty:'g',title:'세이프존',
+ flow:['평면도에서 벽 조금 안쪽으로 초록 사각형이 그려지고, 안쪽에 초록 격자가 깔립니다.','두 사람 표시(흰 점과 방향 꼬리)가 천천히 걸어 다닙니다.'],
+ dir:['초록 사각형은 모서리부터 선이 달려가며 그려집니다.','S09와 같은 평면도 구도라 관객이 "같은 방"임을 바로 알 수 있습니다.'],
+ ov:'없음', next:'한 사람이 다른 사람 뒤로 들어감',
+ sc:'두 번째는 세이프존입니다. 방 안에 들어온 관객은'},
+{id:'S23',f:'S23.png',ch:'5',t:'1:11',d:3,ty:'g',title:'가려져도 자리가 남음',
+ flow:['한 사람이 다른 사람 뒤로 들어가자 센서 시야에 검은 그림자 띠가 생기고 그 사람 표시가 사라집니다.','사라진 자리에 초록 원이 남아 자리를 지킵니다. 원 둘레의 가는 호는 센서가 그 자리를 다시 또렷이 볼 때만 줄어듭니다.'],
+ dir:['그림자가 지나가 다시 보이게 되면 초록 원이 흰 점으로 돌아오는 것까지 보여주면 가장 정확합니다.','"3초 뒤 무조건 지움"처럼 보이지 않게, 가려진 동안에는 호가 멈춰 있도록 합니다.'],
+ ov:'없음', next:'사람 표시 하나가 셋으로 늘며 가지가 뻗어 나감',
+ sc:'잠깐 가려져도 지우지 않고, 그 자리에 세워 둡니다.'},
+{id:'S24',f:'S24.png',ch:'5',t:'1:14',d:3,ty:'g',title:'세 명일 때 예외의 폭발',
+ flow:['왼쪽 점 하나에서 가지가 뻗어 나가며 갈라지고 또 갈라집니다.','오른쪽으로 갈수록 빽빽해지고, 가지 끝마다 빨간 X 매듭이 터지듯 생겨 화면을 덮습니다.'],
+ dir:['가지가 자라는 속도를 점점 빠르게. 소리도 점점 쌓이는 잡음.','이미지는 가장 빽빽해진 끝 상태입니다.'],
+ ov:'없음', next:'<b>싹둑 잘리는 컷</b>',
+ sc:'세 명이 되면 따져야 할 경우가 끝없이 늘어났습니다.'},
+{id:'S25',f:'S25.png',ch:'5',t:'1:17',d:3,ty:'g',title:'두 줄만 남김',
+ flow:['세로로 한 번에 잘리며 오른쪽 가지들이 빨간 조각으로 부서져 아래로 떨어집니다.','잘린 자리에서 매끈한 흰 선 두 줄이 오른쪽 끝까지 쭉 뻗어 나갑니다.'],
+ dir:['자르는 순간 잡음이 뚝 끊기고 조용해집니다.','왼쪽 흰 가지들은 서서히 어두워져 두 줄만 눈에 남게 합니다.'],
+ ov:'(선택) 최대 2명', next:'두 줄이 구조도의 연결선이 되어 이어짐',
+ sc:'그래서 두 명까지를 확실하게 잡도록 구조를 정리했습니다.'},
+{id:'S26',f:'S26.png',ch:'6',t:'1:20',d:5,ty:'g',title:'요소들이 모여 조립',
+ flow:['앞에서 나온 키넥트 2대, PC 2대, 합치는 노드, 전개도, 프로젝터 4대가 화면 가장자리에서 빛 꼬리를 달고 날아옵니다.','자리에 닿을 때마다 파란 연결선이 스스로 그려지며 이어집니다.'],
+ dir:['왼쪽(입력)부터 오른쪽(출력) 순서로 도착시켜 흐름을 읽히게 합니다.','도착할 때마다 작은 클릭음.'],
+ ov:'없음', next:'마지막 방 그림이 이어지며 정지',
+ sc:'정리하면, 키넥트 두 대가 읽은 관객을 하나로 합치고,'},
+{id:'S27',f:'S27.png',ch:'6',t:'1:25',d:3,ty:'g',title:'완성된 구조',
+ flow:['프로젝터 4대에서 빛이 뻗어 오른쪽 작은 방의 네 면이 켜지며 구조가 완성됩니다.','완성 후 1초 동안 그대로 멈춥니다.'],
+ dir:['키넥트 → PC → 합치기 → 한 장 → 프로젝터 → 방 순서로 빛점이 한 번 훑고 지나가 흐름을 확인시킵니다.'],
+ ov:'(선택) 한 줄 문장: 방 안에서 관객은 사라지지 않는다', next:'구조도의 선이 반딧불이 점으로 풀림',
+ sc:'그 장면을 한 장으로 펼쳐 네 면에 비춥니다.'},
+{id:'S28',f:'S28.png',ch:'6',t:'1:28',d:2,ty:'g',title:'반딧불이로 흩어짐',
+ flow:['구조도의 선이 수천 개의 연두빛 점으로 부서져 위로 떠오르며, 점마다 다른 박자로 깜빡입니다.','점들이 서서히 꺼지며 검정으로 끝납니다.'],
+ dir:['마지막 점 하나가 가장 늦게 꺼지게 해 여운을 남깁니다.','소리도 점과 함께 사라집니다.'],
+ ov:'없음', next:'암전 — 영상 끝',
+ sc:'관객이 사라지지 않는 공간, LIMEN입니다.'}
+];
+
+const esc = t => String(t).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const end = s => { const [m, x] = s.t.split(':').map(Number); const e = m*60 + x + s.d; return `${Math.floor(e/60)}:${String(e%60).padStart(2,'0')}`; };
+const nav = document.getElementById('nav'), bar = document.getElementById('bar'), host = document.getElementById('scenes'), full = document.getElementById('full');
+const total = S.reduce((a, s) => a + s.d, 0);
+
+CH.forEach(c => {
+  const dur = S.filter(s => s.ch === c.k).reduce((a, s) => a + s.d, 0);
+  nav.insertAdjacentHTML('beforeend', `<a href="#ch${c.k}">${c.k} ${esc(c.name)}</a>`);
+  bar.insertAdjacentHTML('beforeend', `<a href="#ch${c.k}" style="flex:${dur}" title="${esc(c.name)} ${c.range}">${c.k}</a>`);
+});
+nav.insertAdjacentHTML('beforeend', `<a href="#script-all">전체 대본</a>`);
+
+let cur = null;
+S.forEach(s => {
+  if (s.ch !== cur) {
+    cur = s.ch; const c = CH.find(x => x.k === s.ch);
+    host.insertAdjacentHTML('beforeend', `<div class="chap" id="ch${c.k}"><h2>${c.k}. ${esc(c.name)}</h2><span class="mono">${c.range}</span></div>`);
+    full.insertAdjacentHTML('beforeend', `<h3>${c.k}. ${esc(c.name)} <span class="mono" style="color:var(--mute);font-weight:400">${c.range}</span></h3>`);
+  }
+  const [cls, label] = TAG[s.ty];
+  host.insertAdjacentHTML('beforeend', `
+  <article class="scene" id="${s.id}">
+    <div class="row">
+      <div class="img"><img src="${DIR}${s.f}" alt="${s.id} ${esc(s.title)}" loading="lazy"><span class="badge">${s.id}</span>${s.mock ? `<span class="mock">목업 → ${esc(s.mock)}</span>` : ''}</div>
+      <div class="desc">
+        <div class="hd"><span class="tag ${cls}">${label}</span><span class="t mono">${s.t} – ${end(s)} · ${s.d}초</span></div>
+        <h3>${esc(s.title)}</h3>
+        <h4>흐름</h4><ul>${s.flow.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+        <h4>연출</h4><ul>${s.dir.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+        <h4>화면 글자</h4><div class="ov">${s.ov}</div>
+        <div class="next">다음으로 → ${s.next}</div>
+      </div>
+    </div>
+    <div class="script"><div class="k">대본<span>${s.t}</span></div>${s.sc ? `<p>${esc(s.sc)}</p>` : `<p class="rest">(말 없음 — 화면과 소리만)</p>`}</div>
+  </article>`);
+  full.insertAdjacentHTML('beforeend', s.sc
+    ? `<div class="ln"><span class="tm">${s.t} ${s.id}</span><p>${esc(s.sc)}</p></div>`
+    : `<div class="ln cue"><span class="tm">${s.t} ${s.id}</span><p>(쉼)</p></div>`);
+});
+full.insertAdjacentHTML('afterbegin', `<p class="mono" style="color:var(--mute);font-size:13px;margin:0 0 6px">총 ${Math.floor(total/60)}분 ${total%60}초 · 28장면</p>`);
+
+const lb = document.getElementById('lb');
+document.addEventListener('click', e => {
+  const img = e.target.closest('.img img');
+  if (img) { lb.querySelector('img').src = img.src; lb.style.display = 'flex'; return; }
+  if (e.target.closest('#lb')) lb.style.display = 'none';
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.style.display = 'none'; });
+</script>
+</body>
+</html>

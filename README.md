@@ -14,3 +14,4 @@
 | [WEEK7 · 개발 전략](./WEEK7/dev-strategy/) | 직무수행능력평가1 개발 전략 — 기술요소 · 스토리보드 매칭 · 시험구현 · 어려운 점과 해결 · 확정 장면(반딧불이 · 사람) 구현 · 시스템 구성도 ([PDF](./WEEK7/dev-strategy/LIMEN_dev_strategy.pdf)) |
 | [WEEK7 · 디벨롭 과정 & 기술 연결 (발표)](./WEEK7/presentation/) | 발표용 덱 — 디벨롭 과정 · 표현하고 싶은 것 · 인터랙션 기술 · 소프트웨어/하드웨어 · 연결 구조와 일정, 구현 영상 포함 ([PDF](./WEEK7/presentation/LIMEN_develop_tech.pdf)) |
 | [WEEK7 · 사용자 테스트 → 수정 인터랙션 (발표)](./WEEK7/user-test/) | 10.07 1차 사용자 테스트 · 인지 실패 분석 · 수정 방향 → 10.12 반딧불이 · 사람 장면 수정 테스트 · 스토리보드 러프씬(전체 영상 흐름) · 다음 검증 계획, 유튜브 영상 4편 포함 |
+| [WEEK9 · 개발로그 영상 콘티](./WEEK9/devlog-storyboard/) | 발표 개발로그 보조 영상 콘티 v3(3D 키비주얼 31장) · 이전판 [v2](./WEEK9/devlog-storyboard/v2.html) · [v1](./WEEK9/devlog-storyboard/v1.html) |

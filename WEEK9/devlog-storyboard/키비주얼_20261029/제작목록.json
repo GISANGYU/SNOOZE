@@ -1,0 +1,265 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-29",
+  "exportSize": [
+    1920,
+    1080
+  ],
+  "note": "생성 원본은 별도 보관. 편집용 PNG는 1920×1080으로 리샘플링. 구도용 키비주얼이며 정밀 실측 도면이 아님.",
+  "files": [
+    {
+      "id": "S01",
+      "title": "커서 깜빡임",
+      "time": "0:00",
+      "type": "graphic",
+      "filename": "S01.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-8caf7f6b-6beb-4b88-85a9-766265fa489c.png"
+    },
+    {
+      "id": "S02",
+      "title": "로그가 바닥선이 됨",
+      "time": "0:03",
+      "type": "graphic",
+      "filename": "S02.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-e0a670e2-49b1-42cf-8a5a-7f13dcc9bcdd.png"
+    },
+    {
+      "id": "S03",
+      "title": "벽이 세워지는 방",
+      "time": "0:05",
+      "type": "graphic",
+      "filename": "S03.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-da5f79e2-5013-4f2e-9370-6672a52b3fce.png"
+    },
+    {
+      "id": "S04",
+      "title": "전개도 한 장",
+      "time": "0:10",
+      "type": "graphic",
+      "filename": "S04.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-bd1587f3-8b15-45bc-b5ad-0b2978fc8d5a.png"
+    },
+    {
+      "id": "S05",
+      "title": "한 장이 프로젝터 4대로",
+      "time": "0:14",
+      "type": "graphic",
+      "filename": "S05.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-38695827-18ba-4823-b26d-06c569f2ca53.png"
+    },
+    {
+      "id": "S06",
+      "title": "네 면이 같은 순간에",
+      "time": "0:17",
+      "type": "graphic",
+      "filename": "S06.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-8d4e01cb-417e-43e2-89f8-4d2063a96275.png"
+    },
+    {
+      "id": "S07",
+      "title": "센서 한 대의 시야",
+      "time": "0:20",
+      "type": "graphic",
+      "filename": "S07.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-18ffd538-ce0a-4924-8880-05d44b54a3d4.png"
+    },
+    {
+      "id": "S08",
+      "title": "뒷모습 오류",
+      "time": "0:24",
+      "type": "graphic",
+      "filename": "S08.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-3ff92745-445f-441e-8514-612d78241f7a.png"
+    },
+    {
+      "id": "S09",
+      "title": "두 번째 센서",
+      "time": "0:27",
+      "type": "graphic",
+      "filename": "S09.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-e91f54ae-6d54-4ce8-81d6-ce3a9bba426e.png"
+    },
+    {
+      "id": "S10",
+      "title": "전환: 정수리 → 눈높이",
+      "time": "0:31",
+      "type": "graphic",
+      "filename": "S10.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-08662788-6dbf-4204-84f1-8253c99537ca.png"
+    },
+    {
+      "id": "S11",
+      "title": "뒷사람이 사라짐",
+      "time": "0:32",
+      "type": "graphic",
+      "filename": "S11.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-dbc50590-528d-4ace-9f03-2254d3649002.png"
+    },
+    {
+      "id": "S12",
+      "title": "없는 사람이 생김",
+      "time": "0:36",
+      "type": "graphic",
+      "filename": "S12.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-8485dedc-c04e-4b63-8440-652593b59bb6.png"
+    },
+    {
+      "id": "S13",
+      "title": "코드와 현장의 주마등",
+      "time": "0:42",
+      "type": "live",
+      "filename": "S13_mock.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-6157a6dc-b11a-4e4d-b17d-b19e28a02446.png"
+    },
+    {
+      "id": "S14",
+      "title": "4분할",
+      "time": "0:47",
+      "type": "composite",
+      "filename": "S14_mock.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-a1d89a75-6f6b-44ed-947a-5b6a7171a79f.png"
+    },
+    {
+      "id": "S15",
+      "title": "4분할 FAIL 도장",
+      "time": "0:50",
+      "type": "composite",
+      "filename": "S15_mock.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-afd920ea-5efd-4d6e-96aa-af1f17e8b3a9.png"
+    },
+    {
+      "id": "S16",
+      "title": "9분할",
+      "time": "0:54",
+      "type": "composite",
+      "filename": "S16_mock.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-db8d58c2-6059-42e1-8a83-bb89f5160c72.png"
+    },
+    {
+      "id": "S17",
+      "title": "16분할",
+      "time": "0:56",
+      "type": "composite",
+      "filename": "S17_mock.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-d67b96ea-13a8-4e10-8be3-3c95f3825be9.png"
+    },
+    {
+      "id": "S18",
+      "title": "단 하나의 SUCCESS",
+      "time": "0:58",
+      "type": "composite",
+      "filename": "S18_mock.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-d4f4c240-5507-4d19-8bf9-3a16fa60daed.png"
+    },
+    {
+      "id": "S19",
+      "title": "SUCCESS 칸으로 줌 인",
+      "time": "1:00",
+      "type": "composite",
+      "filename": "S19_mock.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-c992a7fd-111b-4203-af22-f08ca20090be.png"
+    },
+    {
+      "id": "S20",
+      "title": "보정 전: 어긋난 두 점구름",
+      "time": "1:02",
+      "type": "graphic",
+      "filename": "S20.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-fde58f3d-a5a8-474a-80f7-69ead7e1cd6d.png"
+    },
+    {
+      "id": "S21",
+      "title": "보정 후: 하나로 겹침",
+      "time": "1:05",
+      "type": "graphic",
+      "filename": "S21.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-ff165fe2-2c7a-42e8-867c-639b74b7d059.png"
+    },
+    {
+      "id": "S22",
+      "title": "세이프존",
+      "time": "1:08",
+      "type": "graphic",
+      "filename": "S22.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-e2a61ccf-e382-41e9-9603-1495fbf2a545.png"
+    },
+    {
+      "id": "S23",
+      "title": "가려져도 자리가 남음",
+      "time": "1:11",
+      "type": "graphic",
+      "filename": "S23.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-ce33af4e-08c6-4d7c-9ed5-2a6ef84610e6.png"
+    },
+    {
+      "id": "S24",
+      "title": "3명일 때 예외의 폭발",
+      "time": "1:14",
+      "type": "graphic",
+      "filename": "S24.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-7765f46f-f9e7-4011-ad3a-25338d33afda.png"
+    },
+    {
+      "id": "S25",
+      "title": "두 줄만 남김",
+      "time": "1:17",
+      "type": "graphic",
+      "filename": "S25.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-eb0015d4-1b86-42e4-ad10-6665137b2324.png"
+    },
+    {
+      "id": "S26",
+      "title": "요소들이 날아와 조립",
+      "time": "1:20",
+      "type": "graphic",
+      "filename": "S26.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-b7c6b4f5-e134-4958-993a-a0adf2244cd8.png"
+    },
+    {
+      "id": "S27",
+      "title": "완성된 구조도",
+      "time": "1:25",
+      "type": "graphic",
+      "filename": "S27.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-04d3c753-74df-4c75-8590-b1f74aa6136f.png"
+    },
+    {
+      "id": "S28",
+      "title": "반딧불이로 흩어짐",
+      "time": "1:28",
+      "type": "graphic",
+      "filename": "S28.png",
+      "source": "C:\\Users\\yu505\\.codex\\generated_images\\01a183a7-b67f-74f1-8a19-1b0783e49927\\exec-04615879-2495-46be-b099-e3eb22cd7c34.png"
+    }
+  ],
+  "prompts": {
+    "S01": "Generate ONE image for shot S01, opening cursor only. Exactly 1920x1080 landscape. Entire frame flat near-black #050607. At x=800 y=450 a single tiny thin white vertical cursor bar, only about 3 pixels wide and 30 pixels tall. Beneath it six faint short gray dashed horizontal log lines of varied lengths, no readable characters. All elements occupy less than 15% of the canvas; vast empty black negative space. Tiny subtle bloom. This shot contains NO room, NO architecture, NO people, NO diagram, NO stars, NO nebula, NO blue or green or red. No text, numbers, words, labels or watermarks. Minimal technical line art. Render only the described sparse cursor and faint dashes.",
+    "S02": "Create exactly one key visual for S02.\nAbstract log lines as thin gray dashes streaming upward and fading near the top edge with faint vertical motion streaks. The lowest line stretches into one razor-thin perfectly horizontal white line spanning the full frame width at the lower third, brightest at its center with soft bloom.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Projected content inside the room is a dark teal nebula with tiny yellow-green firefly points. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\n\nShot-specific constraints override generic style content: Only monochrome dashed logs and one long horizontal white line. No room, people, diagrams, nebula or color.\nLandscape 1920x1080 PNG. Never print shot ID.",
+    "S03": "A pure monochrome architectural wireframe technical keyframe on solid near-black #050607. Elevated three-quarter view from open entrance: floor 7.2 wide by 4 deep; front wall 7.2 wide by 4 tall; side walls 4 deep by 4 tall. Three walls hinging upward halfway, at 70 degrees to floor. Exactly floor plus three walls. All surfaces EMPTY BLACK, white outlines and faint gray floor grid only. Little unlabeled dimension ticks. No nebula, no stars, no people, no color, no projected content, no furniture, no ceiling. Wide 1920x1080 landscape PNG. Fine elegant lines, vast black negative space.",
+    "S04": "Exactly FOUR panels, not five: floor central bottom 7.2:4; front panel directly above 7.2:4; left and right panels 4:4 attached to floor sides. T-shaped cross net with no bottom flap. No fifth panel.\nThe same wireframe room unfolded flat into a cross-shaped net, viewed straight from above: the floor rectangle at the center, the front wall flipped up above it, the left and right walls laid out to each side, hinges marked with fine dotted lines. All four panels share one continuous dark teal nebula image with tiny yellow-green firefly points flowing across the seams without any break. Thin white outlines, orthographic, centered and symmetric.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Projected content inside the room is a dark teal nebula with tiny yellow-green firefly points. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\nSingle landscape PNG 1920x1080. No shot ID. No extra elements.",
+    "S05": "Exactly four projector icons in a vertical column at right. Exactly three intermediate hollow nodes.\nOn the left, the cross-shaped room net shrinks into a small glowing square. A stream of tiny blue light particles flows rightward along one thin white line through three small hollow minimal nodes (a circle, a rounded square, a diamond), then the line splits into four parallel branches, each ending at a small minimal line-art projector icon. Horizontal flow diagram, data in motion, mostly empty black space.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Projected content inside the room is a dark teal nebula with tiny yellow-green firefly points. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\nSingle landscape PNG 1920x1080. No shot ID. No extra elements.",
+    "S06": "Room width 7.2, depth 4, wall height 4. Exactly four projector icons/cones. Wide frontal wall, open entrance behind camera. No people.\nInterior of the dark rectangular room seen from just inside the open back entrance at human eye level. Four ceiling-mounted projectors cast soft light cones through faint haze. The front wall, both side walls and the floor are all lit at the exact same instant with one continuous seamless dark teal nebula filled with yellow-green firefly points, flowing across wall-to-floor corners without breaks. All four surfaces flash with equal brightness simultaneously. Room edges traced with thin white lines, cinematic and atmospheric.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Projected content inside the room is a dark teal nebula with tiny yellow-green firefly points. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\nSingle landscape PNG 1920x1080. No shot ID.",
+    "S07": "Edit reference plan keeping the same empty floor rectangle, camera, white thin outlines, open entrance, and left sensor. Remove the right sensor and its entire right-hand blue fan. Remove BOTH laptop icons and all cables below the room. Only ONE blue fan comes from bottom-left, spreading inward toward upper right, with a curved outer arc. Keep covered area translucent blue and turn all uncovered floor black with very faint diagonal hatching. No text, no labels, no numbers, no furniture, no people. Single 1920x1080 landscape PNG.",
+    "S08": "undefined\nSlightly elevated view of a single human figure drawn as a minimal stick skeleton of 25 glowing white joints and thin bones, standing with its back turned to a blue sensor field of view at the edge of the frame. The skeleton glitches: a mirrored duplicate offset to one side with left and right limbs swapped, joints jittering with short red motion trails, thin horizontal glitch slices with slight RGB split across the figure. Dark, minimal.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\nSingle landscape PNG 1920x1080. No shot ID. The entire bottom edge is open entrance, no bottom wall.",
+    "S09": "Create a precise minimal technical plan illustration, landscape 1920x1080. Solid near-black background. An EMPTY rectangular exhibition floor 7.2 wide by 4 deep, perfectly orthographic top-down. Thin white outline on top, left and right only; the ENTIRE BOTTOM SIDE IS OPEN with no wall. Exactly TWO tiny horizontal sensor bars at bottom-left and bottom-right corners. Each emits a LARGE TRANSLUCENT BLUE FAN, a curved sector with about 70-degree angle and radius 4.5 in the same floor units. Aim inward, overlapping brightly through the central floor; the two blue fans cover MOST of the rectangular floor, only narrow patches near entrance remain black. Both arcs extend toward the opposite half of the room. Below the opening, OUTSIDE the floor, exactly two tiny PC outline icons, one under each sensor, connected to each other by a straight white cable, and each wired to its sensor. NO FURNITURE, NO SOFAS, NO PLANTS, NO CHAIRS, NO TABLES, NO OBJECTS INSIDE THE FLOOR. No grid, no person, no green, no text, no numbers, no labels, no title. Spare architectural blueprint with sharp thin lines.",
+    "S10": "Room width 7.2 depth 4 height 4, open entrance toward camera. TWO sensors at entrance corners. Match flat blue translucent fans converted to 3D frustums.\nTransition frame: the top-down floor plan mid-tilt as the camera rotates from straight down toward eye level. The room rectangle is foreshortened into a trapezoid, the two blue sensor fans become translucent 3D frustums rising from the floor, faint wall lines begin to appear. Directional motion blur along the tilt.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background, furniture, chairs, sofas, plants, tables, interior decoration, ceiling. Empty installation room only.\nSingle landscape PNG 1920x1080. No shot ID.",
+    "S11": "Exactly two point cloud figures. Rear person partially visible just above and to side behind foreground person, dissolving away, not standing side by side.\nEye-level view inside the dark room from directly behind a sensor, a small dark sensor bar on a stand blurred in the foreground. Two human figures made of white point-cloud dots stand one directly behind the other in a straight line from the sensor. The front figure is solid and bright; the rear figure, hidden behind it, is disintegrating into scattered drifting particles fading into darkness. A thin blue frustum outline marks the sensor's field of view. Quiet and eerie.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background, furniture, chairs, sofas, plants, tables, interior decoration, ceiling. Empty installation room only.\nSingle landscape PNG 1920x1080. No shot ID.",
+    "S12": "Edit reference glitch scene to show EXACTLY FOUR human point-cloud silhouettes total, arranged as two pairs: each pair is one white figure and one red duplicate slightly offset. Remove the extra red person on the far right. Keep red horizontal glitch bands, black background and white floor lines. All figures anonymous. No extra people or body fragments suggesting a fifth person. No letters, no numbers, no labels. 1920x1080 landscape PNG.",
+    "S13": "MOCKUP ONLY, not documentary evidence. Photographic human and room treatment takes priority over line-art style. Projected content on THREE walls plus floor.\nDocumentary montage still, split diagonally by a motion-blur seam. One side: close-up of a developer's hands and side profile lit by blue monitor glow, a dark code editor with defocused colored lines. Other side: a dark projection-mapped room where a person walks on a softly glowing floor, shot from the entrance. Long-exposure streaks, crushed blacks, teal-blue grade, realistic but anonymous with no clear faces.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Projected content inside the room is a dark teal nebula with tiny yellow-green firefly points. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\nSingle landscape PNG 1920x1080. No shot ID.",
+    "S14": "Exactly 2 rows 2 columns, four equally sized panels. MOCKUP ONLY. Each room has three projected walls plus floor. No FAIL stamps yet.\nA 2x2 grid of four documentary video stills separated by thin black gutters with thin white frame lines. Top-left: a dark projected room where a white point-cloud overlay sits visibly offset from the real person. Top-right: a floor projection of a swarm of tiny ants with a person standing among them looking elsewhere, unaware. Bottom-left: a person standing perfectly still at the center of a glowing projected room. Bottom-right: three people walking in the projected room with tangled overlapping skeleton overlays. Low light, realistic, anonymous figures.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Projected content inside the room is a dark teal nebula with tiny yellow-green firefly points. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\nSingle landscape PNG 1920x1080. No shot ID. Documentary composition mockup.",
+    "S15": "Exactly 2 rows 2 columns, four equal cells. Reuse the four described tests: offset point cloud, ants, still visitor, three visitors. Allowed text ONLY FAIL in each red stamp.\nThe same 2x2 grid of documentary stills, all four cells desaturated to gray and dimmed. Each cell carries a large red ink rubber stamp reading FAIL in bold condensed capitals inside a rectangular stamp border, rough ink texture with slight bleed and uneven pressure, stamps rotated at different angles.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Projected content inside the room is a dark teal nebula with tiny yellow-green firefly points. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\nSingle landscape PNG 1920x1080. No shot ID. Documentary composition mockup.",
+    "S16": "Exactly 3 rows and 3 columns, nine equal cells. Allowed text only FAIL stamps. Documentary MOCKUP.\nA 3x3 grid of small documentary stills from tests in a dark projection-mapped room (people walking, standing, sensor views, top-down tracking maps). Five cells are desaturated gray with red FAIL ink stamps at varied angles; the remaining cells are still in color, one of them with a red stamp mid-impact with a slight motion smear. Thin white frame lines, black gutters.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Projected content inside the room is a dark teal nebula with tiny yellow-green firefly points. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\nSingle landscape PNG 1920x1080. No shot ID. Only FAIL lettering allowed. Photographic documentary mockup.",
+    "S17": "Exactly 4 rows and 4 columns, sixteen equal cells. Allowed text only FAIL stamps. Documentary MOCKUP.\nA 4x4 grid of tiny documentary stills from tests in a dark projection-mapped room. Almost every cell is desaturated gray and stamped with a small red FAIL ink stamp at a varied angle, creating a dense rhythmic pattern of red marks across the gray mosaic. Two cells still faintly in color. Thin white frame lines, black gutters.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Projected content inside the room is a dark teal nebula with tiny yellow-green firefly points. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\nSingle landscape PNG 1920x1080. No shot ID. Only FAIL lettering allowed. Photographic documentary mockup.",
+    "S18": "Exactly 4 rows and 4 columns, sixteen equal cells. Highlight ONLY row 2 column 3 (counted from top-left) green with SUCCESS. Other fifteen cells gray with red FAIL stamps. Allowed text only FAIL and SUCCESS. Documentary MOCKUP.\nA 4x4 grid of tiny documentary stills, all desaturated gray with red FAIL stamps, except one cell in the second row, third column, which is in full color: two people walking in a dark projected room with the floor glow following each of them precisely. That cell has a glowing green #33E07A border and a green ink stamp reading SUCCESS. The green cell is the only saturated element in the frame.\n\nUse reference image for exact grid layout and overall look. Change row 2 col 3 into two people walking. Desaturate row 1 col 1 and add FAIL there. Keep all other cells.\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Projected content inside the room is a dark teal nebula with tiny yellow-green firefly points. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\nAvoid all text except FAIL and SUCCESS. No numbers or labels. Single landscape PNG 1920x1080. Documentary mockup.",
+    "S19": "MOCKUP. Central success panel 80 percent of image. Two anonymous people walking in four-surface projected room, glow around feet and on walls. Gray outer panels with red FAIL stamps. Only FAIL and SUCCESS text permitted.\nCamera pushing into the single green-bordered cell, which now fills about 80 percent of the frame: two people walking in a dark projected room, floor glow following each precisely. Surrounding gray FAIL-stamped cells slide out past the frame edges with strong radial motion blur. The green border glows brightly.\n\nUse reference image for exact grid layout and overall look. Push camera into the green cell of reference.\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Projected content inside the room is a dark teal nebula with tiny yellow-green firefly points. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\nAvoid all text except FAIL and SUCCESS. No numbers or labels. Single landscape PNG 1920x1080. Documentary mockup.",
+    "S20": "One white and one blue point cloud depicting same person, offset and yaw-rotated. No numbers. Not a live validated accuracy claim.\nTwo point-cloud human silhouettes of the same person, one white and one blue, overlapping but misaligned: offset sideways and rotated about 25 degrees from each other. On the floor, a faint dotted walking path loops through the overlap zone of two translucent sensor frustums. Dark background, precise and technical.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\nSingle landscape PNG 1920x1080. No shot ID.",
+    "S21": "One unified point cloud body, white core and faint blue edges. No numerical measurement. No duplicate separate body.\nThe white and blue point clouds have converged into a single perfectly aligned human figure, glowing brighter white where they coincide. Faint convergence guide lines collapse to zero length around it. The dotted walking path fades. A calm, settled, resolved moment.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background\nSingle landscape PNG 1920x1080. No shot ID.",
+    "S22": "Edit reference plan keeping the same empty floor rectangle, two sensors and LARGE overlapping blue fans. Remove both laptops and all cables below room. Add ONE thin glowing green #33E07A rectangle slightly inset from the outer walls, with faint green grid inside it. Add exactly TWO tiny white filled circle human markers, each with a short direction tick, inside the large blue overlap zone. Entire bottom side stays open. No other objects. No text, labels or numbers. Single 1920x1080 landscape PNG.",
+    "S23": "Edit reference preserving room geometry, thin green safe-zone rectangle, grid and two blue sensor fans. Keep the LOWER RIGHT white person marker in place. Replace the UPPER LEFT white marker with a green glowing hollow ring and a short thin countdown arc around it. A narrow black occlusion wedge extends from the lower-right sensor through the lower-right white marker towards and just past the upper-left green ring. The green ring shows last held position. No new marker, no words, no numbers. 1920x1080 landscape.",
+    "S24": "Abstract branching lines only, not a room or literal tree. Many red x shaped geometric knots. No text.\nFrom a single white point at the left edge, a chaotic branching tree explodes across the frame: hundreds of thin forking lines splitting again and again like lightning or roots, tangled and crossing, densest on the right. Many branches are tinted red and end in small red x-shaped knots. Overwhelming complexity on a dark background.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background, rooms, people, planets, nebula.\nSingle landscape PNG 1920x1080. No shot ID.",
+    "S25": "Abstract lines only. Exactly TWO smooth white lines remain. Red broken branches falling away below. No numbers, no people, no text.\nThe branching tree is severed by a clean vertical cut; everything to the right of the cut falls away as fading red fragments. From the same origin point only two smooth parallel white lines continue cleanly to the right edge, calm and ordered. Strong contrast between falling chaotic debris and clear simplicity.\n\nMinimal technical line-art key visual for a presentation video. Pure near-black background (#050607). Thin crisp 1px white lines, architectural blueprint precision, orthographic or isometric clarity. Accent colors used sparingly and only with meaning: data blue #3D8BFF, failure red #FF3B30, success green #33E07A. Soft bloom on bright lines, very subtle film grain, generous negative space, calm and precise, cinematic 16:9 composition, 1920x1080.\n\nAvoid: text, letters, words, numbers, captions, labels, watermark, logo, UI chrome, buttons, cluttered interface, neon cyberpunk city, rainbow gradients, glossy 3D cartoon, stock-photo look, visible realistic faces, lens flare overload, busy background, rooms, people, planets, nebula.\nSingle landscape PNG 1920x1080. No shot ID.",
+    "S26": "Use the reference as the FINISHED layout that this image is moving toward. Create the previous assembling keyframe: remove the rightmost room entirely, retain the two sensor icons, two PC icons, four-panel T net, and exactly four projector icons. Spread these icons a little around their respective locations with subtle directional white motion trails pointing inward. Connections are only partially drawn, thin blue and white. Keep the net exactly FOUR panels like reference. No green cables. Black background and thin white linework, dark teal nebula only inside four panels. No words or numbers. Wide 1920x1080.",
+    "S27": "Edit first reference system diagram. Preserve exactly 2 sensors, 2 PCs connected by cable, merge node, and exactly 4 projectors. Replace central unfolded panel graphic with a small copy of the FOUR-PANEL net in second reference: large central bottom rectangle, equal large rectangle ABOVE it, square left and right flaps beside the bottom rectangle, no lower flap. Replace rightmost room icon with frontal view of wide room: visible front wall AND left wall AND right wall AND floor; open entrance facing viewer, no ceiling. All FOUR surfaces show dark teal nebula and yellow-green points. All remaining composition stays. Thin white lines, blue data lines, black background. No green data cables, no labels, no text. 1920x1080 landscape.",
+    "S28": "The system diagram dissolving: its lines break into thousands of tiny warm yellow-green firefly points drifting upward, twinkling at different rhythms. The diagram is barely recognizable as a faint ghost; most of the frame is returning to black.\nOnly yellow-green firefly dots and a very faint dissolving horizontal diagram on near-black. Generous negative space. Thin technical lines. 1920x1080 landscape PNG. No text, no numbers, no labels, no big nebula or person."
+  }
+}

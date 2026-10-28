@@ -1,0 +1,13 @@
+{
+  "frames": 31,
+  "size": [
+    1920,
+    1080
+  ],
+  "duration_seconds": 90,
+  "renderer": "Blender 5.1.1 / Cycles / OptiX",
+  "assets": "procedural 3D geometry",
+  "motion_status": "static representative states / camera and object motion specified in storyboard",
+  "live_footage": "L1-L7 placeholders",
+  "editable_source": true
+}

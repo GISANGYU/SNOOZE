@@ -1,0 +1,10 @@
+{
+  "errors": [],
+  "result": {
+    "cards": 31,
+    "overflow": false,
+    "missing": []
+  },
+  "mobileOverflow": false,
+  "controls": "previous / next / seek / play-pause passed"
+}

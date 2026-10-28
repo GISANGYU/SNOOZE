@@ -1,0 +1,26 @@
+const {chromium}=require('C:/Users/yu505/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const path=require('path');const {pathToFileURL}=require('url');const fs=require('fs');
+(async()=>{
+ const browser=await chromium.launch({channel:'msedge',headless:true});
+ const page=await browser.newPage({viewport:{width:1440,height:1000}});
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(pathToFileURL(path.join(__dirname,'../index.html')).href);
+ await page.locator('#next').click();
+ if(!(await page.locator('#current').textContent()).startsWith('S02'))throw Error('next did not advance');
+ await page.locator('#prev').click();
+ await page.locator('#seek').fill('24');await page.locator('#seek').dispatchEvent('input');
+ if(!(await page.locator('#current').textContent()).startsWith('S22'))throw Error('seek mismatch');
+ await page.locator('#play').click();
+ if(await page.locator('#play').textContent()!=='일시정지')throw Error('play not enabled');
+ await page.locator('#play').click();
+ const result=await page.evaluate(()=>({cards:document.querySelectorAll('.card').length,overflow:document.documentElement.scrollWidth>innerWidth,missing:[...document.images].filter(i=>i.complete&&i.naturalWidth===0).map(i=>i.src)}));
+ await page.locator('#seek').fill('23');await page.locator('#seek').dispatchEvent('input');
+ await page.screenshot({path:path.join(__dirname,'콘티_데스크톱.png')});
+ await page.setViewportSize({width:390,height:844});
+ const mobileOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+ await page.screenshot({path:path.join(__dirname,'콘티_모바일.png')});
+ if(errors.length||result.cards!==31||result.overflow||result.missing.length||mobileOverflow)throw Error(JSON.stringify({errors,result,mobileOverflow}));
+ const report={errors,result,mobileOverflow,controls:'previous / next / seek / play-pause passed'};
+ fs.writeFileSync(path.join(__dirname,'브라우저검수.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+ await browser.close();
+})().catch(e=>{console.error(e);process.exitCode=1;});

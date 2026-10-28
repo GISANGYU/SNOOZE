@@ -1,0 +1,15 @@
+{
+  "scene_count": 31,
+  "duration_seconds": 90,
+  "png_dimensions": [
+    1920,
+    1080
+  ],
+  "svg_no_raster_elements": true,
+  "svg_external_links": false,
+  "all_internal_references_valid": true,
+  "visible_text_allowlist_passed": true,
+  "colors_passed": true,
+  "timing_continuous": true,
+  "source_prompt": "C:\\계원예술대학교\\전공\\2학년2학기\\캡스톤\\발표개발로그영상\\개발로그영상_키비주얼_프롬프트_v2.html"
+}

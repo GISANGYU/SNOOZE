@@ -1,0 +1,24 @@
+const {chromium}=require('C:/Users/yu505/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const fs=require('fs'),path=require('path'),{pathToFileURL}=require('url');
+(async()=>{
+ const browser=await chromium.launch({channel:'msedge',headless:true});
+ const page=await browser.newPage({viewport:{width:1440,height:1100}});const errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(pathToFileURL(path.join(__dirname,'../../개발로그영상_콘티_v3.html')).href);
+ if(!(await page.locator('#current').textContent()).startsWith('S11'))throw Error('Initial scene');
+ await page.locator('#next').click();if(!(await page.locator('#current').textContent()).startsWith('S12'))throw Error('Next scene');
+ await page.locator('#prev').click();if(!(await page.locator('#current').textContent()).startsWith('S11'))throw Error('Previous scene');
+ await page.locator('#play').click();if(await page.locator('#play').textContent()!=='일시정지')throw Error('Play');
+ await page.locator('#play').click();
+ await page.locator('#seek').fill('12');await page.locator('#seek').dispatchEvent('input');
+ await page.evaluate(async()=>{for(const im of document.images)im.loading='eager';await Promise.all([...document.images].map(im=>im.decode().catch(()=>{})));});
+ const result=await page.evaluate(()=>({cards:document.querySelectorAll('.card').length,prompts:document.querySelectorAll('button[data-full]').length,missing:[...document.images].filter(i=>i.naturalWidth===0).map(i=>i.src),overflow:document.documentElement.scrollWidth>innerWidth}));
+ await page.screenshot({path:path.join(__dirname,'콘티_데스크톱.png')});
+ await page.setViewportSize({width:390,height:844});const mobileOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+ await page.screenshot({path:path.join(__dirname,'콘티_모바일.png')});
+ await page.goto(pathToFileURL(path.join(__dirname,'../../개발로그영상_키비주얼_프롬프트_v3.html')).href);
+ const promptCards=await page.locator('.card').count();
+ if(result.cards!==31||result.prompts!==31||result.missing.length||result.overflow||mobileOverflow||promptCards!==31||errors.length)throw Error(JSON.stringify({result,mobileOverflow,promptCards,errors}));
+ const report={result,mobileOverflow,promptCards,errors,controls:'previous / next / play-pause / seek passed'};
+ fs.writeFileSync(path.join(__dirname,'브라우저검수.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));await browser.close();
+})().catch(e=>{console.error(e);process.exitCode=1;});

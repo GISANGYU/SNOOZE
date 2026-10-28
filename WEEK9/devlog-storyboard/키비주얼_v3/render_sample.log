@@ -1,0 +1,24 @@
+ℹ️  blenderkit: Verbose is enabled [04:04:43.884, addon_updater.py:150]
+ℹ️  blenderkit: Read in JSON settings from file [04:04:43.892, addon_updater.py:150]
+ℹ️  blenderkit: Ports reordered so first port is now 62485 (previous index was 0) [04:04:43.893, client_lib.py:129]
+Created history step f82394f9-adef-46bb-8a1d-7f04a97b6e9d
+ℹ️  blenderkit: Created new search history step [04:04:43.898, search.py:2525]
+ℹ️  blenderkit: No temporarily enabled addons to clean up [04:04:43.898, download.py:416]
+ℹ️  blenderkit: Unregistering BlenderKit add-on [04:04:43.918, __init__.py:2881]
+ℹ️  blenderkit: No temporarily enabled addons to clean up [04:04:43.918, download.py:416]
+C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\render_3d.py:19: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m=bpy.data.materials.new(name);m.diffuse_color=rgba(col)[:3]+(alpha,);m.use_nodes=True
+V3_BUILD S11
+C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\render_3d.py:291: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  world=bpy.data.worlds.new(sid+' studio world');world.use_nodes=True;world.node_tree.nodes['Background'].inputs[0].default_value=(.11,.14,.18,1);world.node_tree.nodes['Background'].inputs[1].default_value=.32;SC.world=world
+V3_RENDER S11
+00:23.125  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S11.png'
+V3_DONE S11
+V3_BUILD S27
+V3_RENDER S27
+00:37.906  render           | Saved: 'C:\계원예술대학교\전공\2학년2학기\캡스톤\발표개발로그영상\키비주얼_v3\S27.png'
+V3_DONE S27
+V3_COMPLETE
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

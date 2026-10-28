@@ -1,0 +1,12 @@
+{
+  "result": {
+    "cards": 31,
+    "prompts": 31,
+    "missing": [],
+    "overflow": false
+  },
+  "mobileOverflow": false,
+  "promptCards": 31,
+  "errors": [],
+  "controls": "previous / next / play-pause / seek passed"
+}
